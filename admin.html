@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KROFF — Rasm menejeri</title>
+<style>
+  :root{--blue:#2B2D6E;--bordo:#7d1f2e;--red:#D81F27;--line:#eceef2;--muted:#8b8ea4;--bg:#f5f6f9;--green:#2e7d32;--ink:#1c1c2e}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+  header{position:sticky;top:0;z-index:20;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.06);border-bottom:3px solid var(--bordo)}
+  .h-in{max-width:820px;margin:0 auto;padding:12px 14px}
+  .h-t{font-size:16px;font-weight:800;color:var(--bordo)}
+  .h-t span{color:var(--muted);font-weight:600;font-size:12px;margin-left:6px}
+  .prog{font-size:12.5px;color:var(--muted);font-weight:700;margin-top:2px}
+  .prog b{color:var(--green)}
+  .ctrls{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .ctrls input[type=search]{flex:1;min-width:180px;padding:10px 13px;border:1.5px solid var(--line);border-radius:11px;font-size:14px;font-family:inherit;background:#f7f8fa;outline:none}
+  .ctrls input:focus{border-color:var(--bordo);background:#fff}
+  .tgl{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--ink);background:#f2f3f7;padding:9px 13px;border-radius:11px;cursor:pointer;user-select:none;white-space:nowrap}
+  .tgl input{accent-color:var(--bordo);width:16px;height:16px}
+  .wrap{max-width:820px;margin:0 auto;padding:8px 14px 120px}
+  .row{display:flex;gap:11px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:13px;padding:10px;margin-bottom:9px}
+  .row.done{border-color:#bfe3c4;background:#f6fcf7}
+  .thumb{width:56px;height:56px;border-radius:9px;flex-shrink:0;background:linear-gradient(135deg,#f2f3f7,#e6e8ef);display:flex;align-items:center;justify-content:center;font-size:22px;overflow:hidden}
+  .thumb img{width:100%;height:100%;object-fit:cover}
+  .rc{flex:1;min-width:0}
+  .rn{font-size:13.5px;font-weight:700;line-height:1.3;word-break:break-word}
+  .rn .cnt{font-size:11px;font-weight:700;color:var(--muted);background:#f2f3f7;padding:1px 7px;border-radius:9px;margin-left:5px;white-space:nowrap}
+  .ru{margin-top:6px;width:100%;padding:8px 11px;border:1.5px solid var(--line);border-radius:9px;font-size:13px;font-family:inherit;background:#f7f8fa;outline:none}
+  .ru:focus{border-color:var(--bordo);background:#fff}
+  .ru.bad{border-color:var(--red);background:#fff5f5}
+  .more,.empty,.loader{text-align:center;color:var(--muted);padding:26px 16px;font-size:13.5px}
+  .loader{padding:60px 16px}
+  .bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--line);box-shadow:0 -3px 14px rgba(0,0,0,.07)}
+  .bar-in{max-width:820px;margin:0 auto;padding:11px 14px;display:flex;gap:10px;align-items:center}
+  .bar .info{font-size:12.5px;color:var(--muted);font-weight:600;flex:1}
+  .bar .info b{color:var(--bordo)}
+  .btn{padding:12px 18px;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;background:var(--bordo);color:#fff}
+  .btn:disabled{opacity:.4;cursor:default}
+  .ov{position:fixed;inset:0;background:rgba(20,20,40,.55);z-index:50;display:none;align-items:center;justify-content:center;padding:16px}
+  .ov.show{display:flex}
+  .box{background:#fff;border-radius:16px;padding:18px;max-width:640px;width:100%;max-height:86vh;overflow:auto}
+  .box h3{margin:0 0 4px;font-size:16px;color:var(--blue)}
+  .box p{margin:0 0 12px;font-size:12.5px;color:var(--muted);line-height:1.5}
+  .box textarea{width:100%;height:230px;border:1.5px solid var(--line);border-radius:11px;padding:12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.5;background:#fafbfc;color:var(--ink);resize:vertical}
+  .box-btns{display:flex;gap:9px;margin-top:12px}
+  .box-btns button{flex:1;padding:11px;border:none;border-radius:11px;font-weight:800;font-size:13.5px;cursor:pointer}
+  .cpy{background:var(--green);color:#fff}
+  .cls{background:#f2f3f7;color:var(--ink)}
+  .step{font-size:12.5px;color:var(--ink);background:#f7f8fa;border-radius:10px;padding:10px 12px;margin-bottom:12px;line-height:1.6}
+  .step b{color:var(--bordo)}
+</style>
+</head>
+<body>
+<script>
+  var CONFIG={
+    SB_URL:"https://wfmwxwdawiectcusjnkz.supabase.co",
+    SB_KEY:"sb_publishable_xEPsFgv-ACNKeAFJt2MMiA_Q3Vbte4F",
+    SB_TABLE:"catalog"
+  };
+</script>
+
+<header>
+  <div class="h-in">
+    <div class="h-t">Rasm menejeri <span>KROFF katalog</span></div>
+    <div class="prog" id="prog">Yuklanmoqda…</div>
+    <div class="ctrls">
+      <input id="q" type="search" placeholder="Tovar nomi bo'yicha qidiring…" oninput="render()">
+      <label class="tgl"><input type="checkbox" id="onlyEmpty" checked onchange="render()"> Faqat rasmsiz</label>
+    </div>
+  </div>
+</header>
+
+<div class="wrap"><div id="list"><div class="loader">Katalog yuklanmoqda…</div></div></div>
+
+<div class="bar">
+  <div class="bar-in">
+    <div class="info" id="barInfo">Rasm URL'larini qo'ying, so'ng SQL yarating</div>
+    <button class="btn" id="genBtn" onclick="openSQL()" disabled>SQL yaratish</button>
+  </div>
+</div>
+
+<div class="ov" id="ov" onclick="if(event.target===this)closeSQL()">
+  <div class="box">
+    <h3>Supabase uchun SQL</h3>
+    <p>Quyidagi SQL yangi qo'shgan rasmlaringizni katalogga yozadi. Eski rasmlarga tegmaydi.</p>
+    <div class="step">
+      <b>1.</b> Pastdagi SQL'ni <b>Nusxa</b> tugmasi bilan nusxalang.<br>
+      <b>2.</b> Supabase → SQL Editor → yangi (toza) tab → qo'ying → <b>Run</b>.<br>
+      <b>3.</b> Katalogni oching, <b>Ctrl+Shift+R</b> — rasmlar chiqadi.
+    </div>
+    <textarea id="sql" readonly></textarea>
+    <div class="box-btns">
+      <button class="cpy" onclick="copySQL(this)">Nusxa</button>
+      <button class="cls" onclick="closeSQL()">Yopish</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var UNIQ=[];      // [{key,name,cnt}]
+var MAP={};       // existing images from row id=2  {key:url}
+var PEND={};      // this-session edits {key:url}
+var DIRTY={};     // keys edited this session
+var LIMIT=200;
+
+function nkey(x){return String(x==null?'':x).toLowerCase().replace(/\s+/g,' ').trim();}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function curUrl(k){return (k in PEND)?PEND[k]:(MAP[k]||'');}
+
+function counts(){
+  var have=0;for(var i=0;i<UNIQ.length;i++){if(curUrl(UNIQ[i].key))have++;}
+  return {have:have,total:UNIQ.length};
+}
+function refreshProg(){
+  var c=counts();
+  document.getElementById('prog').innerHTML='Jami <b>'+c.total+'</b> xil nom · rasm bor: <b>'+c.have+'</b> · qolgan: '+(c.total-c.have);
+  var n=Object.keys(DIRTY).length;
+  document.getElementById('barInfo').innerHTML=n?('<b>'+n+'</b> ta yangi rasm tayyor'):'Rasm URL\u2019larini qo\u2019ying, so\u2019ng SQL yarating';
+  document.getElementById('genBtn').disabled=!n;
+}
+
+function render(){
+  var q=nkey(document.getElementById('q').value);
+  var only=document.getElementById('onlyEmpty').checked;
+  var list=UNIQ.filter(function(u){
+    if(only&&curUrl(u.key))return false;
+    if(q&&u.key.indexOf(q)<0)return false;
+    return true;
+  });
+  var box=document.getElementById('list');
+  if(!list.length){box.innerHTML='<div class="empty">Hech narsa topilmadi. Qidiruvni o\u2019zgartiring yoki \u201cFaqat rasmsiz\u201d ni oching.</div>';refreshProg();return;}
+  var shown=list.slice(0,LIMIT);
+  box.innerHTML=shown.map(rowHtml).join('')+(list.length>LIMIT?'<div class="more">'+list.length+' tadan '+LIMIT+' tasi ko\u2019rsatildi — qidiruvdan foydalaning</div>':'');
+  refreshProg();
+}
+
+function rowHtml(u){
+  var url=curUrl(u.key);
+  var thumb=url?('<img src="'+esc(url)+'" onerror="this.style.display=\'none\';this.parentNode.innerHTML=\'\\u26A0\\uFE0F\'">'):'\uD83D\uDCE6';
+  return '<div class="row'+(url?' done':'')+'" data-k="'+esc(u.key)+'">'+
+    '<div class="thumb">'+thumb+'</div>'+
+    '<div class="rc">'+
+      '<div class="rn">'+esc(u.name)+(u.cnt>1?'<span class="cnt">'+u.cnt+' ta</span>':'')+'</div>'+
+      '<input class="ru" type="url" inputmode="url" placeholder="Rasm URL (https://…)" value="'+esc(url)+'" oninput="onUrl(this,\''+esc(u.key).replace(/'/g,"\\'")+'\')">'+
+    '</div>'+
+  '</div>';
+}
+
+var _t;
+function onUrl(inp,key){
+  var v=inp.value.trim();
+  PEND[key]=v;
+  if(v)DIRTY[key]=1; else delete DIRTY[key];
+  clearTimeout(_t);
+  _t=setTimeout(function(){
+    var row=inp.closest('.row');
+    var th=row.querySelector('.thumb');
+    if(v){row.classList.add('done');th.innerHTML='<img src="'+esc(v)+'" onerror="this.style.display=\'none\';this.parentNode.innerHTML=\'\\u26A0\\uFE0F\'">';}
+    else{row.classList.remove('done');th.innerHTML='\uD83D\uDCE6';}
+    refreshProg();
+  },350);
+}
+
+function buildSQL(){
+  var obj={};
+  for(var k in DIRTY){ if(PEND[k]) obj[k]=PEND[k]; }
+  var json=JSON.stringify(obj,null,2);
+  return "insert into public.catalog (id, data) values (2, '{}'::jsonb)\n"+
+         "on conflict (id) do nothing;\n\n"+
+         "update public.catalog\n"+
+         "set data = coalesce(data,'{}'::jsonb) || $img$\n"+json+"\n$img$::jsonb\n"+
+         "where id = 2;";
+}
+function openSQL(){
+  document.getElementById('sql').value=buildSQL();
+  document.getElementById('ov').classList.add('show');
+}
+function closeSQL(){document.getElementById('ov').classList.remove('show');}
+function copySQL(btn){
+  var t=document.getElementById('sql');t.select();
+  try{navigator.clipboard.writeText(t.value);}catch(e){try{document.execCommand('copy');}catch(e2){}}
+  var o=btn.textContent;btn.textContent='\u2713 Nusxa olindi';setTimeout(function(){btn.textContent=o;},1300);
+}
+
+function load(){
+  fetch(CONFIG.SB_URL+'/rest/v1/'+CONFIG.SB_TABLE+'?select=id,data&id=in.(1,2)',{headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY}})
+    .then(function(r){return r.json();})
+    .then(function(rows){
+      var byId={};(rows||[]).forEach(function(r){byId[r.id]=r.data;});
+      var data=byId[1]||{};
+      if(typeof data==='string')data=JSON.parse(data);
+      var products=Array.isArray(data)?data:(data.products||[]);
+      var im=byId[2];if(typeof im==='string'){try{im=JSON.parse(im);}catch(e){im={};}}
+      MAP={};if(im&&typeof im==='object')for(var k in im){MAP[nkey(k)]=im[k];}
+      var seen={};
+      products.forEach(function(p){
+        var nm=p&&p.nom;if(!nm)return;var key=nkey(nm);
+        if(seen[key]){seen[key].cnt++;}
+        else{seen[key]={key:key,name:String(nm).trim(),cnt:1};UNIQ.push(seen[key]);}
+      });
+      UNIQ.sort(function(a,b){return a.name.localeCompare(b.name,'uz');});
+      render();
+    })
+    .catch(function(e){document.getElementById('list').innerHTML='<div class="empty">Katalog yuklanmadi.<br><small>'+esc(e.message)+'</small></div>';});
+}
+load();
+</script>
+</body>
+</html>
