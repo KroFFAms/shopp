@@ -19,6 +19,8 @@
   .h-row{display:flex;align-items:center;gap:12px}
   .h-logoimg{height:42px;display:block}
   .h-sub{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
+  .h-contact{font-size:11.5px;color:var(--muted);font-weight:600;line-height:1.55;margin-top:9px}
+  .h-contact a{color:var(--bordo);text-decoration:none;font-weight:700}
   .h-count{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap;background:#f2f3f7;padding:5px 11px;border-radius:14px}
   .search{margin-top:10px;position:relative}
   .search input{width:100%;padding:12px 14px 12px 42px;border:1.5px solid var(--line);border-radius:12px;font-size:15px;font-family:inherit;background:#f7f8fa;color:var(--ink);outline:none}.search input:focus{border-color:var(--bordo);background:#fff}
@@ -83,6 +85,21 @@
   .qr-box img{width:220px;height:220px;border:1px solid var(--line);border-radius:10px}
   .qr-box .qr-url{font-size:11.5px;color:var(--muted);word-break:break-all;margin:12px 0 0}
   .qr-box .qr-x{margin-top:14px;padding:9px 22px;background:var(--bordo);color:#fff;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;border:none}
+  .pay-ov{position:fixed;inset:0;background:rgba(20,20,40,.55);z-index:60;display:none;align-items:center;justify-content:center;padding:20px}
+  .pay-ov.show{display:flex}
+  .pay-box{background:#fff;border-radius:18px;padding:20px;max-width:340px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.3)}
+  .pay-box h3{margin:0 0 8px;font-size:16px;color:var(--blue);text-align:center}
+  .pay-row{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+  .pay-row:last-of-type{border-bottom:none}
+  .pay-row .pi{font-size:21px;line-height:1.15}
+  .pay-row .pcell{flex:1;min-width:0}
+  .pay-row b{font-size:13.5px;color:var(--ink)}
+  .pay-row .ps{font-size:12px;color:var(--muted);margin-top:2px}
+  .pvwrap{margin-top:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .pv{font-size:15px;font-weight:800;color:var(--bordo);letter-spacing:.4px}
+  .pv-link{font-size:13.5px;font-weight:700;color:var(--blue);text-decoration:none;word-break:break-all}
+  .cp{padding:4px 11px;font-size:11.5px;font-weight:700;background:#f2f3f7;color:var(--blue);border:none;border-radius:8px;cursor:pointer}
+  .pay-x{margin-top:16px;width:100%;padding:10px;background:var(--bordo);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -91,9 +108,13 @@
     SHOP_NAME: "KROFF",
     PHONE: "+998934540199",
     TELEGRAM: "LayloJumeva",
-    ADDRESS: "",
+    ADDRESS: "Buxoro viloyati, Qorovulbozor tumani, Geologlar ko'chasi, 3-uy",
     MAP: "",
     HOURS: "",
+    PAYME: "",
+    CARD: "",
+    HISOB: "",
+    NAQD: true,
     SB_URL: "https://wfmwxwdawiectcusjnkz.supabase.co",
     SB_KEY: "sb_publishable_xEPsFgv-ACNKeAFJt2MMiA_Q3Vbte4F",
     SB_TABLE: "catalog"
@@ -109,6 +130,7 @@
       </div>
       <div class="h-count" id="count"></div>
     </div>
+    <div class="h-contact" id="hContact"></div>
     <div class="search"><span class="ic">🔎</span><input id="q" type="search" placeholder="Tovar qidiring — nomi bo'yicha..." oninput="render()"></div>
     <div class="toolbar">
       <select id="sort" onchange="setSort(this.value)">
@@ -132,7 +154,11 @@
   <div class="f-c" id="fContacts"></div>
   <div class="f-addr" id="fAddr"></div>
   <div class="f-hours" id="fHours"></div>
-  <div style="margin:6px 0 10px"><a href="javascript:void(0)" onclick="openQR()" style="color:var(--bordo);font-weight:700;text-decoration:none">📱 Katalog QR kodi</a></div>
+  <div style="margin:6px 0 10px">
+    <a id="payLink" href="javascript:void(0)" onclick="openPay()" style="color:var(--bordo);font-weight:700;text-decoration:none">💳 To‘lov usullari</a>
+    &nbsp;·&nbsp;
+    <a href="javascript:void(0)" onclick="openQR()" style="color:var(--bordo);font-weight:700;text-decoration:none">📱 QR kod</a>
+  </div>
   <div>© <span id="yr"></span> KROFF · <a href="https://kroffams.github.io/savdo/" target="_blank">Savdo tizimi</a></div>
 </footer>
 
@@ -143,6 +169,14 @@
     <img id="qrImg" alt="QR kod">
     <div class="qr-url" id="qrUrl"></div>
     <div><button class="qr-x" onclick="closeQR()">Yopish</button></div>
+  </div>
+</div>
+
+<div class="pay-ov" id="payOv" onclick="if(event.target===this)closePay()">
+  <div class="pay-box">
+    <h3>To‘lov usullari</h3>
+    <div id="payBody"></div>
+    <div><button class="pay-x" onclick="closePay()">Yopish</button></div>
   </div>
 </div>
 
@@ -185,8 +219,16 @@ function applyContacts(){
   var ad=CONFIG.ADDRESS||'',mp=CONFIG.MAP||'',fa=document.getElementById('fAddr');
   if(fa)fa.innerHTML=ad?(mp?'📍 <a href="'+esc(mp)+'" target="_blank">'+esc(ad)+'</a>':'📍 '+esc(ad)):(mp?'📍 <a href="'+esc(mp)+'" target="_blank">Xaritada ochish</a>':'');
   var fh=document.getElementById('fHours');if(fh)fh.innerHTML=CONFIG.HOURS?('🕒 '+esc(CONFIG.HOURS)):'';
+  var hc=document.getElementById('hContact');
+  if(hc){var hp=[];
+    if(ad)hp.push(mp?('📍 <a href="'+esc(mp)+'" target="_blank">'+esc(ad)+'</a>'):('📍 '+esc(ad)));
+    if(CONFIG.HOURS)hp.push('🕒 '+esc(CONFIG.HOURS));
+    if(ph&&ph!=='+998000000000')hp.push('📞 <a href="tel:'+ph+'">'+esc(CONFIG.PHONE)+'</a>');
+    hc.innerHTML=hp.join(' <span style="opacity:.4">·</span> ');
+  }
   var fab=document.getElementById('fab');
   if(fab){var b='';if(tg)b+='<a class="tg" href="https://t.me/'+tg+'" target="_blank" aria-label="Telegram">✈️</a>';if(ph&&ph!=='+998000000000')b+='<a class="call" href="tel:'+ph+'" aria-label="Qo\u2018ng\u2018iroq">📞</a>';fab.innerHTML=b;}
+  buildPay();
 }
 applyContacts();
 
@@ -230,6 +272,25 @@ function setCat(c){CAT=c;buildChips();render();window.scrollTo({top:0,behavior:'
 function setSort(v){SORT=v;render();}
 function openQR(){var u=location.href.split('#')[0];document.getElementById('qrImg').src='https://api.qrserver.com/v1/create-qr-code/?size=440x440&margin=1&data='+encodeURIComponent(u);document.getElementById('qrUrl').textContent=u;document.getElementById('qrOv').classList.add('show');}
 function closeQR(){document.getElementById('qrOv').classList.remove('show');}
+function payRow(ic,label,val,isLink,copy){
+  var inner=isLink?('<a href="'+esc(val)+'" target="_blank" class="pv-link">'+esc(val)+'</a>')
+    :('<span class="pv">'+esc(val)+'</span>'+(copy?'<button class="cp" onclick="cpNear(this)">Nusxa</button>':''));
+  return '<div class="pay-row"><span class="pi">'+ic+'</span><div class="pcell"><b>'+esc(label)+'</b><div class="pvwrap">'+inner+'</div></div></div>';
+}
+function buildPay(){
+  var b='';
+  if(CONFIG.NAQD!==false)b+='<div class="pay-row"><span class="pi">💵</span><div class="pcell"><b>Naqd pul</b><div class="ps">Olib ketishda yoki yetkazib berishda</div></div></div>';
+  if(CONFIG.PAYME)b+=(/^https?:/i.test(CONFIG.PAYME)?payRow('📲','Payme',CONFIG.PAYME,true,false):payRow('📲','Payme',CONFIG.PAYME,false,true));
+  if(CONFIG.CARD)b+=payRow('💳','Karta (Payme / Click)',CONFIG.CARD,false,true);
+  if(CONFIG.HISOB)b+=payRow('🏦','Hisob raqam',CONFIG.HISOB,false,true);
+  var has=(CONFIG.NAQD!==false)||CONFIG.PAYME||CONFIG.CARD||CONFIG.HISOB;
+  if(!has)b='<div class="ps" style="text-align:center">To\u2018lov ma\u2018lumotlari tez orada</div>';
+  var el=document.getElementById('payBody');if(el)el.innerHTML=b;
+  var pl=document.getElementById('payLink');if(pl)pl.style.display=has?'':'none';
+}
+function openPay(){document.getElementById('payOv').classList.add('show');}
+function closePay(){document.getElementById('payOv').classList.remove('show');}
+function cpNear(btn){var r=btn.closest('.pay-row'),t=r&&r.querySelector('.pv');if(!t)return;var s=t.textContent;try{navigator.clipboard.writeText(s);}catch(e){}var o=btn.textContent;btn.textContent='✓';setTimeout(function(){btn.textContent=o;},1200);}
 function render(){
   var q=nrm(document.getElementById('q').value);
   var list=ITEMS;
@@ -258,6 +319,10 @@ function load(){
       if(contacts.address)CONFIG.ADDRESS=contacts.address;
       if(contacts.map)CONFIG.MAP=contacts.map;
       if(contacts.hours)CONFIG.HOURS=contacts.hours;
+      if(contacts.payme)CONFIG.PAYME=contacts.payme;
+      if(contacts.card)CONFIG.CARD=contacts.card;
+      if(contacts.hisob)CONFIG.HISOB=contacts.hisob;
+      if('naqd' in contacts)CONFIG.NAQD=contacts.naqd;
       applyContacts();
       ITEMS=products||[];
       ITEMS.forEach(function(it){it._cat=catOf(it);});
