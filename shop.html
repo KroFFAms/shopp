@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="KROFF — qurilish mollari, asboblar, mahsulotlar katalogi. Narxlar va mavjudlik.">
+<title>KROFF — Onlayn katalog</title>
+<style>
+  :root{--blue:#1F4E79;--line:#e6e9ef;--muted:#8a94a3;--bg:#f4f6f9;--green:#2e7d32;--red:#c0392b}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:#1a2230}
+  header{position:sticky;top:0;z-index:10;background:var(--blue);color:#fff;padding:12px 14px}
+  .h-top{display:flex;align-items:center;gap:10px;max-width:1100px;margin:0 auto}
+  .h-logo{font-size:20px;font-weight:800;letter-spacing:.3px}
+  .h-sub{font-size:11px;opacity:.85;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+  .search{max-width:1100px;margin:10px auto 0;display:flex;gap:8px}
+  .search input{flex:1;padding:11px 14px;border:none;border-radius:10px;font-size:15px;font-family:inherit}
+  .wrap{max-width:1100px;margin:0 auto;padding:14px}
+  .count{font-size:12.5px;color:var(--muted);margin:4px 2px 10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+  .ph{aspect-ratio:1/1;background:linear-gradient(135deg,#eef2f7,#e3e9f1);display:flex;align-items:center;justify-content:center;color:#b3bcc9;font-size:13px;position:relative}
+  .ph img{width:100%;height:100%;object-fit:cover}
+  .ph .noimg{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px}
+  .c-body{padding:10px 11px 12px;display:flex;flex-direction:column;flex:1}
+  .c-nom{font-size:13.5px;font-weight:600;line-height:1.3;min-height:35px;margin-bottom:6px}
+  .c-price{font-size:17px;font-weight:800;color:var(--blue)}
+  .c-price span{font-size:12px;font-weight:600;color:var(--muted)}
+  .c-stock{font-size:12px;font-weight:700;margin:5px 0 9px}
+  .in{color:var(--green)}.out{color:var(--red)}
+  .c-btns{display:flex;gap:6px;margin-top:auto}
+  .c-btns a{flex:1;text-align:center;padding:8px 4px;border-radius:9px;font-size:12.5px;font-weight:700;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:4px}
+  .b-call{background:#e8f3ea;color:var(--green)}
+  .b-tg{background:#e7f0fb;color:#1f7ac0}
+  .empty{text-align:center;color:var(--muted);padding:50px 20px}
+  .loader{text-align:center;padding:60px 20px;color:var(--muted)}
+  footer{text-align:center;color:var(--muted);font-size:12px;padding:24px 14px 40px}
+  footer a{color:var(--blue)}
+</style>
+</head>
+<body>
+<!-- ============ SOZLAMALAR (shu 5 qatorni to'ldiring) ============ -->
+<script>
+  var CONFIG = {
+    SHOP_NAME: "KROFF",
+    PHONE: "+998934540199",          // buyurtma uchun telefon
+    TELEGRAM: "LayloJumeva",         // Telegram username (@ belgisiz)
+    SB_URL: "https://wfmwxwdawiectcusjnkz.supabase.co",
+    SB_KEY: "sb_publishable_xEPsFgv-ACNKeAFJt2MMiA_Q3Vbte4F", // KROFF publishable key (o'zgartirmang, agar to'liq bo'lsa)
+    SB_TABLE: "catalog"
+  };
+</script>
+<!-- ================================================================ -->
+
+<header>
+  <div class="h-top">
+    <div>
+      <div class="h-sub">Onlayn katalog</div>
+      <div class="h-logo" id="shopName">KROFF</div>
+    </div>
+  </div>
+  <div class="search">
+    <input id="q" type="search" placeholder="🔎 Tovar qidiring (nomi bo'yicha)..." oninput="render()">
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="count" id="count"></div>
+  <div id="app"><div class="loader">Yuklanmoqda...</div></div>
+</div>
+
+<footer>
+  <div id="fContacts"></div>
+  <div style="margin-top:6px">© <span id="yr"></span> KROFF · <a href="https://kroffams.github.io/savdo/" target="_blank">Savdo tizimi</a></div>
+</footer>
+
+<script>
+var ITEMS=[], VIEW=[];
+document.getElementById('shopName').textContent=CONFIG.SHOP_NAME;
+document.getElementById('yr').textContent=new Date().getFullYear();
+function applyContacts(){
+  document.getElementById('shopName').textContent=CONFIG.SHOP_NAME;
+  var ph=CONFIG.PHONE.replace(/[^0-9+]/g,''),tg=CONFIG.TELEGRAM.replace(/^@/,'');
+  var f='';
+  if(ph&&ph!=='+998000000000')f+='📞 <a href="tel:'+ph+'">'+CONFIG.PHONE+'</a>';
+  if(tg)f+=(f?' · ':'')+'✈️ <a href="https://t.me/'+tg+'" target="_blank">@'+tg+'</a>';
+  document.getElementById('fContacts').innerHTML=f||'Aloqa tez orada';
+}
+applyContacts();
+
+function grp(n){return (Math.round(n)||0).toLocaleString('ru-RU').replace(/,/g,' ');}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+// izlash normalizatsiyasi (Kirill/Latin, x/h, apostrof)
+var _CYR={'а':'a','б':'b','в':'v','г':'g','ғ':'g','д':'d','е':'e','ё':'yo','ж':'j','з':'z','и':'i','й':'y','к':'k','қ':'q','л':'l','м':'m','н':'n','о':'o','ў':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ҳ':'h','ц':'s','ч':'ch','ш':'sh','щ':'sh','ъ':'','ы':'i','ь':'','э':'e','ю':'yu','я':'ya'};
+function nrm(s){var o='';s=String(s==null?'':s).toLowerCase();for(var i=0;i<s.length;i++){var c=s[i];o+=(_CYR[c]!=null?_CYR[c]:c);}return o.replace(/[\u02bb\u02bc`'\u2019\u2018]/g,'').replace(/x/g,'h').replace(/[^0-9a-z\s]/g,' ').replace(/\s+/g,' ').trim();}
+
+function tgLink(it){
+  var msg='Assalomu alaykum! Menga kerak: '+it.nom+(it.narx?(' ('+grp(it.narx)+' so\u2018m)'):'');
+  return 'https://t.me/'+CONFIG.TELEGRAM.replace(/^@/,'')+'?text='+encodeURIComponent(msg);
+}
+function card(it){
+  var img=it.img?('<img src="'+esc(it.img)+'" alt="'+esc(it.nom)+'" loading="lazy" onerror="this.parentNode.innerHTML=\'<div class=noimg>\ud83d\uddbc\ufe0f<span>Rasm yo\u2018q</span></div>\'">'):'<div class="noimg">\ud83d\uddbc\ufe0f<span>Rasm yo\u2018q</span></div>';
+  var q=it.qoldiq||0;
+  var stock=q>0?('<div class="c-stock in">\u2713 '+grp(q)+' dona bor</div>'):'<div class="c-stock out">\u2717 Tugagan</div>';
+  return '<div class="card"><div class="ph">'+img+'</div><div class="c-body">'+
+    '<div class="c-nom">'+esc(it.nom)+'</div>'+
+    '<div class="c-price">'+grp(it.narx)+' <span>so\u2018m</span></div>'+
+    stock+
+    '<div class="c-btns"><a class="b-call" href="tel:'+CONFIG.PHONE.replace(/[^0-9+]/g,'')+'">\ud83d\udcde Qo\u2018ng\u2018iroq</a><a class="b-tg" href="'+tgLink(it)+'" target="_blank">\u2708\ufe0f Telegram</a></div>'+
+    '</div></div>';
+}
+function render(){
+  var q=nrm(document.getElementById('q').value);
+  VIEW = q ? ITEMS.filter(function(it){return nrm(it.nom).indexOf(q)>=0 || String(it.barcode||'').indexOf(q)>=0;}) : ITEMS;
+  var app=document.getElementById('app');
+  document.getElementById('count').textContent=VIEW.length+' ta tovar'+(q?' topildi':'');
+  if(!VIEW.length){app.innerHTML='<div class="empty">Hech narsa topilmadi</div>';return;}
+  var lim=VIEW.slice(0,300);
+  app.innerHTML='<div class="grid">'+lim.map(card).join('')+'</div>'+(VIEW.length>300?'<div class="count" style="text-align:center;margin-top:14px">... '+VIEW.length+' tadan 300 tasi. Qidiruvдан foydalaning.</div>':'');
+}
+function load(){
+  var url=CONFIG.SB_URL+'/rest/v1/'+CONFIG.SB_TABLE+'?select=data&id=eq.1';
+  fetch(url,{headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY}})
+    .then(function(r){return r.json();})
+    .then(function(rows){
+      var data=(rows&&rows[0]&&rows[0].data)||{};
+      if(typeof data==='string')data=JSON.parse(data);
+      var products, contacts;
+      if(Array.isArray(data)){products=data;contacts={};}
+      else{products=data.products||[];contacts=data.contacts||{};}
+      if(contacts.phone)CONFIG.PHONE=contacts.phone;
+      if(contacts.tg)CONFIG.TELEGRAM=contacts.tg;
+      if(contacts.name)CONFIG.SHOP_NAME=contacts.name;
+      applyContacts();
+      ITEMS=products||[];
+      ITEMS.sort(function(a,b){return (b.qoldiq>0?1:0)-(a.qoldiq>0?1:0);});
+      render();
+    })
+    .catch(function(e){
+      document.getElementById('app').innerHTML='<div class="empty">Katalog yuklanmadi.<br><small>'+esc(e.message)+'</small><br><br>KROFF ilovasida "\ud83c\udf10 Katalogga yuklash" tugmasini bosing.</div>';
+    });
+}
+load();
+</script>
+</body>
+</html>
