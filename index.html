@@ -5,105 +5,163 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="description" content="KROFF — qurilish mollari, asboblar, santexnika, bo'yoq katalogi. Narxlar va mavjudlik.">
 <title>KROFF — Onlayn katalog</title>
-<meta name="theme-color" content="#7d1f2e">
+<meta name="theme-color" content="#005BFF">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="KROFF">
 <style>
-  :root{--blue:#2B2D6E;--bordo:#7d1f2e;--red:#D81F27;--line:#eceef2;--muted:#8b8ea4;--bg:#ffffff;--green:#2e7d32;--ink:#1c1c2e}
+  :root{--blue:#005BFF;--blue-d:#0047cc;--bordo:#7d1f2e;--sale:#f1117e;--red:#e01438;--line:#e7eaf0;--muted:#707a8a;--bg:#f1f3f6;--green:#1a8f3c;--ink:#001a34}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink)}
-  header{position:sticky;top:0;z-index:20;background:#fff;color:var(--ink);box-shadow:0 2px 10px rgba(0,0,0,.06);border-bottom:3px solid var(--bordo)}
-  .h-in{max-width:1180px;margin:0 auto;padding:12px 14px 10px}
-  .h-row{display:flex;align-items:center;gap:12px}
-  .h-logoimg{height:42px;display:block}
-  .h-sub{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px}
-  .h-contact{font-size:11.5px;color:var(--muted);font-weight:600;line-height:1.55;margin-top:9px}
-  .h-contact a{color:var(--bordo);text-decoration:none;font-weight:700}
-  .h-count{margin-left:auto;font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap;background:#f2f3f7;padding:5px 11px;border-radius:14px}
-  .search{margin-top:10px;position:relative}
-  .search input{width:100%;padding:12px 14px 12px 42px;border:1.5px solid var(--line);border-radius:12px;font-size:15px;font-family:inherit;background:#f7f8fa;color:var(--ink);outline:none}.search input:focus{border-color:var(--bordo);background:#fff}
-  .search .ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;opacity:.45}
-  .chips{display:flex;gap:7px;overflow-x:auto;padding:10px 14px 2px;max-width:1180px;margin:0 auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  body.lock{overflow:hidden}
+  /* ===== Header (OZON uslubi) ===== */
+  header{position:sticky;top:0;z-index:20;background:#fff;color:var(--ink);box-shadow:0 1px 0 var(--line),0 4px 14px rgba(0,0,0,.05)}
+  .h-in{max-width:1180px;margin:0 auto;padding:10px 12px 8px}
+  .h-top{display:flex;align-items:center;gap:12px}
+  .h-logoimg{height:34px;display:block;cursor:pointer}
+  .h-acts{margin-left:auto;display:flex;align-items:center;gap:6px}
+  .iconbtn{position:relative;width:44px;height:44px;border:none;background:#f2f4f7;border-radius:12px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink);transition:background .12s}
+  .iconbtn:active{background:#e5e9ef}
+  .iconbtn .cnt{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 4px;background:var(--sale);color:#fff;border-radius:10px;font-size:11px;font-weight:800;display:none;align-items:center;justify-content:center;border:2px solid #fff}
+  .iconbtn .cnt.on{display:flex}
+  .h-search{display:flex;gap:8px;margin-top:9px}
+  .catBtn{flex-shrink:0;display:flex;align-items:center;gap:7px;background:var(--blue);color:#fff;border:none;border-radius:12px;padding:0 15px;font-size:14px;font-weight:800;cursor:pointer;white-space:nowrap}
+  .catBtn:active{background:var(--blue-d)}
+  .catBtn .bars{font-size:16px;line-height:1}
+  .sbox{flex:1;display:flex;align-items:center;background:#fff;border:2px solid var(--blue);border-radius:12px;overflow:hidden;min-width:0}
+  .sbox .ic{padding:0 4px 0 12px;font-size:15px;opacity:.5}
+  .sbox input{flex:1;min-width:0;padding:11px 8px;border:none;font-size:15px;font-family:inherit;background:transparent;color:var(--ink);outline:none}
+  .sbox .sbtn{border:none;background:var(--blue);color:#fff;padding:0 16px;align-self:stretch;font-size:14px;font-weight:800;cursor:pointer}
+  .sbox .sbtn:active{background:var(--blue-d)}
+  .toolbar{display:flex;gap:8px;align-items:center;margin-top:9px}
+  .h-count{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap;background:#f2f4f7;padding:8px 11px;border-radius:11px}
+  .toolbar select{flex:1;padding:9px 12px;border:1.5px solid var(--line);border-radius:11px;font-size:13.5px;font-family:inherit;background:#fff;color:var(--ink);font-weight:600;outline:none}
+  #installBtn{display:none;margin-top:9px;width:100%;padding:10px;background:var(--blue);color:#fff;border:none;border-radius:11px;font-weight:700;font-size:13.5px;cursor:pointer}
+  /* ===== Chips ===== */
+  .chips{display:flex;gap:7px;overflow-x:auto;padding:10px 12px 4px;max-width:1180px;margin:0 auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
   .chips::-webkit-scrollbar{display:none}
-  .chip{white-space:nowrap;padding:7px 13px;border-radius:20px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0}
-  .chip.on{background:var(--bordo);color:#fff;border-color:var(--bordo);font-weight:800}
+  .chip{white-space:nowrap;padding:8px 14px;border-radius:20px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0}
+  .chip.on{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:800}
   .chip .n{opacity:.6;font-weight:700;margin-left:3px}
-  .wrap{max-width:1180px;margin:0 auto;padding:6px 14px 40px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:13px;margin-top:12px}
-  .card{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden;display:flex;flex-direction:column;transition:transform .1s,box-shadow .15s}
-  .card:hover{box-shadow:0 6px 18px rgba(43,45,110,.14);transform:translateY(-2px)}
-  .ph{aspect-ratio:1/1;background:linear-gradient(135deg,#f2f3f7,#e9ebf1);display:flex;align-items:center;justify-content:center;position:relative}
+  .chip.sale{border-color:var(--sale);color:var(--sale)}
+  .chip.sale.on{background:var(--sale);color:#fff}
+  .chip.newp{border-color:var(--green);color:var(--green)}
+  .chip.newp.on{background:var(--green);color:#fff}
+  .chip.favp{border-color:var(--sale);color:var(--sale)}
+  .chip.favp.on{background:var(--sale);color:#fff}
+  /* ===== Banner ===== */
+  .wrap{max-width:1180px;margin:0 auto;padding:8px 12px 90px}
+  .banner{position:relative;border-radius:18px;overflow:hidden;height:150px;margin:4px 0 14px;background:linear-gradient(120deg,#005BFF,#3d8bff)}
+  .bslide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:20px 22px;color:#fff;opacity:0;transition:opacity .5s;pointer-events:none}
+  .bslide.on{opacity:1;pointer-events:auto}
+  .bslide.s2{background:linear-gradient(120deg,#c1094f,#f1117e)}
+  .bslide h2{margin:0;font-size:24px;font-weight:900;letter-spacing:.3px}
+  .bslide p{margin:6px 0 12px;font-size:13.5px;font-weight:600;opacity:.95;max-width:70%}
+  .bslide .bbtn{align-self:flex-start;background:#fff;color:var(--blue);border:none;border-radius:11px;padding:9px 18px;font-size:13.5px;font-weight:800;cursor:pointer}
+  .bslide.s2 .bbtn{color:var(--sale)}
+  .bdots{position:absolute;bottom:10px;left:22px;display:flex;gap:6px;z-index:2}
+  .bdots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer}
+  .bdots i.on{background:#fff;width:18px;border-radius:4px}
+  /* ===== Grid & cards ===== */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .15s,transform .1s}
+  .card:hover{box-shadow:0 6px 20px rgba(0,40,120,.12);transform:translateY(-2px)}
+  .ph{aspect-ratio:1/1;background:linear-gradient(135deg,#f4f6f9,#eaeef4);display:flex;align-items:center;justify-content:center;position:relative}
   .ph img{width:100%;height:100%;object-fit:cover}
   .ph .noimg{display:flex;flex-direction:column;align-items:center;gap:5px;color:#aab4c2;font-size:11.5px;font-weight:600}
   .ph .noimg svg{width:34px;height:34px;opacity:.55}
-  .badge{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px}
-  .c-body{padding:11px 12px 13px;display:flex;flex-direction:column;flex:1}
-  .c-nom{font-size:13.5px;font-weight:600;line-height:1.32;min-height:36px;margin-bottom:7px}
+  .badge{position:absolute;top:8px;left:8px;background:var(--sale);color:#fff;font-size:11px;font-weight:800;padding:3px 9px;border-radius:9px;z-index:2}
+  .badge-new{position:absolute;top:8px;left:8px;background:var(--green);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:9px;z-index:2}
+  .badge+.badge-new{top:34px}
+  .fav{position:absolute;top:6px;right:6px;width:34px;height:34px;border:none;background:rgba(255,255,255,.9);border-radius:50%;font-size:17px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 5px rgba(0,0,0,.12);z-index:3;color:#c2c8d2}
+  .fav.on{color:var(--sale)}
+  .fav:active{transform:scale(.9)}
   .noimg2{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
   .noimg2 .ni-ic{font-size:48px;line-height:1;opacity:.85}
   .noimg2 .ni-cat{font-size:11px;font-weight:700;color:rgba(0,0,0,.4);text-transform:uppercase;letter-spacing:.6px}
-  .c-price{font-size:18px;font-weight:800;color:var(--blue);line-height:1}
-  .c-price span{font-size:11.5px;font-weight:600;color:var(--muted)}
-  .c-oldp{font-size:12px;font-weight:600;color:var(--muted);text-decoration:line-through;margin-left:3px}
-  .chip.sale{border-color:var(--red);color:var(--red)}
-  .c-stock{font-size:12px;font-weight:700;margin:6px 0 10px;display:flex;align-items:center;gap:5px}
+  .c-body{padding:10px 11px 12px;display:flex;flex-direction:column;flex:1}
+  .c-price{font-size:18px;font-weight:900;color:var(--ink);line-height:1}
+  .c-price.sale{color:var(--sale)}
+  .c-price span{font-size:11.5px;font-weight:700;color:var(--muted)}
+  .c-oldp{font-size:12px;font-weight:600;color:var(--muted);text-decoration:line-through;margin-left:4px}
+  .c-optom{font-size:12px;font-weight:700;color:var(--bordo);margin:3px 0 0}
+  .c-optom span{font-weight:600;color:var(--muted)}
+  .c-nom{font-size:13px;font-weight:600;line-height:1.32;min-height:34px;margin:7px 0 6px;color:#2a3446}
+  .c-stock{font-size:11.5px;font-weight:700;margin:0 0 9px;display:flex;align-items:center;gap:5px}
   .in{color:var(--green)}.out{color:var(--red)}
   .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
   .dot.g{background:var(--green)}.dot.r{background:var(--red)}
-  .c-btns{display:flex;gap:7px;margin-top:auto}
-  .c-btns a{flex:1;text-align:center;padding:9px 4px;border-radius:10px;font-size:12px;font-weight:700;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:2px;line-height:1.1}
-  .b-call{background:#e8f5ea;color:var(--green)}
-  .b-call:active{background:#d5edd9}
-  .b-tg{background:#e9e8f5;color:#2B2D6E}
-  .b-tg:active{background:#dcdaf0}
-  .b-ic{font-size:15px}
+  .c-cart{margin-top:auto}
+  .addbtn{width:100%;border:none;background:var(--blue);color:#fff;border-radius:11px;padding:10px;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+  .addbtn:active{background:var(--blue-d)}
+  .qty{display:flex;align-items:center;justify-content:space-between;background:#eef4ff;border:1.5px solid var(--blue);border-radius:11px;overflow:hidden}
+  .qty button{width:40px;height:40px;border:none;background:transparent;color:var(--blue);font-size:20px;font-weight:800;cursor:pointer}
+  .qty button:active{background:#dbe8ff}
+  .qty span{font-size:15px;font-weight:800;color:var(--blue)}
   .empty{text-align:center;color:var(--muted);padding:60px 20px;font-size:14px}
   .loader{text-align:center;padding:70px 20px;color:var(--muted)}
-  .more{text-align:center;padding:16px;color:var(--muted);font-size:12.5px}
+  .more{text-align:center;padding:16px;color:var(--muted);font-size:12.5px;grid-column:1/-1}
+  /* ===== Footer ===== */
   footer{text-align:center;color:var(--muted);font-size:12px;padding:24px 14px 44px;border-top:1px solid var(--line);margin-top:20px;background:#fafbfc}
   footer a{color:var(--blue);text-decoration:none;font-weight:600}
   .f-c{font-size:14px;margin-bottom:8px}
   .f-addr{font-size:13px;margin-bottom:6px}
   .f-addr a{color:var(--blue);font-weight:600;text-decoration:none}
   .f-hours{font-size:12.5px;margin-bottom:10px}
-  .fab{position:fixed;right:14px;bottom:16px;z-index:50;display:flex;flex-direction:column;gap:10px}
-  .fab a{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:23px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22)}
+  /* ===== FAB ===== */
+  .fab{position:fixed;right:14px;bottom:16px;z-index:35;display:flex;flex-direction:column;gap:10px;transition:bottom .2s}
+  body.has-cart .fab{bottom:78px}
+  .fab a{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22)}
   .fab .tg{background:#229ED9}
-  .fab .call{background:#2e7d32}
+  .fab .call{background:#1a8f3c}
   .fab a:active{transform:scale(.93)}
-  .badge-new{position:absolute;top:8px;right:8px;left:auto;background:var(--green);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:8px}
-  .c-optom{font-size:12px;font-weight:700;color:var(--bordo);margin:2px 0 0}
-  .c-optom span{font-weight:600;color:var(--muted)}
-  .toolbar{display:flex;gap:8px;align-items:center;margin-top:9px}
-  .toolbar select{flex:1;padding:9px 12px;border:1.5px solid var(--line);border-radius:11px;font-size:13.5px;font-family:inherit;background:#f7f8fa;color:var(--ink);font-weight:600;outline:none}
-  .chip.newp{border-color:var(--green);color:var(--green)}
-  #installBtn{display:none;margin-top:9px;width:100%;padding:10px;background:var(--blue);color:#fff;border:none;border-radius:11px;font-weight:700;font-size:13.5px;cursor:pointer}
-  .qr-ov{position:fixed;inset:0;background:rgba(20,20,40,.55);z-index:60;display:none;align-items:center;justify-content:center;padding:20px}
-  .qr-ov.show{display:flex}
-  .qr-box{background:#fff;border-radius:18px;padding:20px 20px 16px;max-width:320px;width:100%;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.3)}
-  .qr-box h3{margin:0 0 4px;font-size:16px;color:var(--blue)}
-  .qr-box .qr-sub{margin:0 0 14px;font-size:12.5px;color:var(--muted)}
-  .qr-box img{width:220px;height:220px;border:1px solid var(--line);border-radius:10px}
-  .qr-box .qr-url{font-size:11.5px;color:var(--muted);word-break:break-all;margin:12px 0 0}
-  .qr-box .qr-x{margin-top:14px;padding:9px 22px;background:var(--bordo);color:#fff;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;border:none}
-  .pay-ov{position:fixed;inset:0;background:rgba(20,20,40,.55);z-index:60;display:none;align-items:center;justify-content:center;padding:20px}
-  .pay-ov.show{display:flex}
-  .pay-box{background:#fff;border-radius:18px;padding:20px;max-width:340px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.3)}
-  .pay-box h3{margin:0 0 8px;font-size:16px;color:var(--blue);text-align:center}
-  .pay-row{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
-  .pay-row:last-of-type{border-bottom:none}
-  .pay-row .pi{font-size:21px;line-height:1.15}
-  .pay-row .pcell{flex:1;min-width:0}
-  .pay-row b{font-size:13.5px;color:var(--ink)}
-  .pay-row .ps{font-size:12px;color:var(--muted);margin-top:2px}
-  .pvwrap{margin-top:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .pv{font-size:15px;font-weight:800;color:var(--bordo);letter-spacing:.4px}
-  .pv-link{font-size:13.5px;font-weight:700;color:var(--blue);text-decoration:none;word-break:break-all}
-  .cp{padding:4px 11px;font-size:11.5px;font-weight:700;background:#f2f3f7;color:var(--blue);border:none;border-radius:8px;cursor:pointer}
-  .pay-x{margin-top:16px;width:100%;padding:10px;background:var(--bordo);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer}
-  .ecam{position:absolute;bottom:8px;right:8px;width:38px;height:38px;border-radius:50%;background:var(--bordo);color:#fff;border:2px solid #fff;font-size:17px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:3}
+  /* ===== Sticky cart bar ===== */
+  .cartbar{position:fixed;left:0;right:0;bottom:0;z-index:34;background:var(--blue);color:#fff;display:none;align-items:center;gap:12px;padding:11px 16px;box-shadow:0 -3px 14px rgba(0,0,0,.15);cursor:pointer}
+  body.has-cart .cartbar{display:flex}
+  .cartbar .cb-ic{font-size:22px}
+  .cartbar .cb-txt{font-size:12.5px;font-weight:700;opacity:.92}
+  .cartbar .cb-sum{font-size:16px;font-weight:900}
+  .cartbar .cb-go{margin-left:auto;background:#fff;color:var(--blue);border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:800}
+  /* ===== Overlays: cart drawer + catalog sheet ===== */
+  .ov{position:fixed;inset:0;background:rgba(10,20,40,.5);z-index:70;display:none}
+  .ov.show{display:block}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:#fff;z-index:71;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;box-shadow:-6px 0 30px rgba(0,0,0,.2)}
+  .drawer.show{transform:none}
+  .d-head{display:flex;align-items:center;gap:10px;padding:16px;border-bottom:1px solid var(--line)}
+  .d-head h3{margin:0;font-size:18px;font-weight:900}
+  .d-head .cx{margin-left:auto;width:36px;height:36px;border:none;background:#f2f4f7;border-radius:10px;font-size:20px;cursor:pointer;color:var(--ink)}
+  .d-body{flex:1;overflow-y:auto;padding:8px 16px}
+  .d-foot{border-top:1px solid var(--line);padding:14px 16px;background:#fff}
+  .citem{display:flex;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .citem .cthumb{width:60px;height:60px;border-radius:10px;background:#f2f4f7;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:24px}
+  .citem .cthumb img{width:100%;height:100%;object-fit:cover}
+  .citem .cinfo{flex:1;min-width:0}
+  .citem .cnom{font-size:13px;font-weight:700;line-height:1.3;margin-bottom:3px}
+  .citem .cpr{font-size:12.5px;color:var(--muted);font-weight:600}
+  .citem .cbot{display:flex;align-items:center;gap:10px;margin-top:8px}
+  .citem .qty{flex:0 0 auto}
+  .citem .qty button{width:34px;height:34px;font-size:18px}
+  .citem .cline{margin-left:auto;font-size:14px;font-weight:900;color:var(--ink)}
+  .citem .crm{border:none;background:none;color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline}
+  .d-empty{text-align:center;color:var(--muted);padding:50px 20px;font-size:14px}
+  .ord-in{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:11px;font-size:14px;font-family:inherit;outline:none;margin-bottom:8px}
+  .ord-in:focus{border-color:var(--blue)}
+  .d-sum{display:flex;align-items:center;justify-content:space-between;margin:6px 0 12px;font-size:15px;font-weight:800}
+  .d-sum .big{font-size:20px;font-weight:900;color:var(--ink)}
+  .d-order{width:100%;border:none;background:var(--blue);color:#fff;border-radius:12px;padding:14px;font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+  .d-order:active{background:var(--blue-d)}
+  .d-clear{width:100%;background:none;border:none;color:var(--muted);font-size:12.5px;font-weight:700;margin-top:8px;cursor:pointer}
+  /* catalog sheet */
+  .sheet{position:fixed;left:0;right:0;bottom:0;max-height:82vh;background:#fff;z-index:71;transform:translateY(100%);transition:transform .25s;display:flex;flex-direction:column;border-radius:20px 20px 0 0;box-shadow:0 -6px 30px rgba(0,0,0,.2)}
+  .sheet.show{transform:none}
+  .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:8px 16px 24px;overflow-y:auto}
+  .cat-tile{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:13.5px;font-weight:700;text-align:left}
+  .cat-tile:active{background:#f2f4f7}
+  .cat-tile .ci{font-size:22px}
+  .cat-tile .cn{opacity:.5;font-weight:700;font-size:12px;margin-left:auto}
+  /* ===== Staff edit ===== */
+  .ecam{position:absolute;bottom:8px;right:8px;width:38px;height:38px;border-radius:50%;background:var(--bordo);color:#fff;border:2px solid #fff;font-size:17px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:4}
   .ecam:active{transform:scale(.92)}
   .ebar{position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--bordo);color:#fff;display:none;align-items:center;gap:12px;padding:10px 16px;font-size:13px;font-weight:700;box-shadow:0 -3px 14px rgba(0,0,0,.15)}
   .ebar.show{display:flex}
@@ -119,9 +177,45 @@
   .gbox input:focus{border-color:var(--bordo)}
   .gbox .gb{width:100%;padding:12px;background:var(--bordo);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer}
   .gbox .gc{margin-top:9px;font-size:12px;color:var(--muted);cursor:pointer}
-  .toast{position:fixed;left:50%;bottom:70px;transform:translateX(-50%);z-index:90;background:#1c1c2e;color:#fff;padding:10px 18px;border-radius:22px;font-size:13px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.3);opacity:0;transition:opacity .2s;pointer-events:none;max-width:88%;text-align:center}
+  .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:90;background:#001a34;color:#fff;padding:10px 18px;border-radius:22px;font-size:13px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.3);opacity:0;transition:opacity .2s;pointer-events:none;max-width:88%;text-align:center}
   .toast.show{opacity:1}
   .toast.err{background:var(--red)} .toast.ok{background:var(--green)}
+  /* ===== QR + Pay modals ===== */
+  .qr-ov{position:fixed;inset:0;background:rgba(20,20,40,.55);z-index:60;display:none;align-items:center;justify-content:center;padding:20px}
+  .qr-ov.show{display:flex}
+  .qr-box{background:#fff;border-radius:18px;padding:20px 20px 16px;max-width:320px;width:100%;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.3)}
+  .qr-box h3{margin:0 0 4px;font-size:16px;color:var(--blue)}
+  .qr-box .qr-sub{margin:0 0 14px;font-size:12.5px;color:var(--muted)}
+  .qr-box img{width:220px;height:220px;border:1px solid var(--line);border-radius:10px}
+  .qr-box .qr-url{font-size:11.5px;color:var(--muted);word-break:break-all;margin:12px 0 0}
+  .qr-box .qr-x{margin-top:14px;padding:9px 22px;background:var(--blue);color:#fff;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;border:none}
+  .pay-ov{position:fixed;inset:0;background:rgba(20,20,40,.55);z-index:60;display:none;align-items:center;justify-content:center;padding:20px}
+  .pay-ov.show{display:flex}
+  .pay-box{background:#fff;border-radius:18px;padding:20px;max-width:340px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.3)}
+  .pay-box h3{margin:0 0 8px;font-size:16px;color:var(--blue);text-align:center}
+  .pay-row{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+  .pay-row:last-of-type{border-bottom:none}
+  .pay-row .pi{font-size:21px;line-height:1.15}
+  .pay-row .pcell{flex:1;min-width:0}
+  .pay-row b{font-size:13.5px;color:var(--ink)}
+  .pay-row .ps{font-size:12px;color:var(--muted);margin-top:2px}
+  .pvwrap{margin-top:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .pv{font-size:15px;font-weight:800;color:var(--bordo);letter-spacing:.4px}
+  .pv-link{font-size:13.5px;font-weight:700;color:var(--blue);text-decoration:none;word-break:break-all}
+  .cp{padding:4px 11px;font-size:11.5px;font-weight:700;background:#f2f4f7;color:var(--blue);border:none;border-radius:8px;cursor:pointer}
+  .pay-x{margin-top:16px;width:100%;padding:10px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer}
+  .dtoggle{display:flex;gap:8px;margin-bottom:10px}
+  .dtoggle .dt{flex:1;padding:11px 6px;border:1.5px solid var(--line);background:#fff;border-radius:11px;font-size:13px;font-weight:800;color:var(--muted);cursor:pointer}
+  .dtoggle .dt.on{border-color:var(--blue);background:#eef4ff;color:var(--blue)}
+  .pick-addr{background:#f2f4f7;border-radius:11px;padding:11px 13px;font-size:13px;font-weight:600;color:#2a3446;margin-bottom:8px}
+  .d-note{font-size:12px;color:var(--muted);font-weight:600;margin:2px 0 6px;text-align:right}
+  .d-sum.sm{font-size:13px;font-weight:700;color:var(--muted);margin:2px 0}
+  .loc-btn{width:100%;border:1.5px solid var(--blue);background:#eef4ff;color:var(--blue);border-radius:11px;padding:11px;font-size:13.5px;font-weight:800;cursor:pointer;margin-bottom:8px}
+  .loc-btn:disabled{opacity:.7}
+  .loc-ok{background:#e8f6ec;border:1px solid #bfe6c9;border-radius:11px;padding:10px 12px;font-size:12.5px;font-weight:700;color:var(--green);margin-bottom:8px}
+  .loc-ok a{color:var(--blue);font-weight:700;text-decoration:none;margin-left:8px;font-size:12px}
+  textarea.ord-in{resize:vertical;min-height:52px}
+  @media(min-width:640px){.h-logoimg{height:40px}.banner{height:180px}.bslide h2{font-size:30px}}
 </style>
 </head>
 <body>
@@ -139,22 +233,40 @@
     NAQD: true,
     SB_URL: "https://wfmwxwdawiectcusjnkz.supabase.co",
     SB_KEY: "sb_publishable_xEPsFgv-ACNKeAFJt2MMiA_Q3Vbte4F",
-    SB_TABLE: "catalog"
+    SB_TABLE: "catalog",
+    DELIVERY: true,
+    DELIVERY_FEE: 0,
+    DELIVERY_FREE_FROM: 0,
+    SHOP_LAT: 39.50056,
+    SHOP_LNG: 64.79361,
+    DELIVERY_BASE: 0,
+    DELIVERY_PER_KM: 3000,
+    DELIVERY_FREE_KM: 2,
+    DELIVERY_MAX: 0,
+    DELIVERY_TIERS: [[500000, 50], [1000000, 100]],
+    NO_DELIVERY_DISCOUNT: ["sement","cement","tsement","g'isht","gisht","kirpich","qum","shag'al","shagal","shcheben","keramzit"]
   };
 </script>
 
 <header>
   <div class="h-in">
-    <div class="h-row">
-      <div>
-        <img class="h-logoimg" alt="KROFF" onclick="logoTap()" style="cursor:pointer" src="data:image/png;base64,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">
-        <div class="h-sub" style="margin-top:4px">Onlayn katalog</div>
+    <div class="h-top">
+      <img class="h-logoimg" alt="KROFF" onclick="logoTap()" src="data:image/png;base64,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">
+      <div class="h-acts">
+        <button class="iconbtn" onclick="setCat('__fav');closeCatalog()" aria-label="Sevimlilar">♡<span class="cnt" id="favN"></span></button>
+        <button class="iconbtn" onclick="openCart()" aria-label="Savat">🛒<span class="cnt" id="cartN"></span></button>
       </div>
-      <div class="h-count" id="count"></div>
     </div>
-    <div class="h-contact" id="hContact"></div>
-    <div class="search"><span class="ic">🔎</span><input id="q" type="search" placeholder="Tovar qidiring — nomi bo'yicha..." oninput="render()"></div>
+    <div class="h-search">
+      <button class="catBtn" onclick="openCatalog()"><span class="bars">☰</span>Katalog</button>
+      <div class="sbox">
+        <span class="ic">🔎</span>
+        <input id="q" type="search" placeholder="Tovar qidiring..." oninput="render()" onkeydown="if(event.key==='Enter')goSearch()">
+        <button class="sbtn" onclick="goSearch()">Qidirish</button>
+      </div>
+    </div>
     <div class="toolbar">
+      <div class="h-count" id="count"></div>
       <select id="sort" onchange="setSort(this.value)">
         <option value="def">Saralash: standart</option>
         <option value="pl">Narx: arzondan qimmatga</option>
@@ -168,32 +280,71 @@
 <div class="chips" id="chips"></div>
 
 <div class="wrap">
+  <div class="banner" id="banner">
+    <div class="bslide s1 on">
+      <h2>KROFF</h2>
+      <p>Qurilish mollari, asboblar, santexnika va bo‘yoq — bir joyda</p>
+      <button class="bbtn" onclick="setCat('all')">Katalogni ko‘rish</button>
+    </div>
+    <div class="bslide s2">
+      <h2>🔥 Aksiya</h2>
+      <p>Chegirmadagi tovarlarni ko‘rib chiqing va tejang</p>
+      <button class="bbtn" onclick="setCat('__sale')">Chegirmalar</button>
+    </div>
+    <div class="bdots" id="bdots"><i class="on" onclick="showSlide(0)"></i><i onclick="showSlide(1)"></i></div>
+  </div>
   <div id="app"><div class="loader">Yuklanmoqda...</div></div>
 </div>
 
 <div class="fab" id="fab"></div>
 
-<div class="ebar" id="ebar"><b>\u270F\uFE0F Tahrirlash rejimi \u2014 rasm qo\u2018shish yoniq</b><button onclick="exitEdit()">Chiqish</button></div>
+<!-- Sticky cart bar -->
+<div class="cartbar" id="cartbar" onclick="openCart()">
+  <span class="cb-ic">🛒</span>
+  <div>
+    <div class="cb-txt" id="cbTxt"></div>
+    <div class="cb-sum" id="cbSum"></div>
+  </div>
+  <span class="cb-go">Savatni ochish</span>
+</div>
+
+<!-- Cart drawer -->
+<div class="ov" id="cartOv" onclick="closeCart()"></div>
+<div class="drawer" id="cartDrawer">
+  <div class="d-head"><h3>🛒 Savat</h3><button class="cx" onclick="closeCart()">✕</button></div>
+  <div class="d-body" id="cartBody"></div>
+  <div class="d-foot" id="cartFoot"></div>
+</div>
+
+<!-- Catalog sheet -->
+<div class="ov" id="catOv" onclick="closeCatalog()"></div>
+<div class="sheet" id="catSheet">
+  <div class="d-head"><h3>☰ Kategoriyalar</h3><button class="cx" onclick="closeCatalog()">✕</button></div>
+  <div class="cat-grid" id="catGrid"></div>
+</div>
+
+<div class="ebar" id="ebar"><b>✏️ Tahrirlash rejimi — rasm qo‘shish yoniq</b><button onclick="exitEdit()">Chiqish</button></div>
 <div class="toast" id="toast"></div>
 <input type="file" id="picker" accept="image/*" capture="environment" style="display:none">
 <div class="gate" id="gate">
   <div class="gbox">
     <h2>Xodim kirishi</h2>
-    <p>Rasm qo\u2018shish uchun parol</p>
+    <p>Rasm qo‘shish uchun parol</p>
     <div class="gerr" id="gerr"></div>
-    <input id="gpass" type="password" placeholder="Parol" onkeydown="if(event.key===\'Enter\')tryPass()">
+    <input id="gpass" type="password" placeholder="Parol" onkeydown="if(event.key==='Enter')tryPass()">
     <button class="gb" onclick="tryPass()">Kirish</button>
     <div class="gc" onclick="closeGate()">Bekor qilish</div>
   </div>
 </div>
+
 <footer>
   <div class="f-c" id="fContacts"></div>
   <div class="f-addr" id="fAddr"></div>
   <div class="f-hours" id="fHours"></div>
   <div style="margin:6px 0 10px">
-    <a id="payLink" href="javascript:void(0)" onclick="openPay()" style="color:var(--bordo);font-weight:700;text-decoration:none">💳 To‘lov usullari</a>
+    <a id="payLink" href="javascript:void(0)" onclick="openPay()" style="color:var(--blue);font-weight:700;text-decoration:none">💳 To‘lov usullari</a>
     &nbsp;·&nbsp;
-    <a href="javascript:void(0)" onclick="openQR()" style="color:var(--bordo);font-weight:700;text-decoration:none">📱 QR kod</a>
+    <a href="javascript:void(0)" onclick="openQR()" style="color:var(--blue);font-weight:700;text-decoration:none">📱 QR kod</a>
   </div>
   <div>© <span id="yr"></span> KROFF · <a href="https://kroffams.github.io/savdo/" target="_blank">Savdo tizimi</a></div>
 </footer>
@@ -217,7 +368,10 @@
 </div>
 
 <script>
-var ITEMS=[], CAT='all', SORT='def', IMG={};
+var ITEMS=[], ITEMMAP={}, CAT='all', SORT='def', IMG={};
+var CART={}, FAV={};
+var ORDER_FN=CONFIG.SB_URL+'/functions/v1/send-order', ORDER_GUARD='kroff-shop';
+var DELIV='delivery', LAST_ADDR='', LAST_NAME='', LAST_PHONE='', CUST=null;
 /* ===== Xodim rasm rejimi ===== */
 var PAROL="kroff", BUCKET="tovar-rasm", EDIT=false, curKey=null, _tap=0, _tapT=0;
 function nkey(x){return String(x==null?'':x).toLowerCase().replace(/\s+/g,' ').trim();}
@@ -278,33 +432,43 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return
 function disc(it){var base=+it.narx||0;var pct=+it.chegirma||0;if(pct>0&&pct<100&&base>0)return{price:Math.round(base*(100-pct)/100),was:base,pct:Math.round(pct)};var e=+it.eski_narx||0;if(e>base&&base>0)return{price:base,was:e,pct:Math.round((e-base)/e*100)};return null;}
 function tgLink(it){var d=disc(it),pr=d?d.price:it.narx;var msg='Assalomu alaykum! Menga kerak: '+it.nom+(pr?(' ('+grp(pr)+' so\u2018m)'):'');return 'https://t.me/'+CONFIG.TELEGRAM.replace(/^@/,'')+'?text='+encodeURIComponent(msg);}
 var NOIMG='<div class="noimg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>Rasm yo\u2018q</span></div>';
+
+/* ===== Card ===== */
 function card(it){
+  var key=nkey(it.nom);
   var tile=phTile(it);
-  var src=it.img||IMG[nkey(it.nom)]||'';
+  var src=it.img||IMG[key]||'';
   var img=src?('<img src="'+esc(src)+'" alt="'+esc(it.nom)+'" loading="lazy" onerror="this.parentNode.innerHTML=\''+tile.replace(/'/g,"\\'")+'\'">'):tile;
   var q=it.qoldiq||0;
   var stock=q>0?('<div class="c-stock in"><span class="dot g"></span>'+grp(q)+' dona bor</div>'):'<div class="c-stock out"><span class="dot r"></span>Tugagan</div>';
-  var ph=CONFIG.PHONE.replace(/[^0-9+]/g,'');
   var d=disc(it);
   var bdg=d?'<div class="badge">-'+d.pct+'%</div>':'';
-  var priceHtml=d?('<div class="c-price">'+grp(d.price)+' <span>so\u2018m</span> <span class="c-oldp">'+grp(d.was)+'</span></div>'):('<div class="c-price">'+grp(it.narx)+' <span>so\u2018m</span></div>');
+  var priceHtml=d?('<div class="c-price sale">'+grp(d.price)+' <span>so\u2018m</span> <span class="c-oldp">'+grp(d.was)+'</span></div>'):('<div class="c-price">'+grp(it.narx)+' <span>so\u2018m</span></div>');
   var opt=+it.optom_narx||+it.optom||0;
   var optHtml=opt>0?'<div class="c-optom">Optom: '+grp(opt)+' <span>so\u2018m</span></div>':'';
   var nw=isNew(it)?'<div class="badge-new">Yangi</div>':'';
-  var ecam=EDIT?'<button class="ecam" onclick="pickImg(event,\''+nkey(it.nom).replace(/'/g,"\\'")+'\')">\uD83D\uDCF7</button>':'';
-  return '<div class="card"><div class="ph">'+img+bdg+nw+ecam+'</div><div class="c-body">'+
+  var kk=key.replace(/'/g,"\\'");
+  var ecam=EDIT?'<button class="ecam" onclick="pickImg(event,\''+kk+'\')">\uD83D\uDCF7</button>':'';
+  var fav='<button class="fav'+(FAV[key]?' on':'')+'" onclick="toggleFav(event,\''+kk+'\')">'+(FAV[key]?'\u2764\uFE0F':'\u2661')+'</button>';
+  var c=CART[key];
+  var cartCtl=c?('<div class="qty"><button onclick="chgQty(\''+kk+'\',-1)">\u2212</button><span>'+c.qty+'</span><button onclick="chgQty(\''+kk+'\',1)">+</button></div>')
+                :('<button class="addbtn" onclick="addToCart(\''+kk+'\')"><span>🛒</span>Savatga</button>');
+  return '<div class="card"><div class="ph">'+img+bdg+nw+fav+ecam+'</div><div class="c-body">'+
+    priceHtml+optHtml+
     '<div class="c-nom">'+esc(it.nom)+'</div>'+
-    priceHtml+
-    optHtml+
     stock+
-    '<div class="c-btns"><a class="b-call" href="tel:'+ph+'"><span class="b-ic">📞</span>Qo\u2018ng\u2018iroq</a><a class="b-tg" href="'+tgLink(it)+'" target="_blank"><span class="b-ic">✈️</span>Telegram</a></div>'+
+    '<div class="c-cart">'+cartCtl+'</div>'+
     '</div></div>';
 }
+
+/* ===== Chips ===== */
 function buildChips(){
   var cnt={}; ITEMS.forEach(function(it){var c=it._cat;cnt[c]=(cnt[c]||0)+1;});
   var order=CATS.map(function(x){return x[0];}).filter(function(c){return cnt[c];});
   if(cnt['Boshqa'])order.push('Boshqa');
   var h='<div class="chip'+(CAT==='all'?' on':'')+'" onclick="setCat(\'all\')">Hammasi<span class="n">'+ITEMS.length+'</span></div>';
+  var favN=Object.keys(FAV).length;
+  if(favN)h+='<div class="chip favp'+(CAT==='__fav'?' on':'')+'" onclick="setCat(\'__fav\')">\u2764\uFE0F Sevimli<span class="n">'+favN+'</span></div>';
   var saleN=ITEMS.filter(function(it){return disc(it);}).length;
   if(saleN)h+='<div class="chip sale'+(CAT==='__sale'?' on':'')+'" onclick="setCat(\'__sale\')">🔥 Aksiya<span class="n">'+saleN+'</span></div>';
   var newN=ITEMS.filter(isNew).length;
@@ -314,6 +478,146 @@ function buildChips(){
 }
 function setCat(c){CAT=c;buildChips();render();window.scrollTo({top:0,behavior:'smooth'});}
 function setSort(v){SORT=v;render();}
+function goSearch(){render();var a=document.getElementById('app');if(a)a.scrollIntoView({behavior:'smooth',block:'start'});}
+
+/* ===== Sevimlilar ===== */
+function toggleFav(ev,key){ev.stopPropagation();ev.preventDefault();if(FAV[key])delete FAV[key];else FAV[key]=1;saveFav();buildChips();refresh();}
+
+/* ===== Savat ===== */
+function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function saveCart(){lsSet('kroff_cart',CART);}
+function saveFav(){lsSet('kroff_fav',FAV);}
+function loadState(){var c=lsGet('kroff_cart');if(c&&typeof c==='object')CART=c;var f=lsGet('kroff_fav');if(f&&typeof f==='object')FAV=f;var d=lsGet('kroff_deliv');if(d&&typeof d==='object'){if(d.mode)DELIV=d.mode;if(d.address)LAST_ADDR=d.address;}var lc=lsGet('kroff_loc');if(lc&&typeof lc==='object'&&lc.lat)CUST=lc;}
+function cartCount(){var n=0;for(var k in CART)n+=CART[k].qty;return n;}
+function cartTotal(){var t=0;for(var k in CART)t+=CART[k].price*CART[k].qty;return t;}
+function addToCart(key){var it=ITEMMAP[key];if(!it){toast('Tovar topilmadi','err');return;}
+  if(CART[key])CART[key].qty++;else CART[key]={nom:it.nom,price:effPrice(it),img:(it.img||IMG[key]||''),qty:1};
+  saveCart();refresh();toast('Savatga qo\u2018shildi ✓','ok');}
+function chgQty(key,d){if(!CART[key])return;CART[key].qty+=d;if(CART[key].qty<=0)delete CART[key];saveCart();refresh();}
+function rmItem(key){delete CART[key];saveCart();refresh();}
+function clearCart(){if(!confirm('Savatni tozalash?'))return;CART={};saveCart();refresh();}
+function refresh(){render();renderCart();updateBars();}
+function updateBars(){
+  var n=cartCount();
+  var cn=document.getElementById('cartN');cn.textContent=n;cn.className='cnt'+(n?' on':'');
+  var fn=document.getElementById('favN');var fc=Object.keys(FAV).length;fn.textContent=fc;fn.className='cnt'+(fc?' on':'');
+  document.body.classList.toggle('has-cart',n>0);
+  document.getElementById('cbTxt').textContent=n+' ta tovar';
+  document.getElementById('cbSum').textContent=grp(cartTotal())+' so\u2018m';
+}
+function openCart(){renderCart();document.getElementById('cartOv').classList.add('show');document.getElementById('cartDrawer').classList.add('show');document.body.classList.add('lock');}
+function closeCart(){document.getElementById('cartOv').classList.remove('show');document.getElementById('cartDrawer').classList.remove('show');document.body.classList.remove('lock');}
+function renderCart(){
+  var keys=Object.keys(CART);var body=document.getElementById('cartBody'),foot=document.getElementById('cartFoot');
+  if(!keys.length){body.innerHTML='<div class="d-empty">Savat bo\u2018sh 🛒<br><small>Tovarlarni «Savatga» tugmasi bilan qo\u2018shing</small></div>';foot.innerHTML='';return;}
+  var h='';keys.forEach(function(k){var c=CART[k];var kk=k.replace(/'/g,"\\'");
+    var th=c.img?('<img src="'+esc(c.img)+'" alt="">'):'📦';
+    h+='<div class="citem"><div class="cthumb">'+th+'</div><div class="cinfo"><div class="cnom">'+esc(c.nom)+'</div><div class="cpr">'+grp(c.price)+' so\u2018m / dona</div><div class="cbot"><div class="qty"><button onclick="chgQty(\''+kk+'\',-1)">\u2212</button><span>'+c.qty+'</span><button onclick="chgQty(\''+kk+'\',1)">+</button></div><div class="cline">'+grp(c.price*c.qty)+' so\u2018m</div></div><button class="crm" onclick="rmItem(\''+kk+'\')">O\u2018chirish</button></div></div>';
+  });
+  body.innerHTML=h;
+  var sub=subTotal(),fee=delivFee(),gt=sub+fee;
+  var isD=(DELIV==='delivery'&&CONFIG.DELIVERY!==false);
+  var toggle='<div class="dtoggle"><button class="dt'+(isD?' on':'')+'" onclick="setDeliv(\'delivery\')">🚚 Yetkazib berish</button><button class="dt'+(!isD?' on':'')+'" onclick="setDeliv(\'pickup\')">🏪 Olib ketish</button></div>';
+  var km=isD?kmDist():null;
+  var locBox=CUST?('<div class="loc-ok">✅ Joylashuv aniqlandi'+(km!=null?' · ~'+km.toFixed(1)+' km':'')+' <a href="javascript:void(0)" onclick="getLoc()">qayta</a><a href="javascript:void(0)" onclick="clearLoc()">o‘chirish</a></div>'):'<button class="loc-btn" id="locBtn" onclick="getLoc()">📍 Joylashuvni aniqlash</button>';
+  var addr=isD?(locBox+'<textarea class="ord-in" id="ordAddr" rows="2" placeholder="Uy/kv, mo‘ljal (ixtiyoriy)">'+esc(LAST_ADDR)+'</textarea>'):('<div class="pick-addr">📍 '+esc(CONFIG.ADDRESS||'Do‘kondan olib ketish')+'</div>');
+  var pct=isD?delivDiscPct():0;
+  var feeRow='';
+  if(isD){
+    if(fee>0){feeRow='<div class="d-sum sm"><span>Yetkazish'+(km!=null?' (~'+km.toFixed(1)+' km)':'')+(pct>0?' −'+pct+'%':'')+':</span><span>'+grp(fee)+' so‘m</span></div>';}
+    else if(!CUST&&!(+CONFIG.DELIVERY_FEE)){feeRow='<div class="d-note">📍 Joylashuvni aniqlang — yetkazish narxi hisoblanadi</div>';}
+    else{feeRow='<div class="d-sum sm"><span>Yetkazish'+(km!=null?' (~'+km.toFixed(1)+' km)':'')+':</span><span>bepul'+(pct>=100?' 🎉':'')+'</span></div>';}
+    if(hasNoDisc())feeRow+='<div class="d-note" style="text-align:left">ℹ️ Sement kabi ayrim tovarlar yetkazish chegirmasiga kirmaydi</div>';
+  }
+  foot.innerHTML=toggle+
+    '<input class="ord-in" id="ordName" value="'+esc(LAST_NAME)+'" placeholder="Ismingiz">'+
+    '<input class="ord-in" id="ordPhone" type="tel" value="'+esc(LAST_PHONE)+'" placeholder="Telefon raqamingiz">'+
+    addr+
+    '<div class="d-sum sm"><span>Mahsulotlar:</span><span>'+grp(sub)+' so‘m</span></div>'+feeRow+
+    '<div class="d-sum"><span>Jami:</span><span class="big">'+grp(gt)+' so‘m</span></div>'+
+    '<button class="d-order" onclick="checkout()"><span>✅</span>Buyurtma berish</button>'+
+    '<div style="text-align:center;margin-top:10px"><a href="javascript:void(0)" onclick="tgOpen()" style="color:var(--blue);font-weight:700;font-size:12.5px;text-decoration:none">yoki ✈️ Telegramda yozish</a></div>'+
+    '<button class="d-clear" onclick="clearCart()">Savatni tozalash</button>';
+}
+function subTotal(){return cartTotal();}
+function haversine(a,b){var R=6371,rad=Math.PI/180;var dLat=(b.lat-a.lat)*rad,dLng=(b.lng-a.lng)*rad,la1=a.lat*rad,la2=b.lat*rad;var x=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.sin(dLng/2)*Math.sin(dLng/2)*Math.cos(la1)*Math.cos(la2);return 2*R*Math.asin(Math.sqrt(x));}
+function kmDist(){if(!CUST||CONFIG.SHOP_LAT==null||CONFIG.SHOP_LAT==='')return null;return haversine({lat:+CONFIG.SHOP_LAT,lng:+CONFIG.SHOP_LNG},CUST);}
+function isNoDisc(c){var kws=CONFIG.NO_DELIVERY_DISCOUNT||[];if(!kws.length)return false;var n=nrm(c.nom);for(var i=0;i<kws.length;i++){if(n.indexOf(nrm(kws[i]))>=0)return true;}return false;}
+function qualSub(){var t=0;for(var k in CART){var c=CART[k];if(!isNoDisc(c))t+=c.price*c.qty;}return t;}
+function hasNoDisc(){for(var k in CART){if(isNoDisc(CART[k]))return true;}return false;}
+function delivDiscPct(){var qs=qualSub();var fr=+CONFIG.DELIVERY_FREE_FROM||0;if(fr>0&&qs>=fr)return 100;var t=CONFIG.DELIVERY_TIERS||[],d=0;for(var i=0;i<t.length;i++){if(qs>=t[i][0]&&t[i][1]>d)d=t[i][1];}return d>100?100:d;}
+function delivFee(){if(DELIV!=='delivery'||CONFIG.DELIVERY===false)return 0;var km=kmDist();var base;if(km==null){base=+CONFIG.DELIVERY_FEE||0;}else{var freeKm=+CONFIG.DELIVERY_FREE_KM||0;var billKm=Math.max(0,km-freeKm);base=(+CONFIG.DELIVERY_BASE||0)+billKm*(+CONFIG.DELIVERY_PER_KM||0);}var pct=delivDiscPct();var fee=base*(1-pct/100);fee=Math.ceil(fee/1000)*1000;if(fee<0)fee=0;var mx=+CONFIG.DELIVERY_MAX||0;if(mx>0&&fee>mx)fee=mx;return fee;}
+function stashInputs(){LAST_NAME=(document.getElementById('ordName')||{}).value||LAST_NAME;LAST_PHONE=(document.getElementById('ordPhone')||{}).value||LAST_PHONE;LAST_ADDR=(document.getElementById('ordAddr')||{}).value||LAST_ADDR;}
+function getLoc(){if(!navigator.geolocation){toast('Brauzer joylashuvni qo‘llamaydi','err');return;}stashInputs();var b=document.getElementById('locBtn');if(b){b.disabled=true;b.innerHTML='📍 Aniqlanmoqda…';}navigator.geolocation.getCurrentPosition(function(p){CUST={lat:+p.coords.latitude.toFixed(6),lng:+p.coords.longitude.toFixed(6)};lsSet('kroff_loc',CUST);renderCart();toast('✓ Joylashuv aniqlandi','ok');},function(){var b2=document.getElementById('locBtn');if(b2){b2.disabled=false;b2.innerHTML='📍 Joylashuvni aniqlash';}toast('Joylashuv olinmadi — ruxsat bering yoki manzilni yozing','err');},{enableHighAccuracy:true,timeout:12000,maximumAge:60000});}
+function clearLoc(){stashInputs();CUST=null;try{localStorage.removeItem('kroff_loc');}catch(e){}renderCart();}
+function saveDeliv(mode,addr){DELIV=mode;if(addr!=null)LAST_ADDR=addr;lsSet('kroff_deliv',{mode:DELIV,address:LAST_ADDR});}
+function setDeliv(m){stashInputs();DELIV=m;lsSet('kroff_deliv',{mode:m,address:LAST_ADDR});renderCart();}
+function tgMsg(){
+  var keys=Object.keys(CART);
+  var lines=keys.map(function(k,i){var c=CART[k];return (i+1)+') '+c.nom+' — '+c.qty+' dona x '+grp(c.price)+' = '+grp(c.price*c.qty)+' so‘m';});
+  var nm=(document.getElementById('ordName')||{}).value||'';
+  var tel=(document.getElementById('ordPhone')||{}).value||'';
+  var isD=(DELIV==='delivery'&&CONFIG.DELIVERY!==false);
+  var addr=(document.getElementById('ordAddr')||{}).value||'';
+  var sub=subTotal(),fee=isD?delivFee():0,gt=sub+fee,km=isD?kmDist():null;
+  var msg='🛒 KROFF — yangi buyurtma\n\n'+lines.join('\n')+'\n\nMahsulotlar: '+grp(sub)+' so‘m';
+  msg+='\n'+(isD?'🚚 Yetkazib berish':'🏪 Olib ketish');
+  if(isD&&addr)msg+='\n📍 '+addr;
+  if(isD&&CUST)msg+='\n🗺 https://maps.google.com/?q='+CUST.lat+','+CUST.lng;
+  if(isD&&km!=null)msg+='\nMasofa: ~'+km.toFixed(1)+' km';
+  var dpct=isD?delivDiscPct():0;
+  if(isD&&fee>0)msg+='\nYetkazish'+(dpct>0?' (−'+dpct+'%)':'')+': '+grp(fee)+' so‘m';
+  else if(isD)msg+='\nYetkazish: bepul';
+  msg+='\n💰 Jami: '+grp(gt)+' so‘m';
+  if(nm)msg+='\n\n👤 '+nm;if(tel)msg+='\n📞 '+tel;
+  return msg;
+}
+function tgOpen(){window.open('https://t.me/'+CONFIG.TELEGRAM.replace(/^@/,'')+'?text='+encodeURIComponent(tgMsg()),'_blank');}
+function orderDone(){CART={};saveCart();updateBars();render();
+  var body=document.getElementById('cartBody'),foot=document.getElementById('cartFoot');
+  if(body)body.innerHTML='<div class="d-empty" style="color:var(--green)"><div style="font-size:46px">✅</div><b style="font-size:16px;color:var(--ink)">Buyurtmangiz qabul qilindi!</b><br><small>Tez orada siz bilan bog‘lanamiz.</small></div>';
+  if(foot)foot.innerHTML='<button class="d-order" onclick="closeCart()">Yopish</button>';
+  toast('✓ Buyurtma yuborildi','ok');
+}
+function checkout(){
+  var keys=Object.keys(CART);if(!keys.length){toast('Savat bo‘sh','err');return;}
+  var isD=(DELIV==='delivery'&&CONFIG.DELIVERY!==false);
+  var addr=((document.getElementById('ordAddr')||{}).value||'').trim();
+  if(isD&&!addr){toast('Yetkazish uchun manzilni yozing','err');var af=document.getElementById('ordAddr');if(af)af.focus();return;}
+  var nm=(document.getElementById('ordName')||{}).value||'';
+  var tel=(document.getElementById('ordPhone')||{}).value||'';
+  LAST_NAME=nm;LAST_PHONE=tel;saveDeliv(isD?'delivery':'pickup',addr);
+  var items=keys.map(function(k){var c=CART[k];return {nom:c.nom,qty:c.qty,price:c.price,sum:c.price*c.qty};});
+  var sub=subTotal(),fee=isD?delivFee():0,km=isD?kmDist():null;
+  var payload={items:items,subtotal:sub,fee:fee,total:sub+fee,mode:(isD?'delivery':'pickup'),disc:(isD?delivDiscPct():0),address:addr,lat:(CUST?CUST.lat:null),lng:(CUST?CUST.lng:null),distance:(km!=null?+km.toFixed(1):null),name:nm,phone:tel,source:location.href};
+  var btn=document.querySelector('.d-order');if(btn){btn.disabled=true;btn.dataset.t=btn.innerHTML;btn.innerHTML='Yuborilmoqda…';}
+  fetch(ORDER_FN,{method:'POST',headers:{'Content-Type':'application/json','x-kroff-key':ORDER_GUARD,apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY},body:JSON.stringify(payload)})
+    .then(function(r){return r.json().catch(function(){return {};}).then(function(j){return {ok:r.ok,j:j};});})
+    .then(function(res){if(!res.ok||(res.j&&res.j.ok===false))throw new Error((res.j&&res.j.error)||'server');orderDone();})
+    .catch(function(){if(btn){btn.disabled=false;btn.innerHTML=btn.dataset.t||'Buyurtma berish';}toast('Telegram orqali yuborilmoqda…');tgOpen();});
+}
+
+/* ===== Katalog sheet ===== */
+function openCatalog(){
+  var cnt={};ITEMS.forEach(function(it){var c=it._cat;cnt[c]=(cnt[c]||0)+1;});
+  var order=CATS.map(function(x){return x[0];}).filter(function(c){return cnt[c];});
+  if(cnt['Boshqa'])order.push('Boshqa');
+  var h='<div class="cat-tile" onclick="setCat(\'all\');closeCatalog()"><span class="ci">📋</span><span>Hammasi</span><span class="cn">'+ITEMS.length+'</span></div>';
+  var saleN=ITEMS.filter(function(it){return disc(it);}).length;
+  if(saleN)h+='<div class="cat-tile" onclick="setCat(\'__sale\');closeCatalog()"><span class="ci">🔥</span><span>Aksiya</span><span class="cn">'+saleN+'</span></div>';
+  order.forEach(function(c){h+='<div class="cat-tile" onclick="setCat(\''+c.replace(/'/g,"\\'")+'\');closeCatalog()"><span class="ci">'+catIcon(c)+'</span><span>'+esc(c)+'</span><span class="cn">'+cnt[c]+'</span></div>';});
+  document.getElementById('catGrid').innerHTML=h;
+  document.getElementById('catOv').classList.add('show');document.getElementById('catSheet').classList.add('show');document.body.classList.add('lock');
+}
+function closeCatalog(){document.getElementById('catOv').classList.remove('show');document.getElementById('catSheet').classList.remove('show');document.body.classList.remove('lock');}
+
+/* ===== Banner ===== */
+var _bi=0;
+function showSlide(i){_bi=i;var sl=document.querySelectorAll('.bslide'),dt=document.querySelectorAll('#bdots i');for(var k=0;k<sl.length;k++)sl[k].classList.toggle('on',k===i);for(var k2=0;k2<dt.length;k2++)dt[k2].classList.toggle('on',k2===i);}
+setInterval(function(){showSlide((_bi+1)%2);},5000);
+
+/* ===== QR / Pay ===== */
 function openQR(){var u=location.href.split('#')[0];document.getElementById('qrImg').src='https://api.qrserver.com/v1/create-qr-code/?size=440x440&margin=1&data='+encodeURIComponent(u);document.getElementById('qrUrl').textContent=u;document.getElementById('qrOv').classList.add('show');}
 function closeQR(){document.getElementById('qrOv').classList.remove('show');}
 function payRow(ic,label,val,isLink,copy){
@@ -358,14 +662,15 @@ function render(){
   var list=ITEMS;
   if(CAT==='__sale')list=list.filter(function(it){return disc(it);});
   else if(CAT==='__new')list=list.filter(isNew);
+  else if(CAT==='__fav')list=list.filter(function(it){return FAV[nkey(it.nom)];});
   else if(CAT!=='all')list=list.filter(function(it){return it._cat===CAT;});
   if(q)list=list.filter(function(it){return nrm(it.nom).indexOf(q)>=0||String(it.barcode||'').indexOf(q)>=0;});
   if(SORT!=='def'){list=list.slice();if(SORT==='pl')list.sort(function(a,b){return effPrice(a)-effPrice(b);});else if(SORT==='ph')list.sort(function(a,b){return effPrice(b)-effPrice(a);});else if(SORT==='az')list.sort(function(a,b){return String(a.nom||'').localeCompare(String(b.nom||''),'uz');});}
   document.getElementById('count').textContent=list.length+' ta';
   var app=document.getElementById('app');
-  if(!list.length){app.innerHTML='<div class="empty">Hech narsa topilmadi 🔍</div>';return;}
+  if(!list.length){app.innerHTML='<div class="empty">'+(CAT==='__fav'?'Sevimlilar bo\u2018sh \u2661<br><small>Yurakcha bosib qo\u2018shing</small>':'Hech narsa topilmadi 🔍')+'</div>';return;}
   var lim=list.slice(0,240);
-  app.innerHTML='<div class="grid">'+lim.map(card).join('')+'</div>'+(list.length>240?'<div class="more">'+list.length+' tadan 240 tasi ko\u2018rsatildi — qidiruv yoki kategoriyadan foydalaning</div>':'');
+  app.innerHTML='<div class="grid">'+lim.map(card).join('')+(list.length>240?'<div class="more">'+list.length+' tadan 240 tasi ko\u2018rsatildi — qidiruv yoki kategoriyadan foydalaning</div>':'')+'</div>';
 }
 function load(){
   fetch(CONFIG.SB_URL+'/rest/v1/'+CONFIG.SB_TABLE+'?select=id,data&id=in.(1,2)',{headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY}})
@@ -388,18 +693,23 @@ function load(){
       if(contacts.card)CONFIG.CARD=contacts.card;
       if(contacts.hisob)CONFIG.HISOB=contacts.hisob;
       if('naqd' in contacts)CONFIG.NAQD=contacts.naqd;
+      if('delivery' in contacts)CONFIG.DELIVERY=contacts.delivery;
+      if(contacts.dlv_fee!=null)CONFIG.DELIVERY_FEE=+contacts.dlv_fee||0;
+      if(contacts.dlv_free!=null)CONFIG.DELIVERY_FREE_FROM=+contacts.dlv_free||0;
       applyContacts();
       ITEMS=products||[];
       ITEMS.forEach(function(it){it._cat=catOf(it);});
       ITEMS.sort(function(a,b){return (b.qoldiq>0?1:0)-(a.qoldiq>0?1:0);});
+      ITEMMAP={};ITEMS.forEach(function(it){ITEMMAP[nkey(it.nom)]=it;});
       buildChips();
       render();
+      updateBars();
     })
     .catch(function(e){document.getElementById('app').innerHTML='<div class="empty">Katalog yuklanmadi.<br><small>'+esc(e.message)+'</small></div>';});
 }
 /* PWA: manifest + install */
 (function(){try{
-  var mani={name:'KROFF — Onlayn katalog',short_name:'KROFF',start_url:'.',scope:'.',display:'standalone',background_color:'#ffffff',theme_color:'#7d1f2e',icons:[{src:ICON,sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
+  var mani={name:'KROFF — Onlayn katalog',short_name:'KROFF',start_url:'.',scope:'.',display:'standalone',background_color:'#ffffff',theme_color:'#005BFF',icons:[{src:ICON,sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
   var b=new Blob([JSON.stringify(mani)],{type:'application/json'});
   var l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(b);document.head.appendChild(l);
   var ai=document.createElement('link');ai.rel='apple-touch-icon';ai.href=ICON;document.head.appendChild(ai);
@@ -415,6 +725,8 @@ document.getElementById('picker').addEventListener('change',_onPick);
   if(saved)enterEdit();
   else if(adminUrl)openGate();
 }catch(e){}})();
+loadState();
+updateBars();
 load();
 </script>
 </body>
