@@ -257,6 +257,7 @@
   .step.done{color:var(--green)}.step.done .dot{background:#e8f6ec}
   .step.cur{color:var(--blue)}.step.cur .dot{background:var(--blue);color:#fff}
   .ord-cancel{color:var(--red);font-weight:800;font-size:12.5px}
+  .pay-lbl{font-size:12.5px;font-weight:700;color:var(--muted);margin:8px 0 6px}
 </style>
 </head>
 <body>
@@ -418,6 +419,7 @@ var ITEMS=[], ITEMMAP={}, CAT='all', SORT='def', IMG={};
 var CART={}, FAV={};
 var ORDER_FN=CONFIG.SB_URL+'/functions/v1/send-order', ORDER_GUARD='kroff-shop';
 var DELIV='delivery', LAST_ADDR='', LAST_NAME='', LAST_PHONE='', CUST=null;
+var PAY='naqd';
 /* ===== Xodim rasm rejimi ===== */
 var PAROL="kroff", BUCKET="tovar-rasm", EDIT=false, curKey=null, _tap=0, _tapT=0;
 function nkey(x){return String(x==null?'':x).toLowerCase().replace(/\s+/g,' ').trim();}
@@ -535,7 +537,7 @@ function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 function saveCart(){lsSet('kroff_cart',CART);}
 function saveFav(){lsSet('kroff_fav',FAV);}
-function loadState(){var c=lsGet('kroff_cart');if(c&&typeof c==='object')CART=c;var f=lsGet('kroff_fav');if(f&&typeof f==='object')FAV=f;var d=lsGet('kroff_deliv');if(d&&typeof d==='object'){if(d.mode)DELIV=d.mode;if(d.address)LAST_ADDR=d.address;}var lc=lsGet('kroff_loc');if(lc&&typeof lc==='object'&&lc.lat)CUST=lc;}
+function loadState(){var c=lsGet('kroff_cart');if(c&&typeof c==='object')CART=c;var f=lsGet('kroff_fav');if(f&&typeof f==='object')FAV=f;var d=lsGet('kroff_deliv');if(d&&typeof d==='object'){if(d.mode)DELIV=d.mode;if(d.address)LAST_ADDR=d.address;}var lc=lsGet('kroff_loc');if(lc&&typeof lc==='object'&&lc.lat)CUST=lc;var pm=lsGet('kroff_pay');if(pm&&typeof pm==='string')PAY=pm;}
 function cartCount(){var n=0;for(var k in CART)n+=CART[k].qty;return n;}
 function cartTotal(){var t=0;for(var k in CART)t+=CART[k].price*CART[k].qty;return t;}
 function addToCart(key){var it=ITEMMAP[key];if(!it){toast('Tovar topilmadi','err');return;}
@@ -577,10 +579,15 @@ function renderCart(){
     else{feeRow='<div class="d-sum sm"><span>Yetkazish'+(km!=null?' (~'+km.toFixed(1)+' km)':'')+':</span><span>bepul'+(pct>=100?' 🎉':'')+'</span></div>';}
     if(hasNoDisc())feeRow+='<div class="d-note" style="text-align:left">ℹ️ Sement kabi ayrim tovarlar yetkazish chegirmasiga kirmaydi</div>';
   }
+  var pms=payMethods();if(!pms.some(function(x){return x[0]===PAY;}))PAY=pms[0][0];
+  var payToggle='<div class="pay-lbl">To‘lov usuli:</div><div class="dtoggle">'+pms.map(function(x){return '<button class="dt'+(PAY===x[0]?' on':'')+'" onclick="setPay(\''+x[0]+'\')">'+x[1]+'</button>';}).join('')+'</div>';
+  var payInfo='';
+  if(PAY==='payme'&&CONFIG.PAYME)payInfo='<div class="pick-addr">'+(/^https?:/i.test(CONFIG.PAYME)?('<a href="'+esc(CONFIG.PAYME)+'" target="_blank" style="color:var(--blue);font-weight:700">📲 Payme orqali to‘lash</a>'):('📲 Payme: '+esc(CONFIG.PAYME)))+'</div>';
+  else if(PAY==='karta'&&CONFIG.CARD)payInfo='<div class="pick-addr">💳 Karta: '+esc(CONFIG.CARD)+'</div>';
   foot.innerHTML=toggle+
     '<input class="ord-in" id="ordName" value="'+esc(LAST_NAME)+'" placeholder="Ismingiz">'+
     '<input class="ord-in" id="ordPhone" type="tel" value="'+esc(LAST_PHONE)+'" placeholder="Telefon raqamingiz">'+
-    addr+
+    addr+payToggle+payInfo+
     '<div class="d-sum sm"><span>Mahsulotlar:</span><span>'+grp(sub)+' so‘m</span></div>'+feeRow+
     '<div class="d-sum"><span>Jami:</span><span class="big">'+grp(gt)+' so‘m</span></div>'+
     '<button class="d-order" onclick="checkout()"><span>✅</span>Buyurtma berish</button>'+
@@ -598,6 +605,8 @@ function delivFee(){if(DELIV!=='delivery'||CONFIG.DELIVERY===false)return 0;var 
 function stashInputs(){LAST_NAME=(document.getElementById('ordName')||{}).value||LAST_NAME;LAST_PHONE=(document.getElementById('ordPhone')||{}).value||LAST_PHONE;LAST_ADDR=(document.getElementById('ordAddr')||{}).value||LAST_ADDR;}
 function getLoc(){if(!navigator.geolocation){toast('Brauzer joylashuvni qo‘llamaydi','err');return;}stashInputs();var b=document.getElementById('locBtn');if(b){b.disabled=true;b.innerHTML='📍 Aniqlanmoqda…';}navigator.geolocation.getCurrentPosition(function(p){CUST={lat:+p.coords.latitude.toFixed(6),lng:+p.coords.longitude.toFixed(6)};lsSet('kroff_loc',CUST);renderCart();toast('✓ Joylashuv aniqlandi','ok');},function(){var b2=document.getElementById('locBtn');if(b2){b2.disabled=false;b2.innerHTML='📍 Joylashuvni aniqlash';}toast('Joylashuv olinmadi — ruxsat bering yoki manzilni yozing','err');},{enableHighAccuracy:true,timeout:12000,maximumAge:60000});}
 function clearLoc(){stashInputs();CUST=null;try{localStorage.removeItem('kroff_loc');}catch(e){}renderCart();}
+function payMethods(){var m=[];if(CONFIG.NAQD!==false)m.push(['naqd','💵 Naqd']);if(CONFIG.PAYME)m.push(['payme','📲 Payme']);if(CONFIG.CARD)m.push(['karta','💳 Karta']);if(!m.length)m=[['naqd','💵 Naqd']];return m;}
+function setPay(m){stashInputs();PAY=m;lsSet('kroff_pay',m);renderCart();}
 function saveDeliv(mode,addr){DELIV=mode;if(addr!=null)LAST_ADDR=addr;lsSet('kroff_deliv',{mode:DELIV,address:LAST_ADDR});}
 function setDeliv(m){stashInputs();DELIV=m;lsSet('kroff_deliv',{mode:m,address:LAST_ADDR});renderCart();}
 function tgMsg(){
@@ -617,6 +626,7 @@ function tgMsg(){
   if(isD&&fee>0)msg+='\nYetkazish'+(dpct>0?' (−'+dpct+'%)':'')+': '+grp(fee)+' so‘m';
   else if(isD)msg+='\nYetkazish: bepul';
   msg+='\n💰 Jami: '+grp(gt)+' so‘m';
+  msg+='\n💳 To‘lov: '+(PAY==='payme'?'Payme':(PAY==='karta'?'Karta':'Naqd'));
   if(nm)msg+='\n\n👤 '+nm;if(tel)msg+='\n📞 '+tel;
   return msg;
 }
@@ -630,7 +640,7 @@ function orderDone(){CART={};saveCart();updateBars();render();
 function getToken(){var t;try{t=localStorage.getItem('kroff_token');}catch(e){}if(!t){t='c'+Date.now()+Math.floor(Math.random()*1e6);try{localStorage.setItem('kroff_token',t);}catch(e){}}return t;}
 function submitOrder(p){
   var id='ord'+Date.now()+Math.floor(Math.random()*1000);
-  var row={id:id,token:getToken(),name:p.name||'',phone:p.phone||'',mode:p.mode,address:p.address||'',lat:p.lat,lng:p.lng,distance:p.distance,items:p.items,subtotal:p.subtotal,fee:p.fee,total:p.total,status:'yangi'};
+  var row={id:id,token:getToken(),name:p.name||'',phone:p.phone||'',mode:p.mode,address:p.address||'',lat:p.lat,lng:p.lng,distance:p.distance,items:p.items,subtotal:p.subtotal,fee:p.fee,total:p.total,pay:p.pay||'naqd',status:'yangi'};
   fetch(CONFIG.SB_URL+'/rest/v1/catalog_orders',{method:'POST',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify([row])}).catch(function(){});
 }
 function orderSteps(mode){return (mode==='pickup')?[['yangi','Qabul','📝'],['tasdiq','Tasdiq','✅'],['tayyor','Tayyor','📦'],['topshirildi','Berildi','🎉']]:[['yangi','Qabul','📝'],['tasdiq','Tasdiq','✅'],['yolda','Yo‘lda','🚚'],['topshirildi','Berildi','🎉']];}
@@ -651,7 +661,7 @@ function renderMyOrders(rows){
     var items=(o.items||[]).map(function(it){return esc(it.nom)+' <span style="color:var(--muted)">×'+it.qty+'</span>';}).join('<br>');
     var d=o.created_at?new Date(o.created_at):null;var ds=d?(('0'+d.getDate()).slice(-2)+'.'+('0'+(d.getMonth()+1)).slice(-2)+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)):'';
     h+='<div class="ord-card"><div class="ord-top"><span>#'+esc(String(o.id).slice(-6))+' · '+ds+'</span><span class="ord-tot">'+grp(o.total)+' so‘m</span></div>';
-    h+='<div class="ord-items">'+items+'</div>';
+    h+='<div class="ord-items">'+items+'</div>';h+='<div style="font-size:12px;color:var(--muted);margin-bottom:6px">'+({payme:'📲 Payme',karta:'💳 Karta'}[o.pay]||'💵 Naqd')+'</div>';
     if(o.status==='bekor'){h+='<div class="ord-cancel">❌ Bekor qilindi</div>';}
     else{var steps=orderSteps(o.mode);var ci=-1;steps.forEach(function(s,i){if(s[0]===o.status)ci=i;});
       h+='<div class="steps">'+steps.map(function(s,i){var cls=(i<ci)?'done':(i===ci?'cur':'');return '<div class="step '+cls+'"><div class="dot">'+(i<ci?'✓':s[2])+'</div>'+s[1]+'</div>';}).join('')+'</div>';}
@@ -669,7 +679,7 @@ function checkout(){
   LAST_NAME=nm;LAST_PHONE=tel;saveDeliv(isD?'delivery':'pickup',addr);
   var items=keys.map(function(k){var c=CART[k];return {id:c.id,nom:c.nom,qty:c.qty,price:c.price,sum:c.price*c.qty};});
   var sub=subTotal(),fee=isD?delivFee():0,km=isD?kmDist():null;
-  var payload={items:items,subtotal:sub,fee:fee,total:sub+fee,mode:(isD?'delivery':'pickup'),disc:(isD?delivDiscPct():0),address:addr,lat:(CUST?CUST.lat:null),lng:(CUST?CUST.lng:null),distance:(km!=null?+km.toFixed(1):null),name:nm,phone:tel,source:location.href};
+  var payload={items:items,subtotal:sub,fee:fee,total:sub+fee,mode:(isD?'delivery':'pickup'),disc:(isD?delivDiscPct():0),address:addr,lat:(CUST?CUST.lat:null),lng:(CUST?CUST.lng:null),distance:(km!=null?+km.toFixed(1):null),name:nm,phone:tel,pay:PAY,source:location.href};
   submitOrder(payload);
   var btn=document.querySelector('.d-order');if(btn){btn.disabled=true;btn.dataset.t=btn.innerHTML;btn.innerHTML='Yuborilmoqda…';}
   fetch(ORDER_FN,{method:'POST',headers:{'Content-Type':'application/json','x-kroff-key':ORDER_GUARD,apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY},body:JSON.stringify(payload)})
