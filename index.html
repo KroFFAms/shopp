@@ -432,6 +432,7 @@ var CART={}, FAV={};
 var ORDER_FN=CONFIG.SB_URL+'/functions/v1/send-order', ORDER_GUARD='kroff-shop';
 var DELIV='delivery', LAST_ADDR='', LAST_NAME='', LAST_PHONE='', CUST=null;
 var PAY='naqd';
+var BUYER='jismoniy', LEGAL={};
 /* ===== Xodim rasm rejimi ===== */
 var PAROL="kroff", BUCKET="tovar-rasm", EDIT=false, curKey=null, _tap=0, _tapT=0;
 function nkey(x){return String(x==null?'':x).toLowerCase().replace(/\s+/g,' ').trim();}
@@ -549,7 +550,7 @@ function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 function saveCart(){lsSet('kroff_cart',CART);}
 function saveFav(){lsSet('kroff_fav',FAV);}
-function loadState(){var c=lsGet('kroff_cart');if(c&&typeof c==='object')CART=c;var f=lsGet('kroff_fav');if(f&&typeof f==='object')FAV=f;var d=lsGet('kroff_deliv');if(d&&typeof d==='object'){if(d.mode)DELIV=d.mode;if(d.address)LAST_ADDR=d.address;}var lc=lsGet('kroff_loc');if(lc&&typeof lc==='object'&&lc.lat)CUST=lc;var pm=lsGet('kroff_pay');if(pm&&typeof pm==='string')PAY=pm;}
+function loadState(){var c=lsGet('kroff_cart');if(c&&typeof c==='object')CART=c;var f=lsGet('kroff_fav');if(f&&typeof f==='object')FAV=f;var d=lsGet('kroff_deliv');if(d&&typeof d==='object'){if(d.mode)DELIV=d.mode;if(d.address)LAST_ADDR=d.address;}var lc=lsGet('kroff_loc');if(lc&&typeof lc==='object'&&lc.lat)CUST=lc;var pm=lsGet('kroff_pay');if(pm&&typeof pm==='string')PAY=pm;var bq=lsGet('kroff_buyer');if(bq==='yuridik')BUYER='yuridik';var lg=lsGet('kroff_legal');if(lg&&typeof lg==='object')LEGAL=lg;}
 function cartCount(){var n=0;for(var k in CART)n+=CART[k].qty;return n;}
 function cartTotal(){var t=0;for(var k in CART)t+=CART[k].price*CART[k].qty;return t;}
 function addToCart(key){var it=ITEMMAP[key];if(!it){toast('Tovar topilmadi','err');return;}
@@ -597,10 +598,14 @@ function renderCart(){
   if(PAY==='payme'&&CONFIG.PAYME)payInfo='<div class="pick-addr">'+(/^https?:/i.test(CONFIG.PAYME)?('<a href="'+esc(CONFIG.PAYME)+'" target="_blank" style="color:var(--blue);font-weight:700">📲 Payme orqali to‘lash</a>'):('📲 Payme: '+esc(CONFIG.PAYME)))+'</div>';
   else if(PAY==='karta'&&CONFIG.CARD)payInfo='<div class="pick-addr">💳 Karta: '+esc(CONFIG.CARD)+'</div>';
   else if(PAY==='hisob'&&CONFIG.HISOB)payInfo='<div class="pick-addr">🏦 Hisob raqam: '+esc(CONFIG.HISOB)+'</div>';
+  var isYur=(BUYER==='yuridik');
+  var buyerToggle='<div class="pay-lbl">Xaridor:</div><div class="dtoggle"><button class="dt'+(!isYur?' on':'')+'" onclick="setBuyer(\'jismoniy\')">👤 Jismoniy</button><button class="dt'+(isYur?' on':'')+'" onclick="setBuyer(\'yuridik\')">🏢 Yuridik shaxs</button></div>';
+  var legalFields=isYur?('<input class="ord-in" id="lgName" value="'+esc(LEGAL.name||'')+'" placeholder="Korxona nomi"><input class="ord-in" id="lgStir" value="'+esc(LEGAL.stir||'')+'" placeholder="STIR (INN)"><input class="ord-in" id="lgAcc" value="'+esc(LEGAL.acc||'')+'" placeholder="Hisob raqam (r/s)"><input class="ord-in" id="lgBank" value="'+esc(LEGAL.bank||'')+'" placeholder="Bank nomi"><input class="ord-in" id="lgMfo" value="'+esc(LEGAL.mfo||'')+'" placeholder="MFO"><input class="ord-in" id="lgAddr" value="'+esc(LEGAL.addr||'')+'" placeholder="Yuridik manzil"><input class="ord-in" id="lgDir" value="'+esc(LEGAL.dir||'')+'" placeholder="Rahbar (F.I.O.)">'):'';
+  var paySection=isYur?'<div class="pick-addr">🏦 To‘lov: bank o‘tkazmasi · shartnoma avtomat tuziladi</div>':(payToggle+payInfo);
   foot.innerHTML=toggle+
     '<input class="ord-in" id="ordName" value="'+esc(LAST_NAME)+'" placeholder="Ismingiz">'+
     '<input class="ord-in" id="ordPhone" type="tel" value="'+esc(LAST_PHONE)+'" placeholder="Telefon raqamingiz">'+
-    addr+payToggle+payInfo+
+    addr+buyerToggle+legalFields+paySection+
     '<div class="d-sum sm"><span>Mahsulotlar:</span><span>'+grp(sub)+' so‘m</span></div>'+feeRow+
     '<div class="d-sum"><span>Jami:</span><span class="big">'+grp(gt)+' so‘m</span></div>'+
     '<button class="d-order" onclick="checkout()"><span>✅</span>Buyurtma berish</button>'+
@@ -639,7 +644,8 @@ function tgMsg(){
   if(isD&&fee>0)msg+='\nYetkazish'+(dpct>0?' (−'+dpct+'%)':'')+': '+grp(fee)+' so‘m';
   else if(isD)msg+='\nYetkazish: bepul';
   msg+='\n💰 Jami: '+grp(gt)+' so‘m';
-  msg+='\n💳 To‘lov: '+(PAY==='payme'?'Payme':PAY==='karta'?'Karta':PAY==='hisob'?'Hisob raqam':'Naqd');
+  if(BUYER!=='yuridik')msg+='\n💳 To‘lov: '+(PAY==='payme'?'Payme':PAY==='karta'?'Karta':PAY==='hisob'?'Hisob raqam':'Naqd');
+  if(BUYER==='yuridik')msg+='\n\n🏢 Yuridik shaxs: '+(LEGAL.name||'')+'\nSTIR: '+(LEGAL.stir||'')+'\nr/s: '+(LEGAL.acc||'')+' · '+(LEGAL.bank||'')+' MFO '+(LEGAL.mfo||'')+'\nRahbar: '+(LEGAL.dir||'')+'\n💳 Bank o‘tkazmasi (shartnoma)';
   if(nm)msg+='\n\n👤 '+nm;if(tel)msg+='\n📞 '+tel;
   return msg;
 }
@@ -652,9 +658,9 @@ function orderDone(){CART={};saveCart();updateBars();render();
 }
 function getToken(){var t;try{t=localStorage.getItem('kroff_token');}catch(e){}if(!t){t='c'+Date.now()+Math.floor(Math.random()*1e6);try{localStorage.setItem('kroff_token',t);}catch(e){}}return t;}
 function submitOrder(p){
-  var id='ord'+Date.now()+Math.floor(Math.random()*1000);
+  var id=p.oid||('ord'+Date.now()+Math.floor(Math.random()*1000));
   var base={id:id,token:getToken(),name:p.name||'',phone:p.phone||'',mode:p.mode,address:p.address||'',lat:p.lat,lng:p.lng,distance:p.distance,items:p.items,subtotal:p.subtotal,fee:p.fee,total:p.total,status:'yangi'};
-  var full={};for(var k in base)full[k]=base[k];full.pay=p.pay||'naqd';
+  var full={};for(var k in base)full[k]=base[k];full.pay=p.pay||'naqd';if(p.buyer)full.buyer=p.buyer;if(p.legal)full.legal=p.legal;
   function ins(row,retry){
     return fetch(CONFIG.SB_URL+'/rest/v1/catalog_orders',{method:'POST',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify([row])})
       .then(function(r){if(!r.ok){if(retry)return ins(base,false);return r.text().then(function(t){throw new Error(t||('HTTP '+r.status));});}})
@@ -688,6 +694,27 @@ function renderMyOrders(rows){
   });
   b.innerHTML=h;
 }
+function stashLegal(){if(BUYER!=='yuridik')return;var f={name:'lgName',stir:'lgStir',acc:'lgAcc',bank:'lgBank',mfo:'lgMfo',addr:'lgAddr',dir:'lgDir'};for(var k in f){var el=document.getElementById(f[k]);if(el)LEGAL[k]=el.value;}lsSet('kroff_legal',LEGAL);}
+function setBuyer(b){stashInputs();stashLegal();BUYER=b;lsSet('kroff_buyer',b);renderCart();}
+function openContract(p){
+  var C=CONFIG,L=LEGAL,now=new Date();
+  var ds=('0'+now.getDate()).slice(-2)+'.'+('0'+(now.getMonth()+1)).slice(-2)+'.'+now.getFullYear();
+  var no=String(p.oid||'').slice(-6),seller=C.LEGAL_NAME||C.SHOP_NAME||'KROFF';
+  var rows=(p.items||[]).map(function(it,i){return '<tr><td class="c">'+(i+1)+'</td><td>'+esc(it.nom)+'</td><td class="c">'+it.qty+'</td><td class="r">'+grp(it.price)+'</td><td class="r">'+grp(it.price*it.qty)+'</td></tr>';}).join('');
+  var html='<!DOCTYPE html><html lang="uz"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shartnoma № '+no+'</title><style>body{font-family:\'Times New Roman\',Georgia,serif;color:#000;max-width:760px;margin:0 auto;padding:24px;font-size:14px;line-height:1.55}h1{text-align:center;font-size:16px;margin:0 0 2px}.sub{text-align:center;margin-bottom:16px}table{width:100%;border-collapse:collapse;margin:10px 0}th,td{border:1px solid #000;padding:5px 7px;font-size:13px}th{background:#eee}.c{text-align:center}.r{text-align:right}.req{display:flex;gap:24px;margin-top:16px;font-size:12.5px}.req>div{flex:1}.sign{margin-top:26px;display:flex;gap:24px}.sign>div{flex:1}.hint{font-size:11px;color:#666;margin-top:18px}.noprint{margin:0 0 16px;text-align:center}.btn{background:#005BFF;color:#fff;border:none;border-radius:8px;padding:11px 22px;font-size:14px;cursor:pointer}@media print{.noprint{display:none}body{padding:0}}</style></head><body>'+
+  '<div class="noprint"><button class="btn" onclick="window.print()">🖨 Chop etish / PDF saqlash</button></div>'+
+  '<h1>OLDI-SOTDI SHARTNOMASI № '+no+'</h1><div class="sub">Sana: '+ds+'</div>'+
+  '<p>Bir tomondan <b>'+esc(seller)+'</b> (keyingi o‘rinda «Sotuvchi»)'+(C.LEGAL_DIR?(' nomidan rahbar <b>'+esc(C.LEGAL_DIR)+'</b>'):'')+', va ikkinchi tomondan <b>'+esc(L.name||'')+'</b> (keyingi o‘rinda «Xaridor»)'+(L.dir?(' nomidan rahbar <b>'+esc(L.dir)+'</b>'):'')+', quyidagilar to‘g‘risida ushbu shartnomani tuzdilar:</p>'+
+  '<p><b>1. Shartnoma predmeti.</b> Sotuvchi quyidagi tovarlarni yetkazib beradi, Xaridor qabul qilib to‘lovni amalga oshiradi:</p>'+
+  '<table><tr><th>№</th><th>Tovar nomi</th><th>Soni</th><th>Narxi</th><th>Summasi</th></tr>'+rows+'<tr><td colspan="4" class="r"><b>Jami:</b></td><td class="r"><b>'+grp(p.total)+' so‘m</b></td></tr></table>'+
+  '<p><b>2. Shartnoma summasi:</b> '+grp(p.total)+' so‘m.</p><p><b>3. To‘lov tartibi:</b> Xaridor to‘lovni bank o‘tkazmasi orqali Sotuvchining hisob raqamiga o‘tkazadi.</p><p><b>4. Yakuniy qoidalar.</b> Shartnoma imzolangandan so‘ng kuchga kiradi; nizolar O‘zbekiston Respublikasi qonunchiligiga muvofiq hal etiladi.</p>'+
+  '<div class="req"><div><b>SOTUVCHI</b><br>'+esc(seller)+'<br>STIR: '+esc(C.LEGAL_STIR||'—')+'<br>h/r: '+esc(C.LEGAL_ACC||C.HISOB||'—')+'<br>Bank: '+esc(C.LEGAL_BANK||'—')+'<br>MFO: '+esc(C.LEGAL_MFO||'—')+'<br>Manzil: '+esc(C.LEGAL_ADDR||C.ADDRESS||'—')+'<br>Tel: '+esc(C.PHONE||'—')+'</div><div><b>XARIDOR</b><br>'+esc(L.name||'—')+'<br>STIR: '+esc(L.stir||'—')+'<br>h/r: '+esc(L.acc||'—')+'<br>Bank: '+esc(L.bank||'—')+'<br>MFO: '+esc(L.mfo||'—')+'<br>Manzil: '+esc(L.addr||'—')+'<br>Rahbar: '+esc(L.dir||'—')+'</div></div>'+
+  '<div class="sign"><div>Sotuvchi: ____________<br><small>(imzo, M.O‘.)</small></div><div>Xaridor: ____________<br><small>(imzo, M.O‘.)</small></div></div>'+
+  '<div class="hint">Ushbu hujjat KROFF onlayn tizimida avtomat shakllantirildi. Namuna sifatida; huquqiy kuchga ega bo‘lishi uchun tomonlar imzolashi lozim.</div></body></html>';
+  var w=window.open('','_blank');
+  if(!w){toast('Shartnoma oynasi bloklandi — brauzer «popup» ruxsatini bering','err');return;}
+  w.document.open();w.document.write(html);w.document.close();
+}
 function checkout(){
   var keys=Object.keys(CART);if(!keys.length){toast('Savat bo‘sh','err');return;}
   var isD=(DELIV==='delivery'&&CONFIG.DELIVERY!==false);
@@ -696,9 +723,13 @@ function checkout(){
   var nm=(document.getElementById('ordName')||{}).value||'';
   var tel=(document.getElementById('ordPhone')||{}).value||'';
   LAST_NAME=nm;LAST_PHONE=tel;saveDeliv(isD?'delivery':'pickup',addr);
+  var isYur=(BUYER==='yuridik');
+  if(isYur){stashLegal();if(!((LEGAL.name||'').trim()&&(LEGAL.stir||'').trim())){toast('Korxona nomi va STIR ni kiriting','err');return;}}
   var items=keys.map(function(k){var c=CART[k];return {id:c.id,nom:c.nom,qty:c.qty,price:c.price,sum:c.price*c.qty};});
   var sub=subTotal(),fee=isD?delivFee():0,km=isD?kmDist():null;
-  var payload={items:items,subtotal:sub,fee:fee,total:sub+fee,mode:(isD?'delivery':'pickup'),disc:(isD?delivDiscPct():0),address:addr,lat:(CUST?CUST.lat:null),lng:(CUST?CUST.lng:null),distance:(km!=null?+km.toFixed(1):null),name:nm,phone:tel,pay:PAY,source:location.href};
+  var oid='ord'+Date.now()+Math.floor(Math.random()*1000);
+  var payload={oid:oid,items:items,subtotal:sub,fee:fee,total:sub+fee,mode:(isD?'delivery':'pickup'),disc:(isD?delivDiscPct():0),address:addr,lat:(CUST?CUST.lat:null),lng:(CUST?CUST.lng:null),distance:(km!=null?+km.toFixed(1):null),name:(isYur?(LEGAL.name||nm):nm),phone:tel,pay:(isYur?'hisob':PAY),buyer:BUYER,legal:(isYur?LEGAL:null),source:location.href};
+  if(isYur)openContract(payload);
   submitOrder(payload);
   var btn=document.querySelector('.d-order');if(btn){btn.disabled=true;btn.dataset.t=btn.innerHTML;btn.innerHTML='Yuborilmoqda…';}
   fetch(ORDER_FN,{method:'POST',headers:{'Content-Type':'application/json','x-kroff-key':ORDER_GUARD,apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY},body:JSON.stringify(payload)})
@@ -784,16 +815,24 @@ function buildSettings(){
   h+='<div class="set-row"><label>Karta raqami</label><input type="text" id="setCard" value="'+esc(c.CARD||'')+'"></div>';
   h+='<div class="set-row"><label>Hisob raqam</label><input type="text" id="setHisob" value="'+esc(c.HISOB||'')+'"></div>';
   h+='<div class="set-row"><label class="set-check"><input type="checkbox" id="setNaqd" '+(c.NAQD!==false?'checked':'')+'> Naqd pul qabul qilinadi</label></div></div>';
+  h+='<div class="set-sec"><h4>🏢 Yuridik ma‘lumotlar (shartnoma «Sotuvchi»)</h4>';
+  h+='<div class="set-row"><label>Korxona (yuridik nomi)</label><input type="text" id="setLgName" value="'+esc(c.LEGAL_NAME||'')+'"></div>';
+  h+='<div class="set-row"><label>STIR (INN)</label><input type="text" id="setLgStir" value="'+esc(c.LEGAL_STIR||'')+'"></div>';
+  h+='<div class="set-row"><label>Hisob raqam (r/s)</label><input type="text" id="setLgAcc" value="'+esc(c.LEGAL_ACC||'')+'"></div>';
+  h+='<div class="set-row"><label>Bank nomi</label><input type="text" id="setLgBank" value="'+esc(c.LEGAL_BANK||'')+'"></div>';
+  h+='<div class="set-row"><label>MFO</label><input type="text" id="setLgMfo" value="'+esc(c.LEGAL_MFO||'')+'"></div>';
+  h+='<div class="set-row"><label>Yuridik manzil</label><input type="text" id="setLgAddr" value="'+esc(c.LEGAL_ADDR||'')+'"></div>';
+  h+='<div class="set-row"><label>Rahbar (F.I.O.)</label><input type="text" id="setLgDir" value="'+esc(c.LEGAL_DIR||'')+'"></div></div>';
   document.getElementById('setBody').innerHTML=h;
 }
 function saveSettings(){
-  var patch={shop_lat:sNum('setLat'),shop_lng:sNum('setLng'),delivery:document.getElementById('setDelivOn').checked,dlv_per_km:sNum('setPerKm'),dlv_free_km:sNum('setFreeKm'),dlv_base:sNum('setBase'),dlv_max:sNum('setMax'),dlv_free:sNum('setFreeFrom'),dlv_tiers:parseTiers(sVt('setTiers')),no_disc:parseList(sVt('setNoDisc')),phone:sVt('setPhone'),tg:sVt('setTg').replace(/^@/,''),address:sVt('setAddr'),hours:sVt('setHours'),payme:sVt('setPayme'),card:sVt('setCard'),hisob:sVt('setHisob'),naqd:document.getElementById('setNaqd').checked};
+  var patch={shop_lat:sNum('setLat'),shop_lng:sNum('setLng'),delivery:document.getElementById('setDelivOn').checked,dlv_per_km:sNum('setPerKm'),dlv_free_km:sNum('setFreeKm'),dlv_base:sNum('setBase'),dlv_max:sNum('setMax'),dlv_free:sNum('setFreeFrom'),dlv_tiers:parseTiers(sVt('setTiers')),no_disc:parseList(sVt('setNoDisc')),phone:sVt('setPhone'),tg:sVt('setTg').replace(/^@/,''),address:sVt('setAddr'),hours:sVt('setHours'),payme:sVt('setPayme'),card:sVt('setCard'),hisob:sVt('setHisob'),naqd:document.getElementById('setNaqd').checked,lg_name:sVt('setLgName'),lg_stir:sVt('setLgStir'),lg_acc:sVt('setLgAcc'),lg_bank:sVt('setLgBank'),lg_mfo:sVt('setLgMfo'),lg_addr:sVt('setLgAddr'),lg_dir:sVt('setLgDir')};
   var btn=document.querySelector('.set-save');if(btn){btn.disabled=true;btn.textContent='Saqlanmoqda…';}
   fetch(CONFIG.SB_URL+'/rest/v1/rpc/kroff_admin_save',{method:'POST',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_pass:PAROL,p_contacts:patch})})
     .then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t||('xato '+r.status));});return r.text();})
     .then(function(){
       CONFIG.SHOP_LAT=patch.shop_lat;CONFIG.SHOP_LNG=patch.shop_lng;CONFIG.DELIVERY=patch.delivery;CONFIG.DELIVERY_PER_KM=patch.dlv_per_km;CONFIG.DELIVERY_FREE_KM=patch.dlv_free_km;CONFIG.DELIVERY_BASE=patch.dlv_base;CONFIG.DELIVERY_MAX=patch.dlv_max;CONFIG.DELIVERY_FREE_FROM=patch.dlv_free;CONFIG.DELIVERY_TIERS=patch.dlv_tiers;CONFIG.NO_DELIVERY_DISCOUNT=patch.no_disc;
-      CONFIG.PHONE=patch.phone||CONFIG.PHONE;CONFIG.TELEGRAM=patch.tg||CONFIG.TELEGRAM;CONFIG.ADDRESS=patch.address;CONFIG.HOURS=patch.hours;CONFIG.PAYME=patch.payme;CONFIG.CARD=patch.card;CONFIG.HISOB=patch.hisob;CONFIG.NAQD=patch.naqd;
+      CONFIG.PHONE=patch.phone||CONFIG.PHONE;CONFIG.TELEGRAM=patch.tg||CONFIG.TELEGRAM;CONFIG.ADDRESS=patch.address;CONFIG.HOURS=patch.hours;CONFIG.PAYME=patch.payme;CONFIG.CARD=patch.card;CONFIG.HISOB=patch.hisob;CONFIG.NAQD=patch.naqd;CONFIG.LEGAL_NAME=patch.lg_name;CONFIG.LEGAL_STIR=patch.lg_stir;CONFIG.LEGAL_ACC=patch.lg_acc;CONFIG.LEGAL_BANK=patch.lg_bank;CONFIG.LEGAL_MFO=patch.lg_mfo;CONFIG.LEGAL_ADDR=patch.lg_addr;CONFIG.LEGAL_DIR=patch.lg_dir;
       applyContacts();render();renderCart();
       if(btn){btn.disabled=false;btn.textContent='💾 Saqlash';}
       toast('✓ Sozlamalar saqlandi','ok');closeSettings();
@@ -891,6 +930,13 @@ function load(){
       if(contacts.card)CONFIG.CARD=contacts.card;
       if(contacts.hisob)CONFIG.HISOB=contacts.hisob;
       if('naqd' in contacts)CONFIG.NAQD=contacts.naqd;
+      if(contacts.lg_name!=null)CONFIG.LEGAL_NAME=contacts.lg_name;
+      if(contacts.lg_stir!=null)CONFIG.LEGAL_STIR=contacts.lg_stir;
+      if(contacts.lg_acc!=null)CONFIG.LEGAL_ACC=contacts.lg_acc;
+      if(contacts.lg_bank!=null)CONFIG.LEGAL_BANK=contacts.lg_bank;
+      if(contacts.lg_mfo!=null)CONFIG.LEGAL_MFO=contacts.lg_mfo;
+      if(contacts.lg_addr!=null)CONFIG.LEGAL_ADDR=contacts.lg_addr;
+      if(contacts.lg_dir!=null)CONFIG.LEGAL_DIR=contacts.lg_dir;
       if('delivery' in contacts)CONFIG.DELIVERY=contacts.delivery;
       if(contacts.dlv_fee!=null)CONFIG.DELIVERY_FEE=+contacts.dlv_fee||0;
       if(contacts.dlv_free!=null)CONFIG.DELIVERY_FREE_FROM=+contacts.dlv_free||0;
