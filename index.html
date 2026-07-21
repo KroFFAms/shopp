@@ -110,19 +110,94 @@
   .f-addr a{color:var(--blue);font-weight:600;text-decoration:none}
   .f-hours{font-size:12.5px;margin-bottom:10px}
   /* ===== FAB ===== */
-  .fab{position:fixed;right:14px;bottom:16px;z-index:35;display:flex;flex-direction:column;gap:10px;transition:bottom .2s}
-  body.has-cart .fab{bottom:78px}
+  .fab{position:fixed;right:14px;bottom:70px;z-index:35;display:flex;flex-direction:column;gap:10px;transition:bottom .2s}
+  body.has-cart .fab{bottom:124px}
   .fab a{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.22)}
   .fab .tg{background:#229ED9}
   .fab .call{background:#1a8f3c}
   .fab a:active{transform:scale(.93)}
   /* ===== Sticky cart bar ===== */
-  .cartbar{position:fixed;left:0;right:0;bottom:0;z-index:34;background:var(--blue);color:#fff;display:none;align-items:center;gap:12px;padding:11px 16px;box-shadow:0 -3px 14px rgba(0,0,0,.15);cursor:pointer}
+  .cartbar{position:fixed;left:0;right:0;bottom:56px;z-index:34;background:var(--blue);color:#fff;display:none;align-items:center;gap:12px;padding:11px 16px;box-shadow:0 -3px 14px rgba(0,0,0,.15);cursor:pointer}
   body.has-cart .cartbar{display:flex}
   .cartbar .cb-ic{font-size:22px}
   .cartbar .cb-txt{font-size:12.5px;font-weight:700;opacity:.92}
   .cartbar .cb-sum{font-size:16px;font-weight:900}
   .cartbar .cb-go{margin-left:auto;background:#fff;color:var(--blue);border-radius:10px;padding:9px 16px;font-size:13.5px;font-weight:800}
+  /* ===== Pastki menyu (bottom navigation, Uzum uslubi) ===== */
+  body{padding-bottom:56px}
+  .bnav{position:fixed;left:0;right:0;bottom:0;z-index:33;background:#fff;border-top:1px solid var(--line);box-shadow:0 -2px 12px rgba(0,0,0,.06);display:flex;height:56px;padding-bottom:env(safe-area-inset-bottom)}
+  .bnav button{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px 0 4px;color:var(--muted);font-family:inherit;cursor:pointer;position:relative;transition:color .12s}
+  .bnav button .bi{font-size:21px;line-height:1}
+  .bnav button .bl{font-size:10.5px;font-weight:700}
+  .bnav button.on{color:var(--blue)}
+  .bnav button:active{background:#f2f4f7}
+  .bnav .bdg{position:absolute;top:2px;left:calc(50% + 6px);min-width:16px;height:16px;padding:0 4px;background:var(--sale);color:#fff;border-radius:9px;font-size:10px;font-weight:800;display:none;align-items:center;justify-content:center;border:2px solid #fff}
+  .bnav .bdg.on{display:flex}
+  /* ===== Profil ===== */
+  .prof-hd{display:flex;align-items:center;gap:14px;padding:4px 2px 14px;border-bottom:1px solid var(--line)}
+  .prof-av{width:56px;height:56px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;flex-shrink:0}
+  .prof-nm{font-size:17px;font-weight:800;color:var(--ink)}
+  .prof-ph{font-size:13px;color:var(--muted);margin-top:2px}
+  .prof-sec{font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin:16px 0 8px}
+  .prof-item{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#f7f9fc;border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-bottom:8px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;font-family:inherit;text-decoration:none}
+  .prof-item .pic{font-size:19px;width:22px;text-align:center}
+  .prof-item .pch{margin-left:auto;color:var(--blue);font-size:12.5px;font-weight:800}
+  .prof-item:active{background:#eef2f8}
+  .prof-save{width:100%;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;margin-top:4px;font-family:inherit}
+  /* ===== Checkout bosqichlari (Uzum uslubi) ===== */
+  .co-sec{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 13px 14px;margin-bottom:11px}
+  .co-h{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:800;color:var(--ink);margin-bottom:11px}
+  .co-h .co-n{width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+  /* ===== Mahsulot batafsil (Uzum uslubi) ===== */
+  .det-img{width:100%;aspect-ratio:1/1;background:#f2f4f7;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .det-img img{width:100%;height:100%;object-fit:contain}
+  .det-info{padding:15px}
+  .det-price{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin:2px 0 8px}
+  .det-price .det-p{font-size:25px;font-weight:900;color:var(--ink)}
+  .det-price .det-old{font-size:15px;color:var(--muted);text-decoration:line-through}
+  .det-price .det-pct{background:var(--sale);color:#fff;font-size:12px;font-weight:800;padding:3px 8px;border-radius:7px}
+  .det-nom{font-size:16px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:10px}
+  .det-optom{font-size:13px;color:var(--bordo);font-weight:800;margin-bottom:6px}
+  .det-meta{font-size:12.5px;color:var(--muted);margin-bottom:4px}
+  .det-sim-h{font-size:14px;font-weight:800;color:var(--ink);margin:20px 0 11px}
+  .det-sim{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+  .det-sim .sim{flex:0 0 122px;cursor:pointer}
+  .det-sim .sim .simimg{width:122px;height:122px;border-radius:11px;background:#f2f4f7;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .det-sim .sim .simimg img{width:100%;height:100%;object-fit:contain}
+  .det-sim .sim .simp{font-size:12.5px;font-weight:800;color:var(--ink);margin-top:5px}
+  .det-sim .sim .simn{font-size:11px;color:var(--muted);line-height:1.25;height:27px;overflow:hidden}
+  .det-acts{display:flex;gap:10px;align-items:stretch}
+  .det-buy{flex:1;padding:14px;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;background:var(--blue);color:#fff}
+  .det-add{padding:14px 18px;border:none;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;background:#eef2f8;color:var(--ink)}
+  .det-qty{display:flex;align-items:center;border:1.5px solid var(--blue);border-radius:12px;overflow:hidden;flex:1}
+  .det-qty button{width:54px;padding:13px 0;border:none;background:#eef4ff;color:var(--blue);font-size:20px;font-weight:800;cursor:pointer;font-family:inherit}
+  .det-qty span{flex:1;text-align:center;font-weight:800;font-size:16px}
+  .addr-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:9px}
+  .addr-chip{display:flex;align-items:center;gap:6px;background:#eef4ff;border:1px solid #d9e5ff;color:var(--ink);border-radius:20px;padding:7px 11px;font-size:12.5px;font-weight:600;cursor:pointer;max-width:100%}
+  .addr-chip .at{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .addr-chip .ax{color:var(--muted);font-weight:800}
+  .addr-chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .addr-chip.on .ax{color:#cfe0ff}
+  /* ===== Promo-kod ===== */
+  .promo-row{display:flex;gap:8px}
+  .promo-btn{padding:0 16px;border:none;border-radius:11px;background:var(--blue);color:#fff;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;white-space:nowrap}
+  .promo-ok{font-size:13px;color:var(--green);font-weight:700}
+  .promo-ok a{color:var(--muted);font-weight:700;margin-left:8px;text-decoration:none}
+  /* ===== Sharh / reyting ===== */
+  .det-rate{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);margin:2px 0 8px}
+  .det-rate .rv{color:#f5a623;font-size:15px;letter-spacing:1px}
+  .rev-h{font-size:14px;font-weight:800;color:var(--ink);margin:20px 0 10px}
+  .rev-item{border-top:1px solid var(--line);padding:11px 0}
+  .rev-top{display:flex;align-items:center;gap:8px}
+  .rev-nm{font-size:13px;font-weight:800;color:var(--ink)}
+  .rev-st{color:#f5a623;font-size:13px;letter-spacing:1px}
+  .rev-dt{margin-left:auto;font-size:11px;color:var(--muted)}
+  .rev-tx{font-size:13px;color:var(--ink);margin-top:4px;line-height:1.4}
+  .rev-del{margin-left:8px;background:none;border:none;color:var(--red);font-size:12px;cursor:pointer}
+  .rev-form{background:#f7f9fc;border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px}
+  .rev-stars{font-size:28px;letter-spacing:3px;cursor:pointer;color:#dfe4ec;user-select:none}
+  .rev-stars b{color:#f5a623;cursor:pointer;font-weight:400}
+  .rev-send{width:100%;padding:11px;background:var(--blue);color:#fff;border:none;border-radius:11px;font-weight:800;font-size:13.5px;cursor:pointer;margin-top:9px;font-family:inherit}
   /* ===== Overlays: cart drawer + catalog sheet ===== */
   .ov{position:fixed;inset:0;background:rgba(10,20,40,.5);z-index:70;display:none}
   .ov.show{display:block}
@@ -188,6 +263,10 @@
   .qr-box .qr-sub{margin:0 0 14px;font-size:12.5px;color:var(--muted)}
   .qr-box img{width:220px;height:220px;border:1px solid var(--line);border-radius:10px}
   .qr-box .qr-url{font-size:11.5px;color:var(--muted);word-break:break-all;margin:12px 0 0}
+  .qr-box .qr-acts{display:flex;gap:8px;margin-top:14px}
+  .qr-box .qr-acts button{flex:1;padding:12px 8px;border:none;border-radius:11px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit}
+  .qr-box .qr-share{background:var(--blue);color:#fff}
+  .qr-box .qr-copy{background:#eef2f8;color:var(--ink)}
   .qr-box .qr-x{margin-top:14px;padding:9px 22px;background:var(--blue);color:#fff;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;border:none}
   .pay-ov{position:fixed;inset:0;background:rgba(20,20,40,.55);z-index:60;display:none;align-items:center;justify-content:center;padding:20px}
   .pay-ov.show{display:flex}
@@ -281,6 +360,9 @@
     MAP: "",
     HOURS: "",
     PAYME: "",
+    PAYME_MERCHANT: "",
+    PAYME_FIELD: "order_id",
+    PROMOS: {},
     CARD: "",
     HISOB: "",
     NAQD: true,
@@ -306,6 +388,7 @@
     <div class="h-top">
       <img class="h-logoimg" alt="KROFF" onclick="logoTap()" src="data:image/png;base64,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">
       <div class="h-acts">
+        <button class="iconbtn" onclick="shareShop()" aria-label="Ulashish">📤</button>
         <button class="iconbtn" onclick="setCat('__fav');closeCatalog()" aria-label="Sevimlilar">♡<span class="cnt" id="favN"></span></button>
         <button class="iconbtn" onclick="openMyOrders()" aria-label="Buyurtmalarim">📦</button>
         <button class="iconbtn" onclick="openCart()" aria-label="Savat">🛒<span class="cnt" id="cartN"></span></button>
@@ -362,6 +445,15 @@
   <span class="cb-go">Savatni ochish</span>
 </div>
 
+<!-- Pastki menyu (bottom nav) -->
+<nav class="bnav" id="bnav">
+  <button id="nvHome" class="on" onclick="navHome()"><span class="bi">🏠</span><span class="bl">Bosh</span></button>
+  <button onclick="openCatalog()"><span class="bi">☰</span><span class="bl">Katalog</span></button>
+  <button onclick="setCat('__fav');closeCatalog();window.scrollTo({top:0,behavior:'smooth'})"><span class="bi">♡</span><span class="bl">Sevimli</span><span class="bdg" id="navFav"></span></button>
+  <button onclick="openCart()"><span class="bi">🛒</span><span class="bl">Savat</span><span class="bdg" id="navCart"></span></button>
+  <button onclick="openProfile()"><span class="bi">👤</span><span class="bl">Profil</span></button>
+</nav>
+
 <!-- Cart drawer -->
 <div class="ov" id="cartOv" onclick="closeCart()"></div>
 <div class="drawer" id="cartDrawer">
@@ -373,6 +465,10 @@
 <!-- Catalog sheet -->
 <div class="ov" id="ordOv" onclick="closeMyOrders()"></div>
 <div class="drawer" id="ordDrawer"><div class="d-head"><h3>📦 Buyurtmalarim</h3><button class="cx" onclick="closeMyOrders()">✕</button></div><div class="d-body" id="ordBody"></div></div>
+<div class="ov" id="profOv" onclick="closeProfile()"></div>
+<div class="drawer" id="profDrawer"><div class="d-head"><h3>👤 Profil</h3><button class="cx" onclick="closeProfile()">✕</button></div><div class="d-body" id="profBody"></div></div>
+<div class="ov" id="detOv" onclick="closeDetail()"></div>
+<div class="drawer" id="detDrawer"><div class="d-head"><h3>Mahsulot</h3><button class="cx" onclick="closeDetail()">✕</button></div><div class="d-body" id="detBody"></div><div class="d-foot" id="detFoot"></div></div>
 <div class="ov" id="catOv" onclick="closeCatalog()"></div>
 <div class="sheet" id="catSheet">
   <div class="d-head"><h3>☰ Kategoriyalar</h3><button class="cx" onclick="closeCatalog()">✕</button></div>
@@ -404,6 +500,8 @@
     <a id="payLink" href="javascript:void(0)" onclick="openPay()" style="color:var(--blue);font-weight:700;text-decoration:none">💳 To‘lov usullari</a>
     &nbsp;·&nbsp;
     <a href="javascript:void(0)" onclick="openQR()" style="color:var(--blue);font-weight:700;text-decoration:none">📱 QR kod</a>
+    &nbsp;·&nbsp;
+    <a href="javascript:void(0)" onclick="shareShop()" style="color:var(--blue);font-weight:700;text-decoration:none">📤 Ulashish</a>
   </div>
   <div>© <span id="yr"></span> KROFF · <a href="https://kroffams.github.io/savdo/" target="_blank">Savdo tizimi</a></div>
 </footer>
@@ -414,6 +512,7 @@
     <div class="qr-sub">Telefon kamerasi bilan skanerlang</div>
     <img id="qrImg" alt="QR kod">
     <div class="qr-url" id="qrUrl"></div>
+    <div class="qr-acts"><button class="qr-share" onclick="shareShop()">📤 Ulashish</button><button class="qr-copy" onclick="copyShopLink()">🔗 Havola</button></div>
     <div><button class="qr-x" onclick="closeQR()">Yopish</button></div>
   </div>
 </div>
@@ -430,9 +529,11 @@
 var ITEMS=[], ITEMMAP={}, CAT='all', SORT='def', IMG={};
 var CART={}, FAV={};
 var ORDER_FN=CONFIG.SB_URL+'/functions/v1/send-order', ORDER_GUARD='kroff-shop';
-var DELIV='delivery', LAST_ADDR='', LAST_NAME='', LAST_PHONE='', CUST=null;
+var DELIV='delivery', LAST_ADDR='', LAST_NAME='', LAST_PHONE='', LAST_NOTE='', CUST=null;
 var PAY='naqd';
 var BUYER='jismoniy', LEGAL={};
+var DETAIL_KEY='', DTIME='tez', ADDRS=[];
+var PROMO=null, REVSTAR=0, REVCACHE={};
 /* ===== Xodim rasm rejimi ===== */
 var PAROL="kroff", BUCKET="tovar-rasm", EDIT=false, curKey=null, _tap=0, _tapT=0;
 function nkey(x){return String(x==null?'':x).toLowerCase().replace(/\s+/g,' ').trim();}
@@ -515,9 +616,9 @@ function card(it){
   var c=CART[key];
   var cartCtl=c?('<div class="qty"><button onclick="chgQty(\''+kk+'\',-1)">\u2212</button><span>'+c.qty+'</span><button onclick="chgQty(\''+kk+'\',1)">+</button></div>')
                 :('<button class="addbtn" onclick="addToCart(\''+kk+'\')"><span>🛒</span>Savatga</button>');
-  return '<div class="card"><div class="ph">'+img+bdg+nw+fav+ecam+eedit+'</div><div class="c-body">'+
+  return '<div class="card"><div class="ph" onclick="openDetail(\''+kk+'\')" style="cursor:pointer">'+img+bdg+nw+fav+ecam+eedit+'</div><div class="c-body">'+
     priceHtml+optHtml+
-    '<div class="c-nom">'+esc(it.nom)+'</div>'+
+    '<div class="c-nom" onclick="openDetail(\''+kk+'\')" style="cursor:pointer">'+esc(it.nom)+'</div>'+
     stock+
     '<div class="c-cart">'+cartCtl+'</div>'+
     '</div></div>';
@@ -550,7 +651,8 @@ function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 function saveCart(){lsSet('kroff_cart',CART);}
 function saveFav(){lsSet('kroff_fav',FAV);}
-function loadState(){var c=lsGet('kroff_cart');if(c&&typeof c==='object')CART=c;var f=lsGet('kroff_fav');if(f&&typeof f==='object')FAV=f;var d=lsGet('kroff_deliv');if(d&&typeof d==='object'){if(d.mode)DELIV=d.mode;if(d.address)LAST_ADDR=d.address;}var lc=lsGet('kroff_loc');if(lc&&typeof lc==='object'&&lc.lat)CUST=lc;var pm=lsGet('kroff_pay');if(pm&&typeof pm==='string')PAY=pm;var bq=lsGet('kroff_buyer');if(bq==='yuridik')BUYER='yuridik';var lg=lsGet('kroff_legal');if(lg&&typeof lg==='object')LEGAL=lg;}
+function saveCust(){lsSet('kroff_cust',{name:LAST_NAME,phone:LAST_PHONE});}
+function loadState(){var c=lsGet('kroff_cart');if(c&&typeof c==='object')CART=c;var f=lsGet('kroff_fav');if(f&&typeof f==='object')FAV=f;var d=lsGet('kroff_deliv');if(d&&typeof d==='object'){if(d.mode)DELIV=d.mode;if(d.address)LAST_ADDR=d.address;if(d.dtime)DTIME=d.dtime;}var ad=lsGet('kroff_addrs');if(ad&&ad.length)ADDRS=ad;var lc=lsGet('kroff_loc');if(lc&&typeof lc==='object'&&lc.lat)CUST=lc;var pm=lsGet('kroff_pay');if(pm&&typeof pm==='string')PAY=pm;var bq=lsGet('kroff_buyer');if(bq==='yuridik')BUYER='yuridik';var lg=lsGet('kroff_legal');if(lg&&typeof lg==='object')LEGAL=lg;var cu=lsGet('kroff_cust');if(cu&&typeof cu==='object'){if(cu.name)LAST_NAME=cu.name;if(cu.phone)LAST_PHONE=cu.phone;}}
 function cartCount(){var n=0;for(var k in CART)n+=CART[k].qty;return n;}
 function cartTotal(){var t=0;for(var k in CART)t+=CART[k].price*CART[k].qty;return t;}
 function addToCart(key){var it=ITEMMAP[key];if(!it){toast('Tovar topilmadi','err');return;}
@@ -567,7 +669,10 @@ function updateBars(){
   document.body.classList.toggle('has-cart',n>0);
   document.getElementById('cbTxt').textContent=n+' ta tovar';
   document.getElementById('cbSum').textContent=grp(cartTotal())+' so\u2018m';
+  var nc=document.getElementById('navCart');if(nc){nc.textContent=n;nc.className='bdg'+(n?' on':'');}
+  var nf=document.getElementById('navFav');if(nf){nf.textContent=fc;nf.className='bdg'+(fc?' on':'');}
 }
+function navHome(){var b=document.getElementById('nvHome');if(b)b.classList.add('on');setCat('all');closeCatalog();window.scrollTo({top:0,behavior:'smooth'});}
 function openCart(){renderCart();document.getElementById('cartOv').classList.add('show');document.getElementById('cartDrawer').classList.add('show');document.body.classList.add('lock');}
 function closeCart(){document.getElementById('cartOv').classList.remove('show');document.getElementById('cartDrawer').classList.remove('show');document.body.classList.remove('lock');}
 function renderCart(){
@@ -578,12 +683,14 @@ function renderCart(){
     h+='<div class="citem"><div class="cthumb">'+th+'</div><div class="cinfo"><div class="cnom">'+esc(c.nom)+'</div><div class="cpr">'+grp(c.price)+' so\u2018m / dona</div><div class="cbot"><div class="qty"><button onclick="chgQty(\''+kk+'\',-1)">\u2212</button><span>'+c.qty+'</span><button onclick="chgQty(\''+kk+'\',1)">+</button></div><div class="cline">'+grp(c.price*c.qty)+' so\u2018m</div></div><button class="crm" onclick="rmItem(\''+kk+'\')">O\u2018chirish</button></div></div>';
   });
   body.innerHTML=h;
-  var sub=subTotal(),fee=delivFee(),gt=sub+fee;
+  var sub=subTotal(),fee=delivFee(),pAmt=promoAmt(sub),gt=sub-pAmt+fee;
   var isD=(DELIV==='delivery'&&CONFIG.DELIVERY!==false);
   var toggle='<div class="dtoggle"><button class="dt'+(isD?' on':'')+'" onclick="setDeliv(\'delivery\')">🚚 Yetkazib berish</button><button class="dt'+(!isD?' on':'')+'" onclick="setDeliv(\'pickup\')">🏪 Olib ketish</button></div>';
   var km=isD?kmDist():null;
   var locBox=CUST?('<div class="loc-ok">✅ Joylashuv aniqlandi'+(km!=null?' · ~'+km.toFixed(1)+' km':'')+' <a href="javascript:void(0)" onclick="getLoc()">qayta</a><a href="javascript:void(0)" onclick="clearLoc()">o‘chirish</a></div>'):'<button class="loc-btn" id="locBtn" onclick="getLoc()">📍 Joylashuvni aniqlash</button>';
-  var addr=isD?(locBox+'<textarea class="ord-in" id="ordAddr" rows="2" placeholder="Uy/kv, mo‘ljal (ixtiyoriy)">'+esc(LAST_ADDR)+'</textarea>'):('<div class="pick-addr">📍 '+esc(CONFIG.ADDRESS||'Do‘kondan olib ketish')+'</div>');
+  var addrChips=(isD&&ADDRS.length)?('<div class="addr-chips">'+ADDRS.map(function(a,i){return '<span class="addr-chip'+(a===LAST_ADDR?' on':'')+'" onclick="pickAddr('+i+')"><span class="at">📍 '+esc(a)+'</span><span class="ax" onclick="rmAddr(event,'+i+')">✕</span></span>';}).join('')+'</div>'):'';
+  var dtimeToggle=isD?('<div class="pay-lbl" style="margin-top:10px">Yetkazish vaqti:</div><div class="dtoggle">'+[['tez','⚡ Tez orada'],['bugun','📅 Bugun'],['ertaga','📅 Ertaga']].map(function(x){return '<button class="dt'+(DTIME===x[0]?' on':'')+'" onclick="setDTime(\''+x[0]+'\')">'+x[1]+'</button>';}).join('')+'</div>'):'';
+  var addr=isD?(locBox+addrChips+'<textarea class="ord-in" id="ordAddr" rows="2" placeholder="Uy/kv, mo‘ljal (ixtiyoriy)">'+esc(LAST_ADDR)+'</textarea>'+dtimeToggle):('<div class="pick-addr">📍 '+esc(CONFIG.ADDRESS||'Do‘kondan olib ketish')+'</div>');
   var pct=isD?delivDiscPct():0;
   var feeRow='';
   if(isD){
@@ -593,21 +700,27 @@ function renderCart(){
     if(hasNoDisc())feeRow+='<div class="d-note" style="text-align:left">ℹ️ Sement kabi ayrim tovarlar yetkazish chegirmasiga kirmaydi</div>';
   }
   var pms=payMethods();if(!pms.some(function(x){return x[0]===PAY;}))PAY=pms[0][0];
-  var payToggle='<div class="pay-lbl">To‘lov usuli:</div><div class="dtoggle">'+pms.map(function(x){return '<button class="dt'+(PAY===x[0]?' on':'')+'" onclick="setPay(\''+x[0]+'\')">'+x[1]+'</button>';}).join('')+'</div>';
+  var payToggle='<div class="dtoggle">'+pms.map(function(x){return '<button class="dt'+(PAY===x[0]?' on':'')+'" onclick="setPay(\''+x[0]+'\')">'+x[1]+'</button>';}).join('')+'</div>';
   var payInfo='';
-  if(PAY==='payme'&&CONFIG.PAYME)payInfo='<div class="pick-addr">'+(/^https?:/i.test(CONFIG.PAYME)?('<a href="'+esc(CONFIG.PAYME)+'" target="_blank" style="color:var(--blue);font-weight:700">📲 Payme orqali to‘lash</a>'):('📲 Payme: '+esc(CONFIG.PAYME)))+'</div>';
-  else if(PAY==='karta'&&CONFIG.CARD)payInfo='<div class="pick-addr">💳 Karta: '+esc(CONFIG.CARD)+'</div>';
-  else if(PAY==='hisob'&&CONFIG.HISOB)payInfo='<div class="pick-addr">🏦 Hisob raqam: '+esc(CONFIG.HISOB)+'</div>';
+  if(PAY==='online')payInfo='<div class="pick-addr">📲 «Buyurtma berish»ni bosgach Payme to‘lov sahifasi ochiladi — kartangiz orqali xavfsiz to‘laysiz.</div>';
   var isYur=(BUYER==='yuridik');
   var buyerToggle='<div class="pay-lbl">Xaridor:</div><div class="dtoggle"><button class="dt'+(!isYur?' on':'')+'" onclick="setBuyer(\'jismoniy\')">👤 Jismoniy</button><button class="dt'+(isYur?' on':'')+'" onclick="setBuyer(\'yuridik\')">🏢 Yuridik shaxs</button></div>';
   var legalFields=isYur?('<input class="ord-in" id="lgName" value="'+esc(LEGAL.name||'')+'" placeholder="Korxona nomi"><input class="ord-in" id="lgStir" value="'+esc(LEGAL.stir||'')+'" placeholder="STIR (INN)"><input class="ord-in" id="lgAcc" value="'+esc(LEGAL.acc||'')+'" placeholder="Hisob raqam (r/s)"><input class="ord-in" id="lgBank" value="'+esc(LEGAL.bank||'')+'" placeholder="Bank nomi"><input class="ord-in" id="lgMfo" value="'+esc(LEGAL.mfo||'')+'" placeholder="MFO"><input class="ord-in" id="lgAddr" value="'+esc(LEGAL.addr||'')+'" placeholder="Yuridik manzil"><input class="ord-in" id="lgDir" value="'+esc(LEGAL.dir||'')+'" placeholder="Rahbar (F.I.O.)">'):'';
   var paySection=isYur?'<div class="pick-addr">🏦 To‘lov: bank o‘tkazmasi · shartnoma avtomat tuziladi</div>':(payToggle+payInfo);
-  foot.innerHTML=toggle+
-    '<input class="ord-in" id="ordName" value="'+esc(LAST_NAME)+'" placeholder="Ismingiz">'+
-    '<input class="ord-in" id="ordPhone" type="tel" value="'+esc(LAST_PHONE)+'" placeholder="Telefon raqamingiz">'+
-    addr+buyerToggle+legalFields+paySection+
-    '<div class="d-sum sm"><span>Mahsulotlar:</span><span>'+grp(sub)+' so‘m</span></div>'+feeRow+
-    '<div class="d-sum"><span>Jami:</span><span class="big">'+grp(gt)+' so‘m</span></div>'+
+  foot.innerHTML=
+    '<div class="co-sec"><div class="co-h"><span class="co-n">1</span>Yetkazib berish</div>'+toggle+addr+'</div>'+
+    '<div class="co-sec"><div class="co-h"><span class="co-n">2</span>Ma\u2019lumotlaringiz</div>'+
+      '<input class="ord-in" id="ordName" value="'+esc(LAST_NAME)+'" placeholder="Ismingiz" onblur="stashInputs()">'+
+      '<input class="ord-in" id="ordPhone" type="tel" value="'+esc(LAST_PHONE)+'" placeholder="Telefon raqamingiz" onblur="stashInputs()">'+
+      buyerToggle+legalFields+'</div>'+
+    '<div class="co-sec"><div class="co-h"><span class="co-n">3</span>To\u2018lov usuli</div>'+paySection+'</div>'+
+    '<div class="co-sec"><div class="co-h"><span class="co-n">4</span>Buyurtmaga izoh</div>'+
+      '<textarea class="ord-in" id="ordNote" rows="2" placeholder="Qo\u2018shimcha izoh — rang, o\u2018lcham, yetkazish vaqti (ixtiyoriy)" onblur="stashInputs()">'+esc(LAST_NOTE)+'</textarea></div>'+
+    ((CONFIG.PROMOS&&Object.keys(CONFIG.PROMOS).length)?('<div class="co-sec"><div class="co-h">🎟 Promo-kod</div>'+(PROMO?('<div class="promo-ok">✅ <b>'+esc(PROMO.code)+'</b> — chegirma −'+PROMO.pct+'% <a href="javascript:void(0)" onclick="clearPromo()">bekor</a></div>'):('<div class="promo-row"><input class="ord-in" id="promoInp" placeholder="Promo-kodni kiriting" style="margin:0"><button class="promo-btn" onclick="applyPromo()">Qo\u2018llash</button></div>'))+'</div>'):'')+
+    '<div class="co-sec">'+
+      '<div class="d-sum sm"><span>Mahsulotlar ('+cartCount()+' ta):</span><span>'+grp(sub)+' so\u2018m</span></div>'+
+      (pAmt>0?'<div class="d-sum sm" style="color:var(--green)"><span>Promo −'+PROMO.pct+'%:</span><span>−'+grp(pAmt)+' so\u2018m</span></div>':'')+feeRow+
+      '<div class="d-sum"><span>Jami:</span><span class="big">'+grp(gt)+' so\u2018m</span></div></div>'+
     '<button class="d-order" onclick="checkout()"><span>✅</span>Buyurtma berish</button>'+
     '<div style="text-align:center;margin-top:10px"><a href="javascript:void(0)" onclick="tgOpen()" style="color:var(--blue);font-weight:700;font-size:12.5px;text-decoration:none">yoki ✈️ Telegramda yozish</a></div>'+
     '<button class="d-clear" onclick="clearCart()">Savatni tozalash</button>';
@@ -620,13 +733,24 @@ function qualSub(){var t=0;for(var k in CART){var c=CART[k];if(!isNoDisc(c))t+=c
 function hasNoDisc(){for(var k in CART){if(isNoDisc(CART[k]))return true;}return false;}
 function delivDiscPct(){var qs=qualSub();var fr=+CONFIG.DELIVERY_FREE_FROM||0;if(fr>0&&qs>=fr)return 100;var t=CONFIG.DELIVERY_TIERS||[],d=0;for(var i=0;i<t.length;i++){if(qs>=t[i][0]&&t[i][1]>d)d=t[i][1];}return d>100?100:d;}
 function delivFee(){if(DELIV!=='delivery'||CONFIG.DELIVERY===false)return 0;var km=kmDist();var base;if(km==null){base=+CONFIG.DELIVERY_FEE||0;}else{var freeKm=+CONFIG.DELIVERY_FREE_KM||0;var billKm=Math.max(0,km-freeKm);base=(+CONFIG.DELIVERY_BASE||0)+billKm*(+CONFIG.DELIVERY_PER_KM||0);}var pct=delivDiscPct();var fee=base*(1-pct/100);fee=Math.ceil(fee/1000)*1000;if(fee<0)fee=0;var mx=+CONFIG.DELIVERY_MAX||0;if(mx>0&&fee>mx)fee=mx;return fee;}
-function stashInputs(){LAST_NAME=(document.getElementById('ordName')||{}).value||LAST_NAME;LAST_PHONE=(document.getElementById('ordPhone')||{}).value||LAST_PHONE;LAST_ADDR=(document.getElementById('ordAddr')||{}).value||LAST_ADDR;}
+function stashInputs(){LAST_NAME=(document.getElementById('ordName')||{}).value||LAST_NAME;LAST_PHONE=(document.getElementById('ordPhone')||{}).value||LAST_PHONE;LAST_ADDR=(document.getElementById('ordAddr')||{}).value||LAST_ADDR;var _n=document.getElementById('ordNote');if(_n)LAST_NOTE=_n.value;saveCust();}
 function getLoc(){if(!navigator.geolocation){toast('Brauzer joylashuvni qo‘llamaydi','err');return;}stashInputs();var b=document.getElementById('locBtn');if(b){b.disabled=true;b.innerHTML='📍 Aniqlanmoqda…';}navigator.geolocation.getCurrentPosition(function(p){CUST={lat:+p.coords.latitude.toFixed(6),lng:+p.coords.longitude.toFixed(6)};lsSet('kroff_loc',CUST);renderCart();toast('✓ Joylashuv aniqlandi','ok');},function(){var b2=document.getElementById('locBtn');if(b2){b2.disabled=false;b2.innerHTML='📍 Joylashuvni aniqlash';}toast('Joylashuv olinmadi — ruxsat bering yoki manzilni yozing','err');},{enableHighAccuracy:true,timeout:12000,maximumAge:60000});}
 function clearLoc(){stashInputs();CUST=null;try{localStorage.removeItem('kroff_loc');}catch(e){}renderCart();}
-function payMethods(){var m=[];if(CONFIG.NAQD!==false)m.push(['naqd','💵 Naqd']);if(CONFIG.PAYME)m.push(['payme','📲 Payme']);if(CONFIG.CARD)m.push(['karta','💳 Karta']);if(CONFIG.HISOB)m.push(['hisob','🏦 Hisob raqam']);if(!m.length)m=[['naqd','💵 Naqd']];return m;}
+function hasOnlinePay(){return !!(CONFIG.PAYME_MERCHANT||CONFIG.PAYME);}
+function payMethods(){var m=[];if(CONFIG.NAQD!==false)m.push(['naqd','💵 Naqd']);if(hasOnlinePay())m.push(['online','📲 Onlayn to‘lov']);if(!m.length)m=[['naqd','💵 Naqd']];return m;}
+function onlinePayUrl(som,oid){som=Math.round(+som||0);if(CONFIG.PAYME_MERCHANT){var f=CONFIG.PAYME_FIELD||'order_id';var parts='m='+CONFIG.PAYME_MERCHANT+';ac.'+f+'='+(oid||('ord'+Date.now()))+';a='+(som*100)+';l=uz;c='+location.href.split('#')[0];try{return 'https://checkout.paycom.uz/'+btoa(parts);}catch(e){return null;}}if(CONFIG.PAYME&&/^https?:/i.test(CONFIG.PAYME))return CONFIG.PAYME;return null;}
 function setPay(m){stashInputs();PAY=m;lsSet('kroff_pay',m);renderCart();}
-function saveDeliv(mode,addr){DELIV=mode;if(addr!=null)LAST_ADDR=addr;lsSet('kroff_deliv',{mode:DELIV,address:LAST_ADDR});}
-function setDeliv(m){stashInputs();DELIV=m;lsSet('kroff_deliv',{mode:m,address:LAST_ADDR});renderCart();}
+function saveDeliv(mode,addr){DELIV=mode;if(addr!=null)LAST_ADDR=addr;lsSet('kroff_deliv',{mode:DELIV,address:LAST_ADDR,dtime:DTIME});}
+function setDeliv(m){stashInputs();DELIV=m;lsSet('kroff_deliv',{mode:m,address:LAST_ADDR,dtime:DTIME});renderCart();}
+function setDTime(t){stashInputs();DTIME=t;lsSet('kroff_deliv',{mode:DELIV,address:LAST_ADDR,dtime:DTIME});renderCart();}
+function saveAddrs(){lsSet('kroff_addrs',ADDRS);}
+function pushAddr(a){a=(a||'').trim();if(!a)return;for(var i=0;i<ADDRS.length;i++){if(ADDRS[i]===a)return;}ADDRS.unshift(a);if(ADDRS.length>5)ADDRS=ADDRS.slice(0,5);saveAddrs();}
+function pickAddr(i){stashInputs();LAST_ADDR=ADDRS[i]||'';lsSet('kroff_deliv',{mode:DELIV,address:LAST_ADDR,dtime:DTIME});renderCart();}
+function rmAddr(ev,i){ev.stopPropagation();ADDRS.splice(i,1);saveAddrs();renderCart();}
+function promoAmt(sub){if(!PROMO||!PROMO.pct)return 0;var a=Math.round(sub*PROMO.pct/100);if(a>sub)a=sub;return a;}
+function findPromo(code){code=(code||'').trim().toUpperCase();if(!code)return null;var m=CONFIG.PROMOS||{};for(var k in m){if(k.toUpperCase()===code){var p=+m[k]||0;if(p>0)return {code:k,pct:p};}}return null;}
+function applyPromo(){stashInputs();var el=document.getElementById('promoInp');var p=findPromo(el?el.value:'');if(!p){PROMO=null;toast('Promo-kod topilmadi','err');renderCart();return;}PROMO=p;toast('✓ −'+p.pct+'% qo‘llandi','ok');renderCart();}
+function clearPromo(){PROMO=null;renderCart();}
 function tgMsg(){
   var keys=Object.keys(CART);
   var lines=keys.map(function(k,i){var c=CART[k];return (i+1)+') '+c.nom+' — '+c.qty+' dona x '+grp(c.price)+' = '+grp(c.price*c.qty)+' so‘m';});
@@ -634,19 +758,22 @@ function tgMsg(){
   var tel=(document.getElementById('ordPhone')||{}).value||'';
   var isD=(DELIV==='delivery'&&CONFIG.DELIVERY!==false);
   var addr=(document.getElementById('ordAddr')||{}).value||'';
-  var sub=subTotal(),fee=isD?delivFee():0,gt=sub+fee,km=isD?kmDist():null;
+  var sub=subTotal(),fee=isD?delivFee():0,pAmt=promoAmt(sub),gt=sub-pAmt+fee,km=isD?kmDist():null;
   var msg='🛒 KROFF — yangi buyurtma\n\n'+lines.join('\n')+'\n\nMahsulotlar: '+grp(sub)+' so‘m';
   msg+='\n'+(isD?'🚚 Yetkazib berish':'🏪 Olib ketish');
   if(isD&&addr)msg+='\n📍 '+addr;
+  if(isD)msg+='\n🕒 '+({tez:'Tez orada',bugun:'Bugun',ertaga:'Ertaga'}[DTIME]||'Tez orada');
   if(isD&&CUST)msg+='\n🗺 https://maps.google.com/?q='+CUST.lat+','+CUST.lng;
   if(isD&&km!=null)msg+='\nMasofa: ~'+km.toFixed(1)+' km';
   var dpct=isD?delivDiscPct():0;
   if(isD&&fee>0)msg+='\nYetkazish'+(dpct>0?' (−'+dpct+'%)':'')+': '+grp(fee)+' so‘m';
   else if(isD)msg+='\nYetkazish: bepul';
+  if(PROMO&&pAmt>0)msg+='\n🎟 Promo '+PROMO.code+' (−'+PROMO.pct+'%): −'+grp(pAmt)+' so‘m';
   msg+='\n💰 Jami: '+grp(gt)+' so‘m';
-  if(BUYER!=='yuridik')msg+='\n💳 To‘lov: '+(PAY==='payme'?'Payme':PAY==='karta'?'Karta':PAY==='hisob'?'Hisob raqam':'Naqd');
+  if(BUYER!=='yuridik')msg+='\n💳 To‘lov: '+(PAY==='online'||PAY==='payme'?'Onlayn (Payme)':PAY==='karta'?'Karta':PAY==='hisob'?'Hisob raqam':'Naqd');
   if(BUYER==='yuridik')msg+='\n\n🏢 Yuridik shaxs: '+(LEGAL.name||'')+'\nSTIR: '+(LEGAL.stir||'')+'\nr/s: '+(LEGAL.acc||'')+' · '+(LEGAL.bank||'')+' MFO '+(LEGAL.mfo||'')+'\nRahbar: '+(LEGAL.dir||'')+'\n💳 Bank o‘tkazmasi (shartnoma)';
   if(nm)msg+='\n\n👤 '+nm;if(tel)msg+='\n📞 '+tel;
+  var _note=(document.getElementById('ordNote')||{}).value||'';if(_note)msg+='\n📝 Izoh: '+_note;
   return msg;
 }
 function tgOpen(){window.open('https://t.me/'+CONFIG.TELEGRAM.replace(/^@/,'')+'?text='+encodeURIComponent(tgMsg()),'_blank');}
@@ -671,6 +798,105 @@ function submitOrder(p){
 function orderSteps(mode){return (mode==='pickup')?[['yangi','Qabul','📝'],['tasdiq','Tasdiq','✅'],['tayyor','Tayyor','📦'],['topshirildi','Berildi','🎉']]:[['yangi','Qabul','📝'],['tasdiq','Tasdiq','✅'],['yolda','Yo‘lda','🚚'],['topshirildi','Berildi','🎉']];}
 function openMyOrders(){document.getElementById('ordBody').innerHTML='<div class="d-empty">Yuklanmoqda…</div>';document.getElementById('ordOv').classList.add('show');document.getElementById('ordDrawer').classList.add('show');document.body.classList.add('lock');fetchMyOrders();}
 function closeMyOrders(){document.getElementById('ordOv').classList.remove('show');document.getElementById('ordDrawer').classList.remove('show');document.body.classList.remove('lock');}
+function renderProfile(){
+  var nm=(LAST_NAME||'').trim(),ph=(LAST_PHONE||'').trim();
+  var initial=nm?nm.charAt(0).toUpperCase():'👤';
+  var fc=Object.keys(FAV).length,cc=cartCount();
+  var h='';
+  h+='<div class="prof-hd"><div class="prof-av">'+esc(initial)+'</div><div><div class="prof-nm">'+(nm?esc(nm):'Mijoz')+'</div><div class="prof-ph">'+(ph?esc(ph):'Telefon kiritilmagan')+'</div></div></div>';
+  h+='<div class="prof-sec">Ma\u2019lumotlarim</div>';
+  h+='<input class="ord-in" id="pfName" value="'+esc(nm)+'" placeholder="Ismingiz">';
+  h+='<input class="ord-in" id="pfPhone" type="tel" value="'+esc(ph)+'" placeholder="Telefon raqamingiz">';
+  h+='<button class="prof-save" onclick="saveProfile()">💾 Saqlash</button>';
+  h+='<div style="font-size:11.5px;color:var(--muted);margin:7px 2px 0">Buyurtma berishda avtomat to\u2018ldiriladi — qayta yozish shart emas.</div>';
+  h+='<div class="prof-sec">Menyu</div>';
+  h+='<button class="prof-item" onclick="closeProfile();openMyOrders()"><span class="pic">📦</span>Buyurtmalarim</button>';
+  h+='<button class="prof-item" onclick="closeProfile();setCat(\'__fav\');window.scrollTo({top:0,behavior:\'smooth\'})"><span class="pic">♡</span>Sevimlilar<span class="pch">'+fc+'</span></button>';
+  h+='<button class="prof-item" onclick="closeProfile();openCart()"><span class="pic">🛒</span>Savat<span class="pch">'+cc+'</span></button>';
+  h+='<button class="prof-item" onclick="shareShop()"><span class="pic">📤</span>Do\u2018konni ulashish</button>';
+  h+='<button class="prof-item" onclick="closeProfile();openQR()"><span class="pic">📱</span>QR kod</button>';
+  h+='<div class="prof-sec">Aloqa</div>';
+  if(CONFIG.PHONE)h+='<a class="prof-item" href="tel:'+esc(CONFIG.PHONE)+'"><span class="pic">☎️</span>'+esc(CONFIG.PHONE)+'</a>';
+  if(CONFIG.TELEGRAM)h+='<a class="prof-item" href="https://t.me/'+esc(CONFIG.TELEGRAM)+'" target="_blank"><span class="pic">✈️</span>Telegram: @'+esc(CONFIG.TELEGRAM)+'</a>';
+  if(CONFIG.ADDRESS)h+='<div class="prof-item" style="cursor:default"><span class="pic">📍</span>'+esc(CONFIG.ADDRESS)+'</div>';
+  document.getElementById('profBody').innerHTML=h;
+}
+function openProfile(){renderProfile();document.getElementById('profOv').classList.add('show');document.getElementById('profDrawer').classList.add('show');document.body.classList.add('lock');}
+function closeProfile(){document.getElementById('profOv').classList.remove('show');document.getElementById('profDrawer').classList.remove('show');document.body.classList.remove('lock');}
+function saveProfile(){LAST_NAME=((document.getElementById('pfName')||{}).value||'').trim();LAST_PHONE=((document.getElementById('pfPhone')||{}).value||'').trim();saveCust();renderProfile();try{renderCart();}catch(e){}toast('✓ Saqlandi','ok');}
+/* ===== Mahsulot batafsil ===== */
+function openDetail(key){var it=ITEMMAP[key];if(!it){toast('Topilmadi','err');return;}DETAIL_KEY=key;REVSTAR=0;renderDetail();if(!(it.nom in REVCACHE))fetchReviews(it.nom);document.getElementById('detOv').classList.add('show');document.getElementById('detDrawer').classList.add('show');document.body.classList.add('lock');var b=document.getElementById('detBody');if(b)b.scrollTop=0;}
+function closeDetail(){document.getElementById('detOv').classList.remove('show');document.getElementById('detDrawer').classList.remove('show');document.body.classList.remove('lock');}
+function renderDetail(){
+  var key=DETAIL_KEY,it=ITEMMAP[key];if(!it)return;
+  var src=it.img||IMG[key]||'';
+  var imgH=src?('<img src="'+esc(src)+'" alt="'+esc(it.nom)+'">'):NOIMG;
+  var d=disc(it);
+  var priceH=d?('<span class="det-p">'+grp(d.price)+' so\u2018m</span><span class="det-old">'+grp(d.was)+'</span><span class="det-pct">-'+d.pct+'%</span>'):('<span class="det-p">'+grp(it.narx)+' so\u2018m</span>');
+  var opt=+it.optom_narx||+it.optom||0;
+  var q=it.qoldiq||0;
+  var stockH=q>0?('<div class="det-meta">✅ '+grp(q)+' dona bor</div>'):'<div class="det-meta" style="color:var(--red)">⛔ Hozircha tugagan</div>';
+  var favOn=FAV[key]?true:false;
+  var kk=key.replace(/'/g,"\\'");
+  var revs=REVCACHE[it.nom];
+  var h='<div class="det-img">'+imgH+'</div><div class="det-info">';
+  h+='<div class="det-price">'+priceH+'</div>';
+  if(revs&&revs.length){var avg=revs.reduce(function(s,r){return s+(+r.rating||0);},0)/revs.length;h+='<div class="det-rate"><span class="rv">'+stars(Math.round(avg))+'</span> '+avg.toFixed(1)+' · '+revs.length+' sharh</div>';}
+  if(opt>0)h+='<div class="det-optom">Optom narx: '+grp(opt)+' so\u2018m</div>';
+  h+='<div class="det-nom">'+esc(it.nom)+'</div>';
+  h+=stockH;
+  if(it._cat)h+='<div class="det-meta">🏷 '+esc(it._cat)+'</div>';
+  if(it.barcode)h+='<div class="det-meta">Kod: '+esc(it.barcode)+'</div>';
+  h+='<div style="margin-top:12px"><button class="det-add" style="width:100%;background:'+(favOn?'#ffe9ef':'#eef2f8')+';color:'+(favOn?'var(--sale)':'var(--ink)')+'" onclick="toggleFav(event,\''+kk+'\');renderDetail()">'+(favOn?'❤️ Sevimlida':'🤍 Sevimlilarga')+'</button></div>';
+  // o'xshash mahsulotlar
+  var sim=ITEMS.filter(function(x){return x._cat===it._cat&&nkey(x.nom)!==key;}).slice(0,10);
+  if(sim.length){
+    h+='<div class="det-sim-h">O\u2018xshash mahsulotlar</div><div class="det-sim">';
+    sim.forEach(function(x){var xk=nkey(x.nom),xs=x.img||IMG[xk]||'',xd=disc(x),xp=xd?xd.price:x.narx;
+      h+='<div class="sim" onclick="openDetail(\''+xk.replace(/'/g,"\\'")+'\')"><div class="simimg">'+(xs?'<img src="'+esc(xs)+'" alt="">':'📦')+'</div><div class="simp">'+grp(xp)+' so\u2018m</div><div class="simn">'+esc(x.nom)+'</div></div>';
+    });
+    h+='</div>';
+  }
+  // sharhlar
+  h+='<div class="rev-h">Sharhlar'+(revs?(' ('+revs.length+')'):'')+'</div>';
+  if(!revs){h+='<div class="det-meta">Yuklanmoqda…</div>';}
+  else if(!revs.length){h+='<div class="det-meta">Hali sharh yo\u2018q. Birinchi bo\u2018lib fikr bildiring 👇</div>';}
+  else{revs.forEach(function(r){h+='<div class="rev-item"><div class="rev-top"><span class="rev-nm">'+esc(r.name||'Mijoz')+'</span><span class="rev-st">'+stars(+r.rating||0)+'</span><span class="rev-dt">'+revDate(r.created)+'</span>'+(EDIT?('<button class="rev-del" onclick="delReview('+r.id+',\''+String(it.nom).replace(/'/g,"\\'")+'\')">🗑</button>'):'')+'</div>'+(r.txt?('<div class="rev-tx">'+esc(r.txt)+'</div>'):'')+'</div>';});}
+  h+='<div class="rev-form"><div class="rev-stars" id="revStars">'+starPickHtml(REVSTAR)+'</div>'+
+     '<textarea class="ord-in" id="revTxt" rows="2" placeholder="Fikringiz (ixtiyoriy)" style="margin:9px 0 0"></textarea>'+
+     '<input class="ord-in" id="revName" value="'+esc(LAST_NAME||'')+'" placeholder="Ismingiz" style="margin-top:8px">'+
+     '<button class="rev-send" onclick="submitReview()">Sharh yuborish</button></div>';
+  h+='</div>';
+  document.getElementById('detBody').innerHTML=h;
+  var c=CART[key];
+  var qtyCtl=c?('<div class="det-qty"><button onclick="detQty(-1)">\u2212</button><span>'+c.qty+' dona</span><button onclick="detQty(1)">+</button></div>')
+             :('<button class="det-add" onclick="detQty(1)" style="flex:1">🛒 Savatga</button>');
+  document.getElementById('detFoot').innerHTML='<div class="det-acts">'+qtyCtl+'<button class="det-buy" onclick="buyNow()">⚡ Hoziroq xarid</button></div>';
+}
+function stars(n){n=Math.max(0,Math.min(5,n|0));return '★★★★★'.slice(0,n)+'☆☆☆☆☆'.slice(0,5-n);}
+function starPickHtml(sel){var s='';for(var i=1;i<=5;i++){s+='<b onclick="setRevStar('+i+')" style="color:'+(i<=sel?'#f5a623':'#dfe4ec')+'">★</b>';}return s;}
+function setRevStar(n){REVSTAR=n;var el=document.getElementById('revStars');if(el)el.innerHTML=starPickHtml(REVSTAR);}
+function revDate(s){if(!s)return '';try{var d=new Date(s);return ('0'+d.getDate()).slice(-2)+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.'+d.getFullYear();}catch(e){return '';}}
+function fetchReviews(nom){
+  fetch(CONFIG.SB_URL+'/rest/v1/catalog_reviews?nom=eq.'+encodeURIComponent(nom)+'&order=created.desc&limit=50',{headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY}})
+    .then(function(r){return r.ok?r.json():[];})
+    .then(function(list){REVCACHE[nom]=Array.isArray(list)?list:[];if(ITEMMAP[DETAIL_KEY]&&ITEMMAP[DETAIL_KEY].nom===nom)renderDetail();})
+    .catch(function(){REVCACHE[nom]=REVCACHE[nom]||[];if(ITEMMAP[DETAIL_KEY]&&ITEMMAP[DETAIL_KEY].nom===nom)renderDetail();});
+}
+function submitReview(){
+  var it=ITEMMAP[DETAIL_KEY];if(!it)return;
+  if(!REVSTAR){toast('Yulduzcha bilan baho bering','err');return;}
+  var txt=((document.getElementById('revTxt')||{}).value||'').trim();
+  var nm=((document.getElementById('revName')||{}).value||'').trim();
+  var row={nom:it.nom,token:getToken(),name:nm,rating:REVSTAR,txt:txt};
+  var btn=document.querySelector('.rev-send');if(btn){btn.disabled=true;btn.textContent='Yuborilmoqda…';}
+  fetch(CONFIG.SB_URL+'/rest/v1/catalog_reviews',{method:'POST',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify([row])})
+    .then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t||('HTTP '+r.status));});REVSTAR=0;toast('✓ Sharhingiz uchun rahmat','ok');fetchReviews(it.nom);})
+    .catch(function(e){var b=document.querySelector('.rev-send');if(b){b.disabled=false;b.textContent='Sharh yuborish';}toast('Sharh yuborilmadi: '+((e&&e.message)||''),'err');});
+}
+function delReview(id,nom){if(!confirm('Sharh o\u2018chirilsinmi?'))return;fetch(CONFIG.SB_URL+'/rest/v1/catalog_reviews?id=eq.'+id,{method:'DELETE',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY}}).then(function(r){if(!r.ok)throw new Error();toast('O\u2018chirildi','ok');fetchReviews(nom);}).catch(function(){toast('O\u2018chmadi','err');});}
+function detQty(delta){var key=DETAIL_KEY,it=ITEMMAP[key];if(!it)return;if(delta>0){if(CART[key])CART[key].qty++;else CART[key]={nom:it.nom,price:effPrice(it),img:(it.img||IMG[key]||''),qty:1,id:(it.id||'')};}else if(CART[key]){CART[key].qty--;if(CART[key].qty<=0)delete CART[key];}saveCart();refresh();renderDetail();}
+function buyNow(){var key=DETAIL_KEY,it=ITEMMAP[key];if(!it)return;if(!CART[key])CART[key]={nom:it.nom,price:effPrice(it),img:(it.img||IMG[key]||''),qty:1,id:(it.id||'')};saveCart();refresh();closeDetail();openCart();}
 function fetchMyOrders(){
   fetch(CONFIG.SB_URL+'/rest/v1/catalog_orders?token=eq.'+encodeURIComponent(getToken())+'&order=created_at.desc&limit=20',{headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY}})
     .then(function(r){return r.ok?r.json():null;})
@@ -722,14 +948,15 @@ function checkout(){
   if(isD&&!addr){toast('Yetkazish uchun manzilni yozing','err');var af=document.getElementById('ordAddr');if(af)af.focus();return;}
   var nm=(document.getElementById('ordName')||{}).value||'';
   var tel=(document.getElementById('ordPhone')||{}).value||'';
-  LAST_NAME=nm;LAST_PHONE=tel;saveDeliv(isD?'delivery':'pickup',addr);
+  LAST_NAME=nm;LAST_PHONE=tel;LAST_NOTE=((document.getElementById('ordNote')||{}).value||'');saveCust();saveDeliv(isD?'delivery':'pickup',addr);if(isD&&addr)pushAddr(addr);
   var isYur=(BUYER==='yuridik');
   if(isYur){stashLegal();if(!((LEGAL.name||'').trim()&&(LEGAL.stir||'').trim())){toast('Korxona nomi va STIR ni kiriting','err');return;}}
   var items=keys.map(function(k){var c=CART[k];return {id:c.id,nom:c.nom,qty:c.qty,price:c.price,sum:c.price*c.qty};});
-  var sub=subTotal(),fee=isD?delivFee():0,km=isD?kmDist():null;
+  var sub=subTotal(),fee=isD?delivFee():0,pAmt=promoAmt(sub),km=isD?kmDist():null;
   var oid='ord'+Date.now()+Math.floor(Math.random()*1000);
-  var payload={oid:oid,items:items,subtotal:sub,fee:fee,total:sub+fee,mode:(isD?'delivery':'pickup'),disc:(isD?delivDiscPct():0),address:addr,lat:(CUST?CUST.lat:null),lng:(CUST?CUST.lng:null),distance:(km!=null?+km.toFixed(1):null),name:(isYur?(LEGAL.name||nm):nm),phone:tel,pay:(isYur?'hisob':PAY),buyer:BUYER,legal:(isYur?LEGAL:null),source:location.href};
+  var payload={oid:oid,items:items,subtotal:sub,fee:fee,total:sub-pAmt+fee,mode:(isD?'delivery':'pickup'),disc:(isD?delivDiscPct():0),address:addr,lat:(CUST?CUST.lat:null),lng:(CUST?CUST.lng:null),distance:(km!=null?+km.toFixed(1):null),name:(isYur?(LEGAL.name||nm):nm),phone:tel,pay:(isYur?'hisob':(PAY==='online'?'payme':PAY)),buyer:BUYER,legal:(isYur?LEGAL:null),note:(LAST_NOTE||''),dtime:(isD?DTIME:null),promo:(PROMO?{code:PROMO.code,pct:PROMO.pct,amount:pAmt}:null),source:location.href};
   if(isYur)openContract(payload);
+  if(!isYur&&PAY==='online'){var pu=onlinePayUrl(payload.total,oid);if(pu){window.open(pu,'_blank');toast('📲 Payme to‘lov sahifasi ochildi');}else{toast('Onlayn to‘lov hali sozlanmagan','err');}}
   submitOrder(payload);
   var btn=document.querySelector('.d-order');if(btn){btn.disabled=true;btn.dataset.t=btn.innerHTML;btn.innerHTML='Yuborilmoqda…';}
   fetch(ORDER_FN,{method:'POST',headers:{'Content-Type':'application/json','x-kroff-key':ORDER_GUARD,apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY},body:JSON.stringify(payload)})
@@ -760,6 +987,9 @@ setInterval(function(){showSlide((_bi+1)%2);},5000);
 /* ===== QR / Pay ===== */
 function openQR(){var u=location.href.split('#')[0];document.getElementById('qrImg').src='https://api.qrserver.com/v1/create-qr-code/?size=440x440&margin=1&data='+encodeURIComponent(u);document.getElementById('qrUrl').textContent=u;document.getElementById('qrOv').classList.add('show');}
 function closeQR(){document.getElementById('qrOv').classList.remove('show');}
+function shopLink(){return location.href.split('#')[0];}
+function shareShop(){var u=shopLink();var d={title:(CONFIG.SHOP_NAME||'KROFF')+' — Onlayn katalog',text:(CONFIG.SHOP_NAME||'KROFF')+' — qurilish mollari katalogi. Narxlar va yetkazib berish 👇',url:u};if(navigator.share){navigator.share(d).catch(function(){});}else{copyShopLink();openQR();}}
+function copyShopLink(){var u=shopLink();function ok(){toast('✓ Havola nusxalandi','ok');}function fail(){var t=document.createElement('textarea');t.value=u;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.focus();t.select();try{document.execCommand('copy');ok();}catch(e){toast('Nusxalab bo‘lmadi','err');}document.body.removeChild(t);}try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(ok,fail);}else{fail();}}catch(e){fail();}}
 function payRow(ic,label,val,isLink,copy){
   var inner=isLink?('<a href="'+esc(val)+'" target="_blank" class="pv-link">'+esc(val)+'</a>')
     :('<span class="pv">'+esc(val)+'</span>'+(copy?'<button class="cp" onclick="cpNear(this)">Nusxa</button>':''));
@@ -768,10 +998,8 @@ function payRow(ic,label,val,isLink,copy){
 function buildPay(){
   var b='';
   if(CONFIG.NAQD!==false)b+='<div class="pay-row"><span class="pi">💵</span><div class="pcell"><b>Naqd pul</b><div class="ps">Olib ketishda yoki yetkazib berishda</div></div></div>';
-  if(CONFIG.PAYME)b+=(/^https?:/i.test(CONFIG.PAYME)?payRow('📲','Payme',CONFIG.PAYME,true,false):payRow('📲','Payme',CONFIG.PAYME,false,true));
-  if(CONFIG.CARD)b+=payRow('💳','Karta (Payme / Click)',CONFIG.CARD,false,true);
-  if(CONFIG.HISOB)b+=payRow('🏦','Hisob raqam',CONFIG.HISOB,false,true);
-  var has=(CONFIG.NAQD!==false)||CONFIG.PAYME||CONFIG.CARD||CONFIG.HISOB;
+  if(hasOnlinePay())b+='<div class="pay-row"><span class="pi">📲</span><div class="pcell"><b>Onlayn to‘lov (Payme)</b><div class="ps">Savatda «Onlayn to‘lov»ni tanlang — buyurtma vaqtida Payme sahifasi ochiladi va kartangiz orqali xavfsiz to‘laysiz.</div></div></div>';
+  var has=(CONFIG.NAQD!==false)||hasOnlinePay();
   if(!has)b='<div class="ps" style="text-align:center">To\u2018lov ma\u2018lumotlari tez orada</div>';
   var el=document.getElementById('payBody');if(el)el.innerHTML=b;
   var pl=document.getElementById('payLink');if(pl)pl.style.display=has?'':'none';
@@ -784,6 +1012,8 @@ function openGate(){document.getElementById('gate').classList.add('show');var i=
 function closeGate(){document.getElementById('gate').classList.remove('show');document.getElementById('gerr').textContent='';}
 function tryPass(){var v=document.getElementById('gpass').value;if(v===PAROL){try{sessionStorage.setItem('kroff_edit','1');}catch(e){}enterEdit();closeGate();}else{document.getElementById('gerr').textContent='Parol noto\u2018g\u2018ri';}}
 function tiersToStr(t){return (t||[]).map(function(x){return x[0]+':'+x[1];}).join(', ');}
+function promosToStr(o){o=o||{};var a=[];for(var k in o)a.push(k+':'+o[k]);return a.join(', ');}
+function parsePromos(str){var out={};(str||'').split(',').forEach(function(p){var a=p.split(':');if(a.length===2){var code=a[0].trim().toUpperCase(),pct=+a[1].trim();if(code&&pct>0)out[code]=pct;}});return out;}
 function parseTiers(str){var out=[];(str||'').split(',').forEach(function(p){var a=p.split(':');if(a.length===2){var m=+a[0].trim(),d=+a[1].trim();if(m>0&&d>0)out.push([m,d]);}});out.sort(function(a,b){return a[0]-b[0];});return out;}
 function parseList(str){return (str||'').split(',').map(function(x){return x.trim();}).filter(function(x){return x;});}
 function sV(id){var el=document.getElementById(id);return el?el.value:'';}
@@ -811,10 +1041,14 @@ function buildSettings(){
   h+='<div class="set-row"><label>Telegram (username)</label><input type="text" id="setTg" value="'+esc(c.TELEGRAM||'')+'"></div>';
   h+='<div class="set-row"><label>Manzil</label><input type="text" id="setAddr" value="'+esc(c.ADDRESS||'')+'"></div>';
   h+='<div class="set-row"><label>Ish vaqti</label><input type="text" id="setHours" value="'+esc(c.HOURS||'')+'"></div>';
-  h+='<div class="set-row"><label>Payme (havola yoki raqam)</label><input type="text" id="setPayme" value="'+esc(c.PAYME||'')+'"></div>';
-  h+='<div class="set-row"><label>Karta raqami</label><input type="text" id="setCard" value="'+esc(c.CARD||'')+'"></div>';
-  h+='<div class="set-row"><label>Hisob raqam</label><input type="text" id="setHisob" value="'+esc(c.HISOB||'')+'"></div>';
+  h+='<div class="set-row"><label>Payme kassa (merchant) ID</label><input type="text" id="setPayMerch" value="'+esc(c.PAYME_MERCHANT||'')+'"><div class="set-hint">Payme Business → kassa ID. Kiritilsa, mijoz «Onlayn to‘lov»da to‘g‘ridan-to‘g‘ri kerakli summani to‘laydi (Uzum uslubida). Bo‘sh bo‘lsa, pastdagi havoladan foydalaniladi.</div></div>';
+  h+='<div class="set-row"><label>To‘lov maydoni nomi (order_id)</label><input type="text" id="setPayField" value="'+esc(c.PAYME_FIELD||'order_id')+'"><div class="set-hint">Payme kassangizdagi hisob-kitob maydoni nomi. Bilmasangiz — order_id qoldiring.</div></div>';
+  h+='<div class="set-row"><label>Payme havola (kassa ID bo‘lmasa)</label><input type="text" id="setPayme" value="'+esc(c.PAYME||'')+'"></div>';
+  h+='<div class="set-row"><label>Karta raqami (mijozga ko‘rinmaydi)</label><input type="text" id="setCard" value="'+esc(c.CARD||'')+'"></div>';
+  h+='<div class="set-row"><label>Hisob raqam (mijozga ko‘rinmaydi)</label><input type="text" id="setHisob" value="'+esc(c.HISOB||'')+'"><div class="set-hint">Karta va hisob raqamlari endi mijozlarga ko‘rsatilmaydi — onlayn to‘lov faqat Payme orqali xavfsiz amalga oshadi.</div></div>';
   h+='<div class="set-row"><label class="set-check"><input type="checkbox" id="setNaqd" '+(c.NAQD!==false?'checked':'')+'> Naqd pul qabul qilinadi</label></div></div>';
+  h+='<div class="set-sec"><h4>🎟 Promo-kodlar</h4>';
+  h+='<div class="set-row"><textarea id="setPromos">'+esc(promosToStr(c.PROMOS))+'</textarea><div class="set-hint">Format: KOD:foiz — vergul bilan. Masalan: KROFF10:10, YANGIYIL:15 — mijoz savatda kodni kiritsa shu foizda chegirma oladi.</div></div></div>';
   h+='<div class="set-sec"><h4>🏢 Yuridik ma‘lumotlar (shartnoma «Sotuvchi»)</h4>';
   h+='<div class="set-row"><label>Korxona (yuridik nomi)</label><input type="text" id="setLgName" value="'+esc(c.LEGAL_NAME||'')+'"></div>';
   h+='<div class="set-row"><label>STIR (INN)</label><input type="text" id="setLgStir" value="'+esc(c.LEGAL_STIR||'')+'"></div>';
@@ -826,13 +1060,13 @@ function buildSettings(){
   document.getElementById('setBody').innerHTML=h;
 }
 function saveSettings(){
-  var patch={shop_lat:sNum('setLat'),shop_lng:sNum('setLng'),delivery:document.getElementById('setDelivOn').checked,dlv_per_km:sNum('setPerKm'),dlv_free_km:sNum('setFreeKm'),dlv_base:sNum('setBase'),dlv_max:sNum('setMax'),dlv_free:sNum('setFreeFrom'),dlv_tiers:parseTiers(sVt('setTiers')),no_disc:parseList(sVt('setNoDisc')),phone:sVt('setPhone'),tg:sVt('setTg').replace(/^@/,''),address:sVt('setAddr'),hours:sVt('setHours'),payme:sVt('setPayme'),card:sVt('setCard'),hisob:sVt('setHisob'),naqd:document.getElementById('setNaqd').checked,lg_name:sVt('setLgName'),lg_stir:sVt('setLgStir'),lg_acc:sVt('setLgAcc'),lg_bank:sVt('setLgBank'),lg_mfo:sVt('setLgMfo'),lg_addr:sVt('setLgAddr'),lg_dir:sVt('setLgDir')};
+  var patch={shop_lat:sNum('setLat'),shop_lng:sNum('setLng'),delivery:document.getElementById('setDelivOn').checked,dlv_per_km:sNum('setPerKm'),dlv_free_km:sNum('setFreeKm'),dlv_base:sNum('setBase'),dlv_max:sNum('setMax'),dlv_free:sNum('setFreeFrom'),dlv_tiers:parseTiers(sVt('setTiers')),no_disc:parseList(sVt('setNoDisc')),phone:sVt('setPhone'),tg:sVt('setTg').replace(/^@/,''),address:sVt('setAddr'),hours:sVt('setHours'),payme:sVt('setPayme'),pm:sVt('setPayMerch'),pf:sVt('setPayField'),card:sVt('setCard'),hisob:sVt('setHisob'),naqd:document.getElementById('setNaqd').checked,promos:parsePromos(sVt('setPromos')),lg_name:sVt('setLgName'),lg_stir:sVt('setLgStir'),lg_acc:sVt('setLgAcc'),lg_bank:sVt('setLgBank'),lg_mfo:sVt('setLgMfo'),lg_addr:sVt('setLgAddr'),lg_dir:sVt('setLgDir')};
   var btn=document.querySelector('.set-save');if(btn){btn.disabled=true;btn.textContent='Saqlanmoqda…';}
   fetch(CONFIG.SB_URL+'/rest/v1/rpc/kroff_admin_save',{method:'POST',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_pass:PAROL,p_contacts:patch})})
     .then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t||('xato '+r.status));});return r.text();})
     .then(function(){
       CONFIG.SHOP_LAT=patch.shop_lat;CONFIG.SHOP_LNG=patch.shop_lng;CONFIG.DELIVERY=patch.delivery;CONFIG.DELIVERY_PER_KM=patch.dlv_per_km;CONFIG.DELIVERY_FREE_KM=patch.dlv_free_km;CONFIG.DELIVERY_BASE=patch.dlv_base;CONFIG.DELIVERY_MAX=patch.dlv_max;CONFIG.DELIVERY_FREE_FROM=patch.dlv_free;CONFIG.DELIVERY_TIERS=patch.dlv_tiers;CONFIG.NO_DELIVERY_DISCOUNT=patch.no_disc;
-      CONFIG.PHONE=patch.phone||CONFIG.PHONE;CONFIG.TELEGRAM=patch.tg||CONFIG.TELEGRAM;CONFIG.ADDRESS=patch.address;CONFIG.HOURS=patch.hours;CONFIG.PAYME=patch.payme;CONFIG.CARD=patch.card;CONFIG.HISOB=patch.hisob;CONFIG.NAQD=patch.naqd;CONFIG.LEGAL_NAME=patch.lg_name;CONFIG.LEGAL_STIR=patch.lg_stir;CONFIG.LEGAL_ACC=patch.lg_acc;CONFIG.LEGAL_BANK=patch.lg_bank;CONFIG.LEGAL_MFO=patch.lg_mfo;CONFIG.LEGAL_ADDR=patch.lg_addr;CONFIG.LEGAL_DIR=patch.lg_dir;
+      CONFIG.PHONE=patch.phone||CONFIG.PHONE;CONFIG.TELEGRAM=patch.tg||CONFIG.TELEGRAM;CONFIG.ADDRESS=patch.address;CONFIG.HOURS=patch.hours;CONFIG.PAYME=patch.payme;CONFIG.PAYME_MERCHANT=patch.pm;CONFIG.PAYME_FIELD=patch.pf||'order_id';CONFIG.CARD=patch.card;CONFIG.HISOB=patch.hisob;CONFIG.NAQD=patch.naqd;CONFIG.PROMOS=patch.promos;CONFIG.LEGAL_NAME=patch.lg_name;CONFIG.LEGAL_STIR=patch.lg_stir;CONFIG.LEGAL_ACC=patch.lg_acc;CONFIG.LEGAL_BANK=patch.lg_bank;CONFIG.LEGAL_MFO=patch.lg_mfo;CONFIG.LEGAL_ADDR=patch.lg_addr;CONFIG.LEGAL_DIR=patch.lg_dir;
       applyContacts();render();renderCart();
       if(btn){btn.disabled=false;btn.textContent='💾 Saqlash';}
       toast('✓ Sozlamalar saqlandi','ok');closeSettings();
@@ -927,9 +1161,12 @@ function load(){
       if(contacts.map)CONFIG.MAP=contacts.map;
       if(contacts.hours)CONFIG.HOURS=contacts.hours;
       if(contacts.payme)CONFIG.PAYME=contacts.payme;
+      if(contacts.pm!=null)CONFIG.PAYME_MERCHANT=contacts.pm;
+      if(contacts.pf!=null)CONFIG.PAYME_FIELD=contacts.pf||'order_id';
       if(contacts.card)CONFIG.CARD=contacts.card;
       if(contacts.hisob)CONFIG.HISOB=contacts.hisob;
       if('naqd' in contacts)CONFIG.NAQD=contacts.naqd;
+      if(contacts.promos&&typeof contacts.promos==='object')CONFIG.PROMOS=contacts.promos;
       if(contacts.lg_name!=null)CONFIG.LEGAL_NAME=contacts.lg_name;
       if(contacts.lg_stir!=null)CONFIG.LEGAL_STIR=contacts.lg_stir;
       if(contacts.lg_acc!=null)CONFIG.LEGAL_ACC=contacts.lg_acc;
