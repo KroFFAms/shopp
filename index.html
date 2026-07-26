@@ -384,7 +384,7 @@
     SB_URL: "https://wfmwxwdawiectcusjnkz.supabase.co",
     SB_KEY: "sb_publishable_xEPsFgv-ACNKeAFJt2MMiA_Q3Vbte4F",
     GUARD:  "kroff-shop",
-    PAROL:  "kroff"
+    PAROL:  ""
   };
 
   var CONFIG = {
@@ -524,10 +524,11 @@
   <div class="cat-grid" id="catGrid"></div>
 </div>
 
-<div class="ebar" id="ebar"><b>✏️ Tahrirlash rejimi</b><button onclick="openReport()">📊 Hisobot</button><button onclick="openSettings()">⚙️ Sozlamalar</button><button onclick="exitEdit()">Chiqish</button></div>
+<div class="ebar" id="ebar"><b>✏️ Tahrirlash rejimi</b><button onclick="openReport()">📊 Hisobot</button><button onclick="openSettings()">⚙️ Sozlamalar</button><button onclick="openMxik()">🏷 MXIK</button><button onclick="exitEdit()">Chiqish</button></div>
 <div class="setwrap" id="setwrap"><div class="set-head"><h3>⚙️ Sozlamalar</h3><button class="cx" onclick="closeSettings()">✕</button></div><div class="set-body" id="setBody"></div><div class="set-foot"><button class="set-save" onclick="saveSettings()">💾 Saqlash</button></div></div>
 <div class="setwrap" id="repwrap"><div class="set-head"><h3>📊 Onlayn savdo hisoboti</h3><button class="cx" onclick="closeReport()">✕</button></div><div class="set-body" id="repBody"></div><div class="set-foot"><button class="set-save" onclick="fetchReport()" style="background:#f2f4f7;color:var(--ink)">🔄 Yangilash</button></div></div>
-<div class="pedit" id="pedit"><div class="pedit-box"><h3>✏️ Mahsulotni tahrirlash</h3><div class="set-row"><label>Nomi</label><input type="text" id="peNom"></div><div class="set-row"><label>Narx (so‘m)</label><input type="number" id="peNarx"></div><div class="set-row"><label>Chegirma (%)</label><input type="number" id="peCheg"></div><div class="pe-btns"><button class="pe-save" onclick="saveProduct()">💾 Saqlash</button><button class="pe-cancel" onclick="closeProdEdit()">Bekor</button></div></div></div>
+<div class="setwrap" id="mxwrap"><div class="set-head"><h3>🏷 MXIK kodlari</h3><button class="cx" onclick="closeMxik()">✕</button></div><div class="set-body" id="mxBody"></div></div>
+<div class="pedit" id="pedit"><div class="pedit-box"><h3>✏️ Mahsulotni tahrirlash</h3><div class="set-row"><label>Nomi</label><input type="text" id="peNom"></div><div class="set-row"><label>Narx (so‘m)</label><input type="number" id="peNarx"></div><div class="set-row"><label>Chegirma (%)</label><input type="number" id="peCheg"></div><div class="set-row"><label>MXIK kodi (onlayn chek uchun)</label><input type="text" id="peMxik" placeholder="masalan 03906001001000000"></div><div class="pe-btns"><button class="pe-save" onclick="saveProduct()">💾 Saqlash</button><button class="pe-cancel" onclick="closeProdEdit()">Bekor</button></div></div></div>
 <div class="toast" id="toast"></div>
 <input type="file" id="picker" accept="image/*" capture="environment" style="display:none">
 <div class="gate" id="gate">
@@ -589,7 +590,7 @@ var BUYER='jismoniy', LEGAL={};
 var DETAIL_KEY='', DTIME='tez', ADDRS=[];
 var PROMO=null, REVSTAR=0, REVCACHE={}, PAYSPLIT=null;
 /* ===== Xodim rasm rejimi ===== */
-var PAROL=DEPLOY.PAROL, BUCKET="tovar-rasm", EDIT=false, curKey=null, _tap=0, _tapT=0;
+var PAROL=(function(){try{return localStorage.getItem('kroff_pass')||DEPLOY.PAROL||'';}catch(e){return DEPLOY.PAROL||'';}})(), BUCKET="tovar-rasm", EDIT=false, curKey=null, _tap=0, _tapT=0;
 function nkey(x){return String(x==null?'':x).toLowerCase().replace(/\s+/g,' ').trim();}
 var ICON='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAMAAADDpiTIAAAA/1BMVEWxlZklFlLKq6ufY2Z9JCNzY6E8JITWz9+glcONeZBBM2khHjBhXGqBHhyDPUaPQT+sgHz+/v4pFGYYFiV2FxXp5+sjDWPNxs8iFU44JW9aSYxnV5QODBtzZ5UVFRxHOHU7OEiGeKrBu8+tprVoZnLX1Nm7tcmvpshIRFYbDEnh3ehLN4iDKShFLYooJjaLODfa1+ORR0eblaxRR3LGpqaRh6tqWKOseHijmrV6dIzl1tZaVWwUDDSYV1eKhpVyDAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAmjmqUAAAAQHRSTlP/////////////////////////////////////////////////////////////////////////////////////73leyQAAGDRJREFUeNrtnQlf2szXQIm4VLT/5w0hG6sQ2QQBQSoI6vf/Vm8WkCQzYIi2tXDOs7T9VVtgTmbuzNy5k1HhqMnwESAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAAvARIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAgACAAIAAC8BEgACAAIAAgACAAIAAgACAAIAAgACAAIAAgwD/BM+151AI8PjyhwBELcPLw9vOJFj1aAfSHQqEwPKFJj1WATMHjgUHgSAVw+r4AfQaB4xTAfCgEnD7ptOrxCWBmC2uGJq16dALom/YvFOgCjk+A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';
 function effPrice(it){var d=disc(it);return d?d.price:(+it.narx||0);}
@@ -739,7 +740,7 @@ function renderCart(){
   var h='',lastEnt='';
   order.forEach(function(k){var c=CART[k];var kk=k.replace(/'/g,"\\'");
     if(g.mixed){var e=entOfKey(k);if(e!==lastEnt){h+='<div class="ent-hd"><span class="eb">'+esc(entName(e))+'</span> tovarlari</div>';lastEnt=e;}}
-    var th=c.img?('<img src="'+esc(c.img)+'" alt="">'):'📦';
+    var th=c.img?('<img src="'+esc(c.img)+'" alt="" loading="lazy" decoding="async">'):'📦';
     h+='<div class="citem"><div class="cthumb">'+th+'</div><div class="cinfo"><div class="cnom">'+esc(c.nom)+'</div><div class="cpr">'+grp(c.price)+' so\u2018m / dona</div><div class="cbot"><div class="qty"><button onclick="chgQty(\''+kk+'\',-1)">\u2212</button><span>'+c.qty+'</span><button onclick="chgQty(\''+kk+'\',1)">+</button></div><div class="cline">'+grp(c.price*c.qty)+' so\u2018m</div></div><button class="crm" onclick="rmItem(\''+kk+'\')">O\u2018chirish</button></div></div>';
   });
   body.innerHTML=h;
@@ -1034,7 +1035,7 @@ function renderDetail(){
   if(sim.length){
     h+='<div class="det-sim-h">O\u2018xshash mahsulotlar</div><div class="det-sim">';
     sim.forEach(function(x){var xk=nkey(x.nom),xs=x.img||IMG[xk]||'',xd=disc(x),xp=xd?xd.price:x.narx;
-      h+='<div class="sim" onclick="openDetail(\''+xk.replace(/'/g,"\\'")+'\')"><div class="simimg">'+(xs?'<img src="'+esc(xs)+'" alt="">':'📦')+'</div><div class="simp">'+grp(xp)+' so\u2018m</div><div class="simn">'+esc(x.nom)+'</div></div>';
+      h+='<div class="sim" onclick="openDetail(\''+xk.replace(/'/g,"\\'")+'\')"><div class="simimg">'+(xs?'<img src="'+esc(xs)+'" alt="" loading="lazy" decoding="async">':'📦')+'</div><div class="simp">'+grp(xp)+' so\u2018m</div><div class="simn">'+esc(x.nom)+'</div></div>';
     });
     h+='</div>';
   }
@@ -1080,9 +1081,11 @@ function detQty(delta){var key=DETAIL_KEY,it=ITEMMAP[key];if(!it)return;if(delta
 function buyNow(){var key=DETAIL_KEY,it=ITEMMAP[key];if(!it)return;if(!CART[key])CART[key]={nom:it.nom,price:effPrice(it),img:(it.img||IMG[key]||''),qty:1,id:(it.id||'')};saveCart();refresh();closeDetail();openCart();}
 function fetchMyOrders(){
   fetch(CONFIG.SB_URL+'/rest/v1/rpc/kroff_my_orders',{method:'POST',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_token:getToken()})})
-    .then(function(r){return r.ok?r.json():null;})
+    .then(function(r){if(r.ok)return r.json();return r.text().then(function(t){throw new Error(r.status===404?'SQL_YOQ':'XATO');});})
     .then(function(rows){renderMyOrders(rows);})
-    .catch(function(){renderMyOrders(null);});
+    .catch(function(e){var b=document.getElementById('ordBody');
+      if(b&&e&&e.message==='SQL_YOQ'){b.innerHTML='<div class="d-empty">\u26a0\ufe0f Buyurtmalar tizimi hali sozlanmagan.<br><small>Do\u2018kon bilan bog\u2018laning.</small></div>';return;}
+      renderMyOrders(null);});
 }
 function renderMyOrders(rows){
   var b=document.getElementById('ordBody');
@@ -1201,7 +1204,17 @@ function closePay(){document.getElementById('payOv').classList.remove('show');}
 function logoTap(){var t=Date.now();if(t-_tapT>1500)_tap=0;_tapT=t;_tap++;if(_tap>=5){_tap=0;openGate();}}
 function openGate(){document.getElementById('gate').classList.add('show');var i=document.getElementById('gpass');if(i){i.value='';setTimeout(function(){i.focus();},100);}}
 function closeGate(){document.getElementById('gate').classList.remove('show');document.getElementById('gerr').textContent='';}
-function tryPass(){var v=document.getElementById('gpass').value;if(v===PAROL){try{sessionStorage.setItem('kroff_edit','1');}catch(e){}enterEdit();closeGate();}else{document.getElementById('gerr').textContent='Parol noto\u2018g\u2018ri';}}
+function tryPass(){
+  var v=(document.getElementById('gpass').value||'').trim();
+  if(!v){document.getElementById('gerr').textContent='Parol kiriting';return;}
+  document.getElementById('gerr').textContent='Tekshirilmoqda\u2026';
+  fetch(CONFIG.SB_URL+'/rest/v1/rpc/kroff_orders_new_count',{method:'POST',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_pass:v})})
+    .then(function(r){
+      if(r.ok){PAROL=v;try{localStorage.setItem('kroff_pass',v);}catch(e){}try{sessionStorage.setItem('kroff_edit','1');}catch(e){}enterEdit();closeGate();}
+      else{document.getElementById('gerr').textContent='Parol noto\u2018g\u2018ri';}
+    })
+    .catch(function(){document.getElementById('gerr').textContent='Aloqa yo\u2018q. Qayta urining';});
+}
 function tiersToStr(t){return (t||[]).map(function(x){return x[0]+':'+x[1];}).join(', ');}
 function promosToStr(o){o=o||{};var a=[];for(var k in o)a.push(k+':'+o[k]);return a.join(', ');}
 function parsePromos(str){var out={};(str||'').split(',').forEach(function(p){var a=p.split(':');if(a.length===2){var code=a[0].trim().toUpperCase(),pct=+a[1].trim();if(code&&pct>0)out[code]=pct;}});return out;}
@@ -1280,13 +1293,65 @@ function saveSettings(){
     })
     .catch(function(e){if(btn){btn.disabled=false;btn.textContent='💾 Saqlash';}toast('Xato: '+e.message,'err');});
 }
-var curEditNom='';
-function openProdEdit(ev,key){ev.stopPropagation();ev.preventDefault();var it=ITEMMAP[key];if(!it){toast('Topilmadi','err');return;}curEditNom=it.nom;document.getElementById('peNom').value=it.nom||'';document.getElementById('peNarx').value=(+it.narx||0);document.getElementById('peCheg').value=(+it.chegirma||0);document.getElementById('pedit').classList.add('show');document.body.classList.add('lock');}
+var curEditNom='', curEditKey='';
+/* ===== MXIK (IKPU) kodlari ===== */
+function mxKey(it){return (it.barcode&&String(it.barcode))||it.nom;}
+function mxSet(keys,mxik,done){
+  fetch(CONFIG.SB_URL+'/rest/v1/rpc/kroff_mxik_bulk',{method:'POST',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_pass:PAROL,p_keys:keys,p_mxik:mxik||''})})
+    .then(function(r){if(r.ok)return r.json();return r.text().then(function(t){throw new Error(r.status===404?'mxik.sql ishga tushirilmagan':(/ruxsat/i.test(t)?'Parol mos emas':('HTTP '+r.status)));});})
+    .then(function(n){done&&done(null,n);})
+    .catch(function(e){done&&done(e);});
+}
+function openMxik(){renderMxik();document.getElementById('mxwrap').classList.add('show');document.body.classList.add('lock');}
+function closeMxik(){document.getElementById('mxwrap').classList.remove('show');document.body.classList.remove('lock');}
+function renderMxik(){
+  var groups={},total=0,withCode=0;
+  ITEMS.forEach(function(it){var c=it._cat||'Boshqa';if(!groups[c])groups[c]={n:0,ok:0,mx:{}};groups[c].n++;total++;
+    if(it.mxik){groups[c].ok++;withCode++;groups[c].mx[it.mxik]=(groups[c].mx[it.mxik]||0)+1;}});
+  var names=Object.keys(groups).sort(function(a,b){return groups[b].n-groups[a].n;});
+  var h='<div class="set-sec"><h4>Umumiy holat</h4><div class="set-row"><div style="font-size:14px;font-weight:800;color:'+(withCode===total?'var(--green)':'var(--ink)')+'">'+withCode+' / '+total+' tovarga MXIK berilgan</div>'+
+    '<div class="set-hint">MXIK kodisiz tovar onlayn fiskal chekka tushmaydi. Kodlarni Soliq qo‘mitasi ma‘lumot bazasidan yoki Billz‘dan olasiz.</div></div></div>';
+  h+='<div class="set-sec"><h4>Kategoriya bo‘yicha belgilash</h4>';
+  names.forEach(function(c,i){
+    var g=groups[c];
+    var cur='';var best=0;for(var k in g.mx){if(g.mx[k]>best){best=g.mx[k];cur=k;}}
+    var done=(g.ok===g.n);
+    h+='<div class="set-row"><label>'+esc(c)+' <span style="color:'+(done?'var(--green)':'var(--muted)')+';font-weight:700">('+g.ok+'/'+g.n+')</span></label>'+
+       '<div class="promo-row"><input type="text" id="mxi'+i+'" value="'+esc(cur)+'" placeholder="MXIK kodi" style="margin:0">'+
+       '<button class="promo-btn" onclick="mxApply('+i+',\''+esc(c).replace(/'/g,"\\'")+'\')">Belgilash</button></div></div>';
+  });
+  h+='<div class="set-hint" style="padding:0 2px">«Belgilash» shu kategoriyadagi <b>hamma</b> tovarga kodni qo‘yadi. Alohida tovarni keyin ✏️ orqali to‘g‘irlash mumkin.</div></div>';
+  document.getElementById('mxBody').innerHTML=h;
+}
+function mxApply(i,cat){
+  var el=document.getElementById('mxi'+i);if(!el)return;
+  var code=(el.value||'').trim();
+  var keys=[];ITEMS.forEach(function(it){if((it._cat||'Boshqa')===cat)keys.push(mxKey(it));});
+  if(!keys.length){toast('Tovar topilmadi','err');return;}
+  if(!confirm('«'+cat+'» kategoriyasidagi '+keys.length+' ta tovarga\n\nMXIK: '+(code||'(bo‘shatish)')+'\n\nqo‘yilsinmi?'))return;
+  var btn=el.parentNode.querySelector('.promo-btn');if(btn){btn.disabled=true;btn.textContent='...';}
+  mxSet(keys,code,function(err,n){
+    if(btn){btn.disabled=false;btn.textContent='Belgilash';}
+    if(err){toast('Xato: '+err.message,'err');return;}
+    ITEMS.forEach(function(it){if((it._cat||'Boshqa')===cat){if(code)it.mxik=code;else delete it.mxik;}});
+    toast('\u2713 '+(n||keys.length)+' ta tovarga qo\u2018yildi','ok');
+    renderMxik();
+  });
+}
+function openProdEdit(ev,key){ev.stopPropagation();ev.preventDefault();var it=ITEMMAP[key];if(!it){toast('Topilmadi','err');return;}curEditNom=it.nom;curEditKey=mxKey(it);document.getElementById('peNom').value=it.nom||'';document.getElementById('peNarx').value=(+it.narx||0);document.getElementById('peCheg').value=(+it.chegirma||0);document.getElementById('peMxik').value=(it.mxik||'');document.getElementById('pedit').classList.add('show');document.body.classList.add('lock');}
 function closeProdEdit(){document.getElementById('pedit').classList.remove('show');document.body.classList.remove('lock');}
 function saveProduct(){var nom=sVt('peNom'),narx=sNum('peNarx'),cheg=sNum('peCheg');if(!nom){toast('Nom bo‘sh','err');return;}var btn=document.querySelector('.pe-save');if(btn){btn.disabled=true;btn.textContent='Saqlanmoqda…';}
   fetch(CONFIG.SB_URL+'/rest/v1/rpc/kroff_product_save',{method:'POST',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_pass:PAROL,p_key:curEditNom,p_narx:narx,p_chegirma:cheg,p_nom:nom})})
     .then(function(r){if(!r.ok)return r.text().then(function(t){throw new Error(t||('xato '+r.status));});return r.text();})
-    .then(function(){if(btn){btn.disabled=false;btn.textContent='💾 Saqlash';}toast('✓ Saqlandi','ok');closeProdEdit();load();})
+    .then(function(){
+      var mx=sVt('peMxik');
+      mxSet([curEditKey],mx,function(err){
+        if(btn){btn.disabled=false;btn.textContent='💾 Saqlash';}
+        if(err)toast('Narx saqlandi, MXIK saqlanmadi: '+err.message,'err');
+        else toast('✓ Saqlandi','ok');
+        closeProdEdit();load();
+      });
+    })
     .catch(function(e){if(btn){btn.disabled=false;btn.textContent='💾 Saqlash';}toast('Xato: '+e.message,'err');});
 }
 function openReport(){document.getElementById('repBody').innerHTML='<div class="d-empty">Yuklanmoqda…</div>';document.getElementById('repwrap').classList.add('show');document.body.classList.add('lock');fetchReport();}
@@ -1350,10 +1415,7 @@ function render(){
   var lim=list.slice(0,240);
   app.innerHTML='<div class="grid">'+lim.map(card).join('')+(list.length>240?'<div class="more">'+list.length+' tadan 240 tasi ko\u2018rsatildi — qidiruv yoki kategoriyadan foydalaning</div>':'')+'</div>';
 }
-function load(){
-  fetch(CONFIG.SB_URL+'/rest/v1/'+CONFIG.SB_TABLE+'?select=id,data&id=in.(1,2)',{headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY}})
-    .then(function(r){return r.json();})
-    .then(function(rows){
+function applyCatalog(rows){
       var byId={};(rows||[]).forEach(function(r){byId[r.id]=r.data;});
       var data=byId[1]||{};
       if(typeof data==='string')data=JSON.parse(data);
@@ -1412,8 +1474,21 @@ function load(){
       buildChips();
       render();
       updateBars();
+}
+/* Kesh: avval saqlangan nusxa, keyin fonda yangilanish */
+function load(){
+  var _hasCache=false;
+  try{var _c=localStorage.getItem('kroff_cat');if(_c){var _o=JSON.parse(_c);if(_o&&_o.rows){applyCatalog(_o.rows);_hasCache=true;}}}catch(e){_hasCache=false;}
+  fetch(CONFIG.SB_URL+'/rest/v1/'+CONFIG.SB_TABLE+'?select=id,data&id=in.(1,2)',{headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY}})
+    .then(function(r){return r.json();})
+    .then(function(rows){
+      applyCatalog(rows);
+      try{localStorage.setItem('kroff_cat',JSON.stringify({t:Date.now(),rows:rows}));}catch(e){}
     })
-    .catch(function(e){document.getElementById('app').innerHTML='<div class="empty">Katalog yuklanmadi.<br><small>'+esc(e.message)+'</small></div>';});
+    .catch(function(e){
+      if(_hasCache)toast('Internet yo\u2018q \u2014 saqlangan ro\u2018yxat ko\u2018rsatilyapti');
+      else document.getElementById('app').innerHTML='<div class="empty">Katalog yuklanmadi.<br><small>'+esc(e.message)+'</small></div>';
+    });
 }
 /* PWA: manifest + install */
 (function(){try{
@@ -1430,7 +1505,7 @@ document.getElementById('picker').addEventListener('change',_onPick);
 (function(){try{
   var adminUrl=/[?#].*admin/i.test(location.href);
   var saved=false;try{saved=sessionStorage.getItem('kroff_edit')==='1';}catch(e){}
-  if(saved)enterEdit();
+  if(saved&&PAROL)enterEdit();
   else if(adminUrl)openGate();
 }catch(e){}})();
 loadState();
