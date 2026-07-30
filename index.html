@@ -824,7 +824,7 @@ function renderCart(){
       '<div style="font-size:11.5px;color:var(--muted);margin-top:6px">Buyurtmadan so‘ng har biri uchun alohida to‘lov tugmasi chiqadi.</div></div>';
   }
   else if(PAY==='payme')payInfo='<div class="pick-addr">📲 «Buyurtma berish»ni bosgach Payme to‘lov sahifasi ochiladi — kartangiz orqali xavfsiz to‘laysiz.</div>';
-  else if(PAY==='click')payInfo='<div class="pick-addr">📲 «Buyurtma berish»ni bosgach Click to‘lov sahifasi ochiladi — kartangiz orqali xavfsiz to‘laysiz.</div>';
+  else if(PAY==='click')payInfo='<div class="pick-addr">📲 «Buyurtma berish»ni bosgach Click to‘lov sahifasi ochiladi — kartangiz orqali xavfsiz to‘laysiz.</div>';else if(PAY==='karta')payInfo='<div class="pick-addr">💳 «Buyurtma berish»dan so‘ng operator to‘lov (karta) uchun siz bilan bog‘lanadi.</div>';
   var isYur=(BUYER==='yuridik');
   var buyerToggle='<div class="pay-lbl">Xaridor:</div><div class="dtoggle"><button class="dt'+(!isYur?' on':'')+'" onclick="setBuyer(\'jismoniy\')">👤 Jismoniy</button><button class="dt'+(isYur?' on':'')+'" onclick="setBuyer(\'yuridik\')">🏢 Yuridik shaxs</button></div>';
   var legalFields=isYur?('<input class="ord-in" id="lgName" value="'+esc(LEGAL.name||'')+'" placeholder="Korxona nomi"><input class="ord-in" id="lgStir" value="'+esc(LEGAL.stir||'')+'" placeholder="STIR (INN)"><input class="ord-in" id="lgAcc" value="'+esc(LEGAL.acc||'')+'" placeholder="Hisob raqam (r/s)"><input class="ord-in" id="lgBank" value="'+esc(LEGAL.bank||'')+'" placeholder="Bank nomi"><input class="ord-in" id="lgMfo" value="'+esc(LEGAL.mfo||'')+'" placeholder="MFO"><input class="ord-in" id="lgAddr" value="'+esc(LEGAL.addr||'')+'" placeholder="Yuridik manzil"><input class="ord-in" id="lgDir" value="'+esc(LEGAL.dir||'')+'" placeholder="Rahbar (F.I.O.)">'):'';
@@ -868,7 +868,7 @@ function hasEntPay(e,method){if(e==='mchj')return method==='click'?!!(CONFIG.MCH
 function hasPayme(){return !!(CONFIG.PAYME_MERCHANT||(CONFIG.PAYME&&/^https?:/i.test(CONFIG.PAYME)));}
 function hasClick(){return !!(CONFIG.CLICK&&/^https?:/i.test(CONFIG.CLICK));}
 function hasOnlinePay(){return hasPayme()||hasClick();}
-function payMethods(){var m=[];if(CONFIG.NAQD!==false)m.push(['naqd','💵 Naqd']);if(hasPayme())m.push(['payme','📲 Payme']);if(hasClick())m.push(['click','📲 Click']);if(!m.length)m=[['naqd','💵 Naqd']];return m;}
+function payMethods(){var m=[];if(CONFIG.NAQD!==false)m.push(['naqd','💵 Naqd']);if(hasPayme())m.push(['payme','📲 Payme']);if(hasClick())m.push(['click','📲 Click']);if(CONFIG.CARD)m.push(['karta','💳 Karta']);if(!m.length)m=[['naqd','💵 Naqd']];return m;}
 function onlinePayUrl(som,oid,method,ent){
   if(ent==='mchj'){var mu=(method==='click')?CONFIG.MCHJ_CLICK:CONFIG.MCHJ_PAYME;if(mu&&/^https?:/i.test(mu))return mu;return null;}
   if(method==='click')return (CONFIG.CLICK&&/^https?:/i.test(CONFIG.CLICK))?CONFIG.CLICK:null;
