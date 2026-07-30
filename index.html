@@ -693,7 +693,7 @@ function card(it){
   var src=it.img||IMG[key]||'';
   var img=src?('<img src="'+esc(src)+'" alt="'+esc(it.nom)+'" loading="lazy" onerror="this.parentNode.innerHTML=\''+tile.replace(/'/g,"\\'")+'\'">'):tile;
   var q=it.qoldiq||0;
-  var stock=q>0?('<div class="c-stock in"><span class="dot g"></span>'+grp(q)+' dona bor</div>'):'<div class="c-stock out"><span class="dot r"></span>Tugagan</div>';
+  var stock=q>0?'':'<div class="c-stock out"><span class="dot r"></span>Tugadi</div>';
   var d=disc(it);
   var bdg=d?'<div class="badge">-'+d.pct+'%</div>':'';
   var priceHtml=d?('<div class="c-price sale">'+grp(d.price)+' <span>so\u2018m</span> <span class="c-oldp">'+grp(d.was)+'</span></div>'):('<div class="c-price">'+grp(it.narx)+' <span>so\u2018m</span></div>');
@@ -705,7 +705,7 @@ function card(it){
   var eedit=EDIT?'<button class="eedit" onclick="openProdEdit(event,\''+kk+'\')">\u270F\uFE0F</button>':'';
   var fav='<button class="fav'+(FAV[key]?' on':'')+'" onclick="toggleFav(event,\''+kk+'\')">'+(FAV[key]?'\u2764\uFE0F':'\u2661')+'</button>';
   var c=CART[key];
-  var cartCtl=(q<=0)?('<button class="addbtn out" disabled>Tugagan</button>')
+  var cartCtl=(q<=0)?('<button class="addbtn out" disabled>Tugadi</button>')
               :(c?('<div class="qty"><button onclick="chgQty(\''+kk+'\',-1)">\u2212</button><span>'+c.qty+'</span><button onclick="chgQty(\''+kk+'\',1)">+</button></div>')
                 :('<button class="addbtn" onclick="addToCart(\''+kk+'\')"><span>🛒</span>Savatga</button>'));
   return '<div class="card"><div class="ph" onclick="openDetail(\''+kk+'\')" style="cursor:pointer">'+img+bdg+nw+fav+ecam+eedit+'</div><div class="c-body">'+
@@ -754,7 +754,7 @@ function toggleCmp(key){var i=CMP.indexOf(key);if(i>=0){CMP.splice(i,1);}else{if
 function clearCmp(){CMP=[];lsSet('kroff_cmp',CMP);renderCmpBar();closeCmp();}
 function shareProduct(key){var it=ITEMMAP[key];if(!it)return;var pr=effPrice(it);var url=location.origin+location.pathname;var txt=it.nom+' \u2014 '+grp(pr)+' so\u2018m\n'+(CONFIG.SHOP_NAME||'KROFF')+'\n'+url;if(navigator.share){navigator.share({title:it.nom,text:txt,url:url}).catch(function(){});}else{try{navigator.clipboard.writeText(txt);toast('Havola nusxalandi \u2713','ok');}catch(e){toast('Nusxalab bo\u2018lmadi','err');}}}
 function renderCmpBar(){var bar=document.getElementById('cmpBar');if(!bar)return;if(!CMP.length){bar.classList.remove('show');bar.innerHTML='';return;}bar.classList.add('show');bar.innerHTML='<span class="cmp-n">\u2696\ufe0f '+CMP.length+' ta tovar</span><button class="cmp-go" onclick="openCmp()">Solishtirish</button><button class="cmp-x" onclick="clearCmp()">\u2715</button>';}
-function openCmp(){if(CMP.length<2){toast('Kamida 2 ta tovar tanlang','err');return;}var rows=[['','']];var items=CMP.map(function(k){return ITEMMAP[k];}).filter(Boolean);var h='<div class="cmp-head"><h3>\u2696\ufe0f Solishtirish</h3><button class="cx" onclick="closeCmp()">\u2715</button></div>';h+='<div class="cmp-grid" style="grid-template-columns:repeat('+items.length+',1fr)">';items.forEach(function(it){var k=nkey(it.nom);var src=it.img||IMG[k]||'';var img=src?('<img src="'+esc(src)+'" alt="">'):'<div class="cmp-noimg">\ud83d\udce6</div>';h+='<div class="cmp-col"><button class="cmp-rm" onclick="toggleCmp(\''+k.replace(/\x27/g,"\\x27")+'\');openCmp()">\u2715</button>'+img+'<div class="cmp-nom">'+esc(it.nom)+'</div></div>';});h+='</div>';function row(lbl,fn){var r='<div class="cmp-row"><div class="cmp-lbl">'+lbl+'</div><div class="cmp-vals" style="grid-template-columns:repeat('+items.length+',1fr)">';items.forEach(function(it){r+='<div class="cmp-v">'+fn(it)+'</div>';});return r+'</div></div>';}h+=row('Narx',function(it){var d=disc(it);return d?('<b>'+grp(d.price)+'</b> <s style="color:#999;font-size:11px">'+grp(d.was)+'</s>'):('<b>'+grp(+it.narx||0)+'</b>');});h+=row('Optom',function(it){var o=+it.optom_narx||+it.optom||0;return o?grp(o):'\u2014';});h+=row('Qoldiq',function(it){var q=+it.qoldiq||0;return q>0?(grp(q)+' dona'):'<span style="color:var(--red)">Tugagan</span>';});h+=row('Kategoriya',function(it){return esc(it._cat||'\u2014');});h+=row('',function(it){var q=+it.qoldiq||0;var k=nkey(it.nom).replace(/\x27/g,"\\x27");return q>0?('<button class="cmp-add" onclick="addToCart(\''+k+'\')">\ud83d\uded2 Savatga</button>'):'<button class="cmp-add" disabled style="opacity:.5">Tugagan</button>';});document.getElementById('cmpBody').innerHTML=h;document.getElementById('cmpOv').classList.add('show');document.getElementById('cmpModal').classList.add('show');document.body.classList.add('lock');}
+function openCmp(){if(CMP.length<2){toast('Kamida 2 ta tovar tanlang','err');return;}var rows=[['','']];var items=CMP.map(function(k){return ITEMMAP[k];}).filter(Boolean);var h='<div class="cmp-head"><h3>\u2696\ufe0f Solishtirish</h3><button class="cx" onclick="closeCmp()">\u2715</button></div>';h+='<div class="cmp-grid" style="grid-template-columns:repeat('+items.length+',1fr)">';items.forEach(function(it){var k=nkey(it.nom);var src=it.img||IMG[k]||'';var img=src?('<img src="'+esc(src)+'" alt="">'):'<div class="cmp-noimg">\ud83d\udce6</div>';h+='<div class="cmp-col"><button class="cmp-rm" onclick="toggleCmp(\''+k.replace(/\x27/g,"\\x27")+'\');openCmp()">\u2715</button>'+img+'<div class="cmp-nom">'+esc(it.nom)+'</div></div>';});h+='</div>';function row(lbl,fn){var r='<div class="cmp-row"><div class="cmp-lbl">'+lbl+'</div><div class="cmp-vals" style="grid-template-columns:repeat('+items.length+',1fr)">';items.forEach(function(it){r+='<div class="cmp-v">'+fn(it)+'</div>';});return r+'</div></div>';}h+=row('Narx',function(it){var d=disc(it);return d?('<b>'+grp(d.price)+'</b> <s style="color:#999;font-size:11px">'+grp(d.was)+'</s>'):('<b>'+grp(+it.narx||0)+'</b>');});h+=row('Optom',function(it){var o=+it.optom_narx||+it.optom||0;return o?grp(o):'\u2014';});h+=row('Holati',function(it){var q=+it.qoldiq||0;return q>0?'<span style="color:var(--green)">Bor</span>':'<span style="color:var(--red)">Tugadi</span>';});h+=row('Kategoriya',function(it){return esc(it._cat||'\u2014');});h+=row('',function(it){var q=+it.qoldiq||0;var k=nkey(it.nom).replace(/\x27/g,"\\x27");return q>0?('<button class="cmp-add" onclick="addToCart(\''+k+'\')">\ud83d\uded2 Savatga</button>'):'<button class="cmp-add" disabled style="opacity:.5">Tugagan</button>';});document.getElementById('cmpBody').innerHTML=h;document.getElementById('cmpOv').classList.add('show');document.getElementById('cmpModal').classList.add('show');document.body.classList.add('lock');}
 function closeCmp(){var o=document.getElementById('cmpOv'),m=document.getElementById('cmpModal');if(o)o.classList.remove('show');if(m)m.classList.remove('show');document.body.classList.remove('lock');}
 function saveCust(){lsSet('kroff_cust',{name:LAST_NAME,phone:LAST_PHONE});}
 function loadState(){var c=lsGet('kroff_cart');if(c&&typeof c==='object')CART=c;var f=lsGet('kroff_fav');if(f&&typeof f==='object')FAV=f;var d=lsGet('kroff_deliv');if(d&&typeof d==='object'){if(d.mode)DELIV=d.mode;if(d.address)LAST_ADDR=d.address;if(d.dtime)DTIME=d.dtime;}var ad=lsGet('kroff_addrs');if(ad&&ad.length)ADDRS=ad;var lc=lsGet('kroff_loc');if(lc&&typeof lc==='object'&&lc.lat)CUST=lc;var pm=lsGet('kroff_pay');if(pm&&typeof pm==='string')PAY=pm;var bq=lsGet('kroff_buyer');if(bq==='yuridik')BUYER='yuridik';var lg=lsGet('kroff_legal');if(lg&&typeof lg==='object')LEGAL=lg;var cu=lsGet('kroff_cust');if(cu&&typeof cu==='object'){if(cu.name)LAST_NAME=cu.name;if(cu.phone)LAST_PHONE=cu.phone;}var sn=lsGet('kroff_seen');if(sn&&sn.length)SEEN=sn;var wt=lsGet('kroff_watch');if(wt&&typeof wt==='object')WATCH=wt;var cm=lsGet('kroff_cmp');if(cm&&cm.length)CMP=cm;}
@@ -764,11 +764,11 @@ function addToCart(key){var it=ITEMMAP[key];if(!it){toast('Tovar topilmadi','err
   var q=+it.qoldiq||0;
   if(q<=0){toast('Bu tovar tugagan','err');return;}
   var have=CART[key]?CART[key].qty:0;
-  if(have>=q){toast('Skladda faqat '+grp(q)+' dona bor','err');return;}
+  if(have>=q){toast('Bu tovardan ko\u2018proq qo\u2018shib bo\u2018lmaydi','err');return;}
   if(CART[key])CART[key].qty++;else CART[key]={nom:it.nom,price:effPrice(it),img:(it.img||IMG[key]||''),qty:1,id:(it.id||''),max:q};
   saveCart();refresh();toast('Savatga qo\u2018shildi ✓','ok');}
 function chgQty(key,d){if(!CART[key])return;
-  if(d>0){var it=ITEMMAP[key];var q=it?(+it.qoldiq||0):0;if(q&&CART[key].qty>=q){toast('Skladda faqat '+grp(q)+' dona bor','err');return;}}
+  if(d>0){var it=ITEMMAP[key];var q=it?(+it.qoldiq||0):0;if(q&&CART[key].qty>=q){toast('Bu tovardan ko\u2018proq qo\u2018shib bo\u2018lmaydi','err');return;}}
   CART[key].qty+=d;if(CART[key].qty<=0)delete CART[key];saveCart();refresh();}
 function rmItem(key){delete CART[key];saveCart();refresh();}
 function clearCart(){if(!confirm('Savatni tozalash?'))return;CART={};saveCart();refresh();}
@@ -1071,7 +1071,7 @@ function renderDetail(){
   var priceH=d?('<span class="det-p">'+grp(d.price)+' so\u2018m</span><span class="det-old">'+grp(d.was)+'</span><span class="det-pct">-'+d.pct+'%</span>'):('<span class="det-p">'+grp(it.narx)+' so\u2018m</span>');
   var opt=+it.optom_narx||+it.optom||0;
   var q=it.qoldiq||0;
-  var stockH=q>0?('<div class="det-meta">✅ '+grp(q)+' dona bor</div>'):'<div class="det-meta" style="color:var(--red)">⛔ Hozircha tugagan</div>';
+  var stockH=q>0?'':'<div class="det-meta" style="color:var(--red)">⛔ Tugadi</div>';
   var favOn=FAV[key]?true:false;
   var kk=key.replace(/'/g,"\\'");
   var revs=REVCACHE[it.nom];
@@ -1110,7 +1110,7 @@ function renderDetail(){
   document.getElementById('detBody').innerHTML=h;
   var c=CART[key];
   var _dq=+it.qoldiq||0;
-  var qtyCtl=(_dq<=0)?('<button class="det-add out" disabled style="flex:1;background:#eee;color:#999">Tugagan</button>')
+  var qtyCtl=(_dq<=0)?('<button class="det-add out" disabled style="flex:1;background:#eee;color:#999">Tugadi</button>')
              :(c?('<div class="det-qty"><button onclick="detQty(-1)">\u2212</button><span>'+c.qty+' dona</span><button onclick="detQty(1)">+</button></div>')
              :('<button class="det-add" onclick="detQty(1)" style="flex:1">🛒 Savatga</button>'));
   document.getElementById('detFoot').innerHTML='<div class="det-acts">'+qtyCtl+(_dq>0?'<button class="det-buy" onclick="buyNow()">⚡ Hoziroq xarid</button>':'')+'</div>';
@@ -1137,7 +1137,7 @@ function submitReview(){
     .catch(function(e){var b=document.querySelector('.rev-send');if(b){b.disabled=false;b.textContent='Sharh yuborish';}toast('Sharh yuborilmadi: '+((e&&e.message)||''),'err');});
 }
 function delReview(id,nom){if(!confirm('Sharh o\u2018chirilsinmi?'))return;fetch(CONFIG.SB_URL+'/rest/v1/rpc/kroff_review_del',{method:'POST',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_pass:PAROL,p_id:id})}).then(function(r){if(!r.ok)throw new Error();toast('O\u2018chirildi','ok');fetchReviews(nom);}).catch(function(){toast('O\u2018chmadi','err');});}
-function detQty(delta){var key=DETAIL_KEY,it=ITEMMAP[key];if(!it)return;var q=+it.qoldiq||0;if(delta>0){if(q<=0){toast('Bu tovar tugagan','err');return;}var have=CART[key]?CART[key].qty:0;if(have>=q){toast('Skladda faqat '+grp(q)+' dona bor','err');return;}if(CART[key])CART[key].qty++;else CART[key]={nom:it.nom,price:effPrice(it),img:(it.img||IMG[key]||''),qty:1,id:(it.id||''),max:q};}else if(CART[key]){CART[key].qty--;if(CART[key].qty<=0)delete CART[key];}saveCart();refresh();renderDetail();}
+function detQty(delta){var key=DETAIL_KEY,it=ITEMMAP[key];if(!it)return;var q=+it.qoldiq||0;if(delta>0){if(q<=0){toast('Bu tovar tugagan','err');return;}var have=CART[key]?CART[key].qty:0;if(have>=q){toast('Bu tovardan ko\u2018proq qo\u2018shib bo\u2018lmaydi','err');return;}if(CART[key])CART[key].qty++;else CART[key]={nom:it.nom,price:effPrice(it),img:(it.img||IMG[key]||''),qty:1,id:(it.id||''),max:q};}else if(CART[key]){CART[key].qty--;if(CART[key].qty<=0)delete CART[key];}saveCart();refresh();renderDetail();}
 function buyNow(){var key=DETAIL_KEY,it=ITEMMAP[key];if(!it)return;if((+it.qoldiq||0)<=0){toast('Bu tovar tugagan','err');return;}if(!CART[key])CART[key]={nom:it.nom,price:effPrice(it),img:(it.img||IMG[key]||''),qty:1,id:(it.id||''),max:(+it.qoldiq||0)};saveCart();refresh();closeDetail();openCart();}
 function fetchMyOrders(){
   fetch(CONFIG.SB_URL+'/rest/v1/rpc/kroff_my_orders',{method:'POST',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_token:getToken()})})
@@ -1261,7 +1261,7 @@ function buildPay(){
 function openPay(){document.getElementById('payOv').classList.add('show');}
 function closePay(){document.getElementById('payOv').classList.remove('show');}
 /* ===== Xodim rasm rejimi ===== */
-function logoTap(){var t=Date.now();if(t-_tapT>1500)_tap=0;_tapT=t;_tap++;if(_tap>=5){_tap=0;openGate();}}
+function logoTap(){window.scrollTo({top:0,behavior:'smooth'});}
 function openGate(){document.getElementById('gate').classList.add('show');var i=document.getElementById('gpass');if(i){i.value='';setTimeout(function(){i.focus();},100);}}
 function closeGate(){document.getElementById('gate').classList.remove('show');document.getElementById('gerr').textContent='';}
 function tryPass(){
