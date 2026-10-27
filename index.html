@@ -340,6 +340,33 @@
   .loc-ok a{color:var(--blue);font-weight:700;text-decoration:none;margin-left:8px;font-size:12px}
   textarea.ord-in{resize:vertical;min-height:52px}
   @media(min-width:640px){.h-logoimg{height:40px}.banner{height:180px}.bslide h2{font-size:30px}}
+
+  /* ===== USTALAR ===== */
+  .chip.ustap{background:linear-gradient(135deg,#ff8a00,#ff5a1f);color:#fff;border-color:transparent}
+  .chip.ustap.on{box-shadow:0 0 0 2px #fff,0 0 0 4px #ff5a1f}.chip.ustap .n{background:rgba(255,255,255,.25);color:#fff}
+  .ust-strip{background:linear-gradient(135deg,#fff6ea,#ffe9d6);border:1px solid #ffd7b3;border-radius:14px;padding:12px 12px 10px;margin:0 0 14px}
+  .ust-strip .us-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
+  .ust-strip .us-h b{font-size:15px;color:#7a3a00}.ust-strip .us-h a{font-size:12.5px;font-weight:700;color:#c24a00;cursor:pointer;white-space:nowrap}
+  .ust-strip .us-r{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}.ust-strip .us-r::-webkit-scrollbar{display:none}
+  .ust-strip .us-r span{white-space:nowrap;background:#fff;border:1px solid #ffd7b3;color:#7a3a00;font-weight:700;font-size:13px;padding:8px 13px;border-radius:20px;cursor:pointer;flex-shrink:0}
+  .ust-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:2px 0 10px}.ust-head h2{margin:0;font-size:18px}
+  .ust-pills{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px}.ust-pills::-webkit-scrollbar{display:none}
+  .ust-pills span{white-space:nowrap;padding:7px 13px;border-radius:18px;border:1px solid var(--line);background:#fff;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0}
+  .ust-pills span.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .ust-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+  .ust-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;position:relative}
+  .ust-card.top{border-color:#ffb066;box-shadow:0 0 0 2px #ffe3c7}.ust-card.off{opacity:.55}
+  .ust-row{display:flex;gap:12px;align-items:center}
+  .ust-av{width:56px;height:56px;border-radius:50%;background:#e8eefc;color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;flex-shrink:0;overflow:hidden}
+  .ust-av img{width:100%;height:100%;object-fit:cover}
+  .ust-nm{font-size:16px;font-weight:800;line-height:1.25}.ust-sh{display:inline-block;margin-top:3px;background:#fff1e3;color:#b34700;font-size:12px;font-weight:800;padding:2px 9px;border-radius:10px}
+  .ust-meta{font-size:12.5px;color:var(--muted);margin-top:9px;display:flex;flex-wrap:wrap;gap:4px 12px}
+  .ust-tv{font-size:13.5px;margin-top:8px;line-height:1.4}
+  .ust-btns{display:flex;gap:8px;margin-top:12px}
+  .ust-btns{flex-wrap:wrap}.ust-btns a{flex:1 1 auto;text-align:center;text-decoration:none;padding:11px 8px;border-radius:11px;font-size:14px;font-weight:800;white-space:nowrap}.ust-btns .call{flex:2 1 55%}
+  .ust-btns .call{background:var(--green);color:#fff}.ust-btns .tg{background:#e7f3ff;color:#0a6dc2}
+  .ust-ed{position:absolute;top:8px;right:8px;display:flex;gap:6px}.ust-ed button{border:1px solid var(--line);background:#fff;border-radius:9px;padding:5px 8px;font-size:14px;cursor:pointer}
+  .ust-top{position:absolute;top:10px;right:12px;font-size:11px;font-weight:800;color:#c24a00}
   .setwrap{position:fixed;inset:0;background:#fff;z-index:85;display:none;flex-direction:column}
   .setwrap.show{display:flex}
   .set-head{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);background:#fff}
@@ -554,9 +581,10 @@
   <div class="cat-grid" id="catGrid"></div>
 </div>
 
-<div class="ebar" id="ebar"><b>✏️ Tahrirlash rejimi</b><button onclick="openReport()">📊 Hisobot</button><button onclick="openSettings()">⚙️ Sozlamalar</button><button onclick="openAksiya()">🔥 Aksiya</button><button onclick="openMxik()">🏷 MXIK</button><button onclick="exitEdit()">Chiqish</button></div>
+<div class="ebar" id="ebar"><b>✏️ Tahrirlash rejimi</b><button onclick="openReport()">📊 Hisobot</button><button onclick="openSettings()">⚙️ Sozlamalar</button><button onclick="openAksiya()">🔥 Aksiya</button><button onclick="openMxik()">🏷 MXIK</button><button onclick="setCat('__usta')">👷 Ustalar</button><button onclick="exitEdit()">Chiqish</button></div>
 <div class="setwrap" id="setwrap"><div class="set-head"><h3>⚙️ Sozlamalar</h3><button class="cx" onclick="closeSettings()">✕</button></div><div class="set-body" id="setBody"></div><div class="set-foot"><button class="set-save" onclick="saveSettings()">💾 Saqlash</button></div></div>
 <div class="setwrap" id="repwrap"><div class="set-head"><h3>📊 Onlayn savdo hisoboti</h3><button class="cx" onclick="closeReport()">✕</button></div><div class="set-body" id="repBody"></div><div class="set-foot"><button class="set-save" onclick="fetchReport()" style="background:#f2f4f7;color:var(--ink)">🔄 Yangilash</button></div></div>
+<div class="setwrap" id="ustwrap"><div class="set-head"><h3 id="ustFT">👷 Usta</h3><button class="cx" onclick="closeUstaForm()">✕</button></div><div class="set-body" id="ustBody"></div><div class="set-foot"><button class="set-save" onclick="saveUsta()">💾 Saqlash</button></div></div>
 <div class="setwrap" id="mxwrap"><div class="set-head"><h3>🏷 MXIK kodlari</h3><button class="cx" onclick="closeMxik()">✕</button></div><div class="set-body" id="mxBody"></div></div>
 <div class="setwrap" id="akwrap"><div class="set-head"><h3>🔥 Aksiya (ommaviy chegirma)</h3><button class="cx" onclick="closeAksiya()">✕</button></div><div class="set-body" id="akBody"></div></div>
 <div class="pedit" id="pedit"><div class="pedit-box"><h3>✏️ Mahsulotni tahrirlash</h3><div class="set-row"><label>Nomi</label><input type="text" id="peNom"></div><div class="set-row"><label>Narx (so‘m)</label><input type="number" id="peNarx"></div><div class="set-row"><label>Chegirma (%)</label><input type="number" id="peCheg"></div><div class="set-row"><label>MXIK kodi (onlayn chek uchun)</label><input type="text" id="peMxik" placeholder="masalan 03906001001000000"></div><div class="pe-btns"><button class="pe-save" onclick="saveProduct()">💾 Saqlash</button><button class="pe-cancel" onclick="closeProdEdit()">Bekor</button></div></div></div>
@@ -721,7 +749,8 @@ function buildChips(){
   var cnt={}; ITEMS.forEach(function(it){var c=it._cat;cnt[c]=(cnt[c]||0)+1;});
   var order=CATS.map(function(x){return x[0];}).filter(function(c){return cnt[c];});
   if(cnt['Boshqa'])order.push('Boshqa');
-  var h='<div class="chip'+(CAT==='all'?' on':'')+'" onclick="setCat(\'all\')">Hammasi<span class="n">'+ITEMS.length+'</span></div>';
+  var _um=ustaSohalar(),_un=Object.keys(_um).reduce(function(s,k){return s+_um[k];},0);
+  var h=(_un||EDIT?'<div class="chip ustap'+(CAT==='__usta'?' on':'')+'" onclick="USTA_SOHA=\'all\';setCat(\'__usta\')">\uD83D\uDC77 Ustalar'+(_un?'<span class="n">'+_un+'</span>':'')+'</div>':'')+'<div class="chip'+(CAT==='all'?' on':'')+'" onclick="setCat(\'all\')">Hammasi<span class="n">'+ITEMS.length+'</span></div>';
   var favN=Object.keys(FAV).length;
   if(favN)h+='<div class="chip favp'+(CAT==='__fav'?' on':'')+'" onclick="setCat(\'__fav\')">\u2764\uFE0F Sevimli<span class="n">'+favN+'</span></div>';
   var saleN=ITEMS.filter(function(it){return disc(it);}).length;
@@ -1488,7 +1517,7 @@ function renderReport(rows){
     h+='<div class="rep-ord"><div class="ro-top"><span>#'+esc(String(o.id).slice(-6))+' · '+ds+'</span><span>'+grp(o.total)+' so‘m</span></div><div style="color:var(--muted);margin-top:3px">'+esc(o.name||'—')+(o.phone?(' · '+esc(o.phone)):'')+' <span class="rep-badge" style="background:'+bd[1]+';color:'+bd[2]+'">'+bd[0]+' '+bd[3]+'</span></div></div>';});
   b.innerHTML=h;
 }
-function enterEdit(){EDIT=true;document.getElementById('ebar').classList.add('show');render();}
+function enterEdit(){EDIT=true;try{loadUstalar();}catch(e){}document.getElementById('ebar').classList.add('show');render();}
 function exitEdit(){EDIT=false;try{sessionStorage.removeItem('kroff_edit');}catch(e){}document.getElementById('ebar').classList.remove('show');render();}
 function adminLogout(){try{localStorage.removeItem('kroff_pass');}catch(e){}PAROL='';exitEdit();closeProfile();toast('Admindan chiqdingiz');}
 function toast(msg,cls){var t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(cls?' '+cls:'');clearTimeout(t._h);t._h=setTimeout(function(){t.className='toast';},2200);}
@@ -1504,6 +1533,8 @@ function uploadPhoto(blob,key){var path=safeName(key)+'-'+Date.now()+'.jpg';retu
 function saveImage(key,url){return fetch(CONFIG.SB_URL+'/rest/v1/rpc/set_product_image',{method:'POST',headers:{apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json'},body:JSON.stringify({p_name:key,p_url:url})}).then(function(r){if(!r.ok)throw new Error('Saqlash '+r.status);});}
 function cpNear(btn){var r=btn.closest('.pay-row'),t=r&&r.querySelector('.pv');if(!t)return;var s=t.textContent;try{navigator.clipboard.writeText(s);}catch(e){}var o=btn.textContent;btn.textContent='✓';setTimeout(function(){btn.textContent=o;},1200);}
 function render(){
+  try{var _bn=document.getElementById('banner');if(_bn)_bn.style.display=(CAT==='__usta')?'none':'';}catch(e){}
+  if(CAT==='__usta'){renderUstalar();return;}
   var q=nrm(document.getElementById('q').value);
   var list=ITEMS;
   if(CAT==='__sale')list=list.filter(function(it){return disc(it);});
@@ -1520,9 +1551,103 @@ function render(){
   var shown=PAGE*PAGE_SIZE;
   var lim=list.slice(0,shown);
   var moreBtn=list.length>shown?('<div class="more-wrap"><button class="more-btn" onclick="showMore()">Ko\u2018proq yuklash ('+(list.length-shown)+' ta qoldi)</button></div>'):'';
-  app.innerHTML='<div class="grid">'+lim.map(card).join('')+'</div>'+moreBtn;
+  app.innerHTML=((CAT==='all'&&!q)?ustaStrip():'')+'<div class="grid">'+lim.map(card).join('')+'</div>'+moreBtn;
 }
 function showMore(){PAGE++;render();}
+
+/* ===== USTALAR (santexnik, elektrik...) ===== */
+var USTALAR=[], USTA_SOHA='all', USTA_EDIT_ID=null;
+var USTA_SOHALAR=['Santexnik','Elektrik','Plitkachi','Payvandchi','Quruvchi','Suvoqchi','Bo\u2018yoqchi','Tom yopuvchi','Eshik-deraza ustasi','Mebel ustasi','Konditsioner ustasi','Boshqa'];
+function _uH(extra){var o={apikey:CONFIG.SB_KEY,Authorization:'Bearer '+CONFIG.SB_KEY,'Content-Type':'application/json'};return o;}
+function loadUstalar(cb){
+  var req=EDIT&&PAROL
+    ?fetch(CONFIG.SB_URL+'/rest/v1/rpc/kroff_usta_all',{method:'POST',headers:_uH(),body:JSON.stringify({p_pass:PAROL})})
+    :fetch(CONFIG.SB_URL+'/rest/v1/catalog_ustalar?select=*&faol=eq.true',{headers:_uH()});
+  req.then(function(r){return r.ok?r.json():[];}).then(function(rows){
+    USTALAR=Array.isArray(rows)?rows:[];
+    try{buildChips();if(CAT==='__usta'||CAT==='all')render();}catch(e){}
+    cb&&cb();
+  }).catch(function(){cb&&cb();});
+}
+function ustaSorted(){return USTALAR.slice().sort(function(a,b){return (b.top?1:0)-(a.top?1:0)||(+a.tartib||100)-(+b.tartib||100)||String(a.ism).localeCompare(String(b.ism));});}
+function ustaTel(t){var d=String(t||'').replace(/\D/g,'');if(d.length===9)d='998'+d;return d;}
+function ustaTelFmt(t){var d=ustaTel(t);if(d.length===12)return '+'+d.slice(0,3)+' '+d.slice(3,5)+' '+d.slice(5,8)+' '+d.slice(8,10)+' '+d.slice(10);return t||'';}
+function ustaSohalar(){var m={};USTALAR.forEach(function(u){if(u.faol||EDIT)m[u.soha]=(m[u.soha]||0)+1;});return m;}
+function ustaStrip(){
+  var m=ustaSohalar(),ks=Object.keys(m);
+  if(!ks.length)return EDIT?'<div class="ust-strip"><div class="us-h"><b>👷 Ustalar</b><a onclick="setCat(\'__usta\')">Qo\u2018shish \u203a</a></div></div>':'';
+  var pills=ks.map(function(s){return '<span onclick="USTA_SOHA=\''+s.replace(/'/g,"\\'")+'\';setCat(\'__usta\')">'+esc(s)+' \u00b7 '+m[s]+'</span>';}).join('');
+  return '<div class="ust-strip"><div class="us-h"><b>👷 Usta kerakmi?</b><a onclick="USTA_SOHA=\'all\';setCat(\'__usta\')">Hammasi \u203a</a></div><div class="us-r">'+pills+'</div></div>';
+}
+function ustaCard(u){
+  var tel=ustaTel(u.tel),tg=String(u.tg||'').replace(/^@/,'').trim();
+  var av=u.rasm?'<img src="'+esc(u.rasm)+'" alt="" onerror="this.parentNode.textContent=\''+esc((u.ism||'?').charAt(0).toUpperCase())+'\'">':esc((u.ism||'?').charAt(0).toUpperCase());
+  var meta=[];
+  if(u.hudud)meta.push('📍 '+esc(u.hudud));
+  if(+u.tajriba>0)meta.push('\u23F3 '+(+u.tajriba)+' yil tajriba');
+  if(u.narx)meta.push('💰 '+esc(u.narx));
+  var btns='';
+  if(tel)btns+='<a class="call" href="tel:+'+tel+'">📞 '+esc(ustaTelFmt(u.tel))+'</a>';
+  if(tg)btns+='<a class="tg" href="https://t.me/'+encodeURIComponent(tg)+'" target="_blank" rel="noopener">\u2708\uFE0F Telegram</a>';
+  var ed=EDIT?'<div class="ust-ed"><button onclick="openUstaForm('+u.id+')">\u270F\uFE0F</button><button onclick="delUsta('+u.id+')">🗑</button></div>':'';
+  var badge=(!EDIT&&u.top)?'<div class="ust-top">\u2B50 Tavsiya</div>':'';
+  return '<div class="ust-card'+(u.top?' top':'')+(u.faol===false?' off':'')+'">'+ed+badge+
+    '<div class="ust-row"><div class="ust-av">'+av+'</div><div><div class="ust-nm">'+esc(u.ism)+'</div><span class="ust-sh">'+esc(u.soha)+'</span>'+(EDIT&&u.faol===false?' <span class="ust-sh" style="background:#eee;color:#666">yashirin</span>':'')+'</div></div>'+
+    (meta.length?'<div class="ust-meta">'+meta.map(function(x){return '<span>'+x+'</span>';}).join('')+'</div>':'')+
+    (u.tavsif?'<div class="ust-tv">'+esc(u.tavsif)+'</div>':'')+
+    (btns?'<div class="ust-btns">'+btns+'</div>':'')+'</div>';
+}
+function renderUstalar(){
+  var q=nrm(document.getElementById('q').value),m=ustaSohalar(),ks=Object.keys(m);
+  var list=ustaSorted().filter(function(u){
+    if(!EDIT&&u.faol===false)return false;
+    if(USTA_SOHA!=='all'&&u.soha!==USTA_SOHA)return false;
+    if(q){var hay=nrm([u.ism,u.soha,u.hudud,u.tavsif,u.narx].join(' '));if(hay.indexOf(q)<0)return false;}
+    return true;});
+  document.getElementById('count').textContent=list.length+' ta usta';
+  var pills='<span class="'+(USTA_SOHA==='all'?'on':'')+'" onclick="USTA_SOHA=\'all\';render()">Hammasi</span>'+ks.map(function(s){return '<span class="'+(USTA_SOHA===s?'on':'')+'" onclick="USTA_SOHA=\''+s.replace(/'/g,"\\'")+'\';render()">'+esc(s)+' \u00b7 '+m[s]+'</span>';}).join('');
+  var add=EDIT?'<button class="more-btn" style="padding:9px 16px" onclick="openUstaForm(0)">\u2795 Usta qo\u2018shish</button>':'';
+  document.getElementById('app').innerHTML='<div class="ust-head"><h2>👷 Ustalar</h2>'+add+'</div><div class="ust-pills">'+pills+'</div>'+
+    (list.length?'<div class="ust-grid">'+list.map(ustaCard).join('')+'</div>':'<div class="empty">'+(q?'Hech narsa topilmadi 🔍':'Hozircha ustalar yo\u2018q')+'</div>');
+}
+function ustaById(id){for(var i=0;i<USTALAR.length;i++)if(+USTALAR[i].id===+id)return USTALAR[i];return null;}
+function openUstaForm(id){
+  var u=id?ustaById(id):null;USTA_EDIT_ID=id||null;
+  var v=function(k){return esc(u&&u[k]!=null?u[k]:'');};
+  var h='<div class="set-row"><label>Ism familiya *</label><input type="text" id="usIsm" value="'+v('ism')+'"></div>'+
+   '<div class="set-row"><label>Soha * (ro\u2018yxatdan tanlang yoki yangisini yozing)</label><input type="text" id="usSoha" list="usSohaL" value="'+v('soha')+'" placeholder="Santexnik"><datalist id="usSohaL">'+USTA_SOHALAR.map(function(s){return '<option value="'+esc(s)+'">';}).join('')+'</datalist></div>'+
+   '<div class="set-row"><label>Telefon *</label><input type="text" id="usTel" inputmode="tel" value="'+v('tel')+'" placeholder="+998 90 123 45 67"></div>'+
+   '<div class="set-row"><label>Telegram (@ belgisiz)</label><input type="text" id="usTg" value="'+v('tg')+'"></div>'+
+   '<div class="set-row"><label>Hudud / tuman</label><input type="text" id="usHud" value="'+v('hudud')+'" placeholder="Qorovulbozor, Buxoro"></div>'+
+   '<div class="set-row"><label>Tajriba (yil)</label><input type="number" id="usTaj" value="'+v('tajriba')+'"></div>'+
+   '<div class="set-row"><label>Narx haqida</label><input type="text" id="usNarx" value="'+v('narx')+'" placeholder="Kelishiladi / soatiga 50 000"></div>'+
+   '<div class="set-row"><label>Qisqacha ma\u2019lumot</label><textarea id="usTv" rows="3">'+v('tavsif')+'</textarea></div>'+
+   '<div class="set-row"><label>Rasm havolasi (ixtiyoriy)</label><input type="text" id="usRasm" value="'+v('rasm')+'"></div>'+
+   '<div class="set-row"><label>Tartib raqami (kichigi oldinroq)</label><input type="number" id="usTart" value="'+(u&&u.tartib!=null?esc(u.tartib):100)+'"></div>'+
+   '<div class="set-row"><label><input type="checkbox" id="usTop"'+(u&&u.top?' checked':'')+'> \u2B50 Tavsiya etilgan \u2014 ro\u2018yxat tepasida chiqadi</label></div>'+
+   '<div class="set-row"><label><input type="checkbox" id="usFaol"'+((!u||u.faol!==false)?' checked':'')+'> Mijozlarga ko\u2018rinsin</label></div>';
+  document.getElementById('ustBody').innerHTML=h;
+  document.getElementById('ustFT').textContent=id?'\u270F\uFE0F Ustani tahrirlash':'\u2795 Yangi usta';
+  document.getElementById('ustwrap').classList.add('show');document.body.classList.add('lock');
+}
+function closeUstaForm(){document.getElementById('ustwrap').classList.remove('show');document.body.classList.remove('lock');}
+function saveUsta(){
+  var g=function(i){return (document.getElementById(i).value||'').trim();};
+  var o={id:USTA_EDIT_ID||null,ism:g('usIsm'),soha:g('usSoha'),tel:g('usTel'),tg:g('usTg').replace(/^@/,''),hudud:g('usHud'),tajriba:g('usTaj')?+g('usTaj'):null,narx:g('usNarx'),tavsif:g('usTv'),rasm:g('usRasm'),tartib:g('usTart')?+g('usTart'):100,top:document.getElementById('usTop').checked,faol:document.getElementById('usFaol').checked};
+  if(!o.ism){toast('Ismni kiriting');return;}if(!o.soha){toast('Sohani kiriting');return;}if(ustaTel(o.tel).length<9){toast('Telefon raqamini kiriting');return;}
+  var b=document.querySelector('#ustwrap .set-save');b.disabled=true;b.textContent='Saqlanmoqda\u2026';
+  fetch(CONFIG.SB_URL+'/rest/v1/rpc/kroff_usta_save',{method:'POST',headers:_uH(),body:JSON.stringify({p_pass:PAROL,p_usta:o})})
+    .then(function(r){return r.text().then(function(t){if(!r.ok)throw new Error(t||('xato '+r.status));return t;});})
+    .then(function(){b.disabled=false;b.textContent='💾 Saqlash';closeUstaForm();toast('\u2713 Usta saqlandi','ok');loadUstalar();})
+    .catch(function(e){b.disabled=false;b.textContent='💾 Saqlash';toast('Saqlanmadi: '+String(e.message||e).slice(0,90));});
+}
+function delUsta(id){
+  var u=ustaById(id);if(!u||!confirm('\u201c'+u.ism+'\u201d o\u2018chirilsinmi?'))return;
+  fetch(CONFIG.SB_URL+'/rest/v1/rpc/kroff_usta_del',{method:'POST',headers:_uH(),body:JSON.stringify({p_pass:PAROL,p_id:id})})
+    .then(function(r){if(!r.ok)throw new Error('xato '+r.status);toast('\u2713 O\u2018chirildi','ok');loadUstalar();})
+    .catch(function(){toast('O\u2018chirilmadi');});
+}
+setTimeout(function(){loadUstalar();},400);
 function applyCatalog(rows){
       var byId={};(rows||[]).forEach(function(r){byId[r.id]=r.data;});
       var data=byId[1]||{};
